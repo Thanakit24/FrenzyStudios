@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player")]
+    public float _speed, _sensitivity, _jumpForce;
     private Vector3 playerMovementInput;
     private Vector2 mouseMovementInput;
     private float xRotation;
-    [SerializeField] private Feet feet;
 
+    [Header("References")]
+    [SerializeField] private Feet feet;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform playerCamera;
-    [Space]
-    public float _speed;
-    public float _sensitivity, _jumpForce;
-
 
     void Start()
     {
@@ -48,7 +47,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveVector = transform.TransformDirection(playerMovementInput * _speed);
         rb.velocity = new Vector3(moveVector.x, rb.velocity.y, moveVector.z);
-
 
     }
 

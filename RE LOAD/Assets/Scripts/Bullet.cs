@@ -2,36 +2,51 @@
 
 public class Bullet : MonoBehaviour
 {
-    //Assignables
-    public Rigidbody rb;
-    public LayerMask whatIsEnemies;
-
-    //Stats
+    [SerializeField] private Rigidbody rb;  
     [Range(0f,1f)]
-    public float bounciness;
-    public bool useGravity;
-
-    //Damage
+    [SerializeField] private bool useGravity;
     public int damage;
+    private PhysicMaterial physics_mat;
 
-    PhysicMaterial physics_mat;
+    [Header("Return Settings")]
+    [SerializeField] private bool isReturning;
+    [SerializeField] private GameObject hand;
+    [SerializeField] private Gun gun;
+    [SerializeField] private Vector3 dirToHand;
+    //private Vector3 destroyRange;
+    private float returnSpeed;
 
     private void Start()
     {
         Setup();
+        isReturning = false;
+        hand = GameObject.Find("Left Hand");
+        gun = GameObject.Find("Gun").GetComponent<Gun>();
+        returnSpeed = gun.returnSpeed;
     }
 
-
-    private void Delay()
+    private void FixedUpdate()
     {
-        Destroy(gameObject);
+        if (isReturning)
+        {
+            rb.constraints = RigidbodyConstraints.None;
+            dirToHand = (hand.transform.position - transform.position).normalized;
+            rb.AddForce(dirToHand * returnSpeed, ForceMode.Acceleration);
+            transform.LookAt(hand.transform, Vector3.up);
+            if ((hand.transform.position - transform.position).magnitude < 0.9f)
+            {
+                gun.AddBullet();
+                Destroy(gameObject);
+            }
+        }
+        
     }
 
     private void Setup()
     {
         //Create a new Physic material
         physics_mat = new PhysicMaterial();
-        physics_mat.bounciness = bounciness;
+        //physics_mat.bounciness = bounciness;
         physics_mat.frictionCombine = PhysicMaterialCombine.Minimum;
         physics_mat.bounceCombine = PhysicMaterialCombine.Maximum;
         //Assign material to collider
@@ -43,15 +58,43 @@ public class Bullet : MonoBehaviour
 
     public void OnCollisionEnter(Collision collider)
     {
-        if (collider.gameObject.tag != "Enemy")
+        if (collider.gameObject.name == "Left Hand")
         {
+            isReturning = false;
+            Destroy(gameObject);
+
+            GameObject.Find("Gun").GetComponent<Gun>().AddBullet();
             Destroy(gameObject);
         }
 
-        Health enemy = collider.gameObject.GetComponent<Health>();
-        if (enemy != null)
+        if (collider.gameObject.tag != "Enemy")
         {
-            enemy.TakeDamage(damage);
+            
+            if (collider.gameObject.CompareTag("Immovable"))
+            {
+                rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+
+            }
+
         }
+        else
+        {
+            Health enemy = collider.gameObject.GetComponent<Health>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
+        }
+
+        
+    }
+
+
+
+
+    public void Recall()
+    {
+        Debug.Log("Recalling");
+        isReturning = true;
     }
 }

@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 9012075742234333997}
   - component: {fileID: 9012075742234333986}
   - component: {fileID: 9012075742234333987}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9012075742234333984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.0276363, y: 1.65, z: 2.6756735}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -106,16 +106,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 9012075742234333984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de986727f3d83449a82a665015f0697, type: 3}
+  m_Script: {fileID: 11500000, guid: 66a5cebecf8e4e745aef6b7602c65f95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 9012075742234333987}
-  whatIsEnemies:
-    serializedVersion: 2
-    m_Bits: 0
-  bounciness: 0
   useGravity: 0
-  damage: 1
+  damage: 10
+  isReturning: 0
+  hand: {fileID: 0}
+  dirToHand: {x: 0, y: 0, z: 0}
+  returnSpeed: 1
 --- !u!54 &9012075742234333987
 Rigidbody:
   m_ObjectHideFlags: 0
