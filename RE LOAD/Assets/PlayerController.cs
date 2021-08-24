@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float _speed;
     public float _sensitivity, _jumpForce;
 
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        playerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
         mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
         MovePlayer();
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     private void MovePlayerCamera()
     {
         xRotation -= mouseMovementInput.y * _sensitivity;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         transform.Rotate(0f, mouseMovementInput.x * _sensitivity, 0f);
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
