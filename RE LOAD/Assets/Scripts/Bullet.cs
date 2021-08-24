@@ -13,16 +13,17 @@ public class Bullet : MonoBehaviour
     [SerializeField] private GameObject hand;
     [SerializeField] private Gun gun;
     [SerializeField] private Vector3 dirToHand;
-    //private Vector3 destroyRange;
+    private float destroyRange;
     private float returnSpeed;
 
     private void Start()
     {
         Setup();
         isReturning = false;
-        hand = GameObject.Find("Left Hand");
+        hand = GameObject.Find("Recall Point");
         gun = GameObject.Find("Gun").GetComponent<Gun>();
         returnSpeed = gun.returnSpeed;
+        destroyRange = gun.destroyRange;
     }
 
     private void FixedUpdate()
@@ -31,9 +32,10 @@ public class Bullet : MonoBehaviour
         {
             rb.constraints = RigidbodyConstraints.None;
             dirToHand = (hand.transform.position - transform.position).normalized;
-            rb.AddForce(dirToHand * returnSpeed, ForceMode.Acceleration);
+            //rb.AddForce(dirToHand * returnSpeed, ForceMode.Impulse);
+            rb.velocity = dirToHand * returnSpeed * Time.deltaTime;
             transform.LookAt(hand.transform, Vector3.up);
-            if ((hand.transform.position - transform.position).magnitude < 0.9f)
+            if ((hand.transform.position - transform.position).magnitude < destroyRange)
             {
                 gun.AddBullet();
                 Destroy(gameObject);
@@ -94,7 +96,7 @@ public class Bullet : MonoBehaviour
 
     public void Recall()
     {
-        Debug.Log("Recalling");
+        //Debug.Log("Recalling");
         isReturning = true;
     }
 }
