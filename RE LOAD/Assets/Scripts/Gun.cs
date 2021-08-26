@@ -13,7 +13,9 @@ public class Gun : MonoBehaviour
     [SerializeField] private float recoilForce;
     [SerializeField] private int magazineSize;
     public float returnSpeed;
+    public float maxReturnSpeed;
     public float destroyRange;
+
 
     [Header("Status")]
     [SerializeField] private int bulletsLeft;

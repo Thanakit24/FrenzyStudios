@@ -15,6 +15,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private Vector3 dirToHand;
     private float destroyRange;
     private float returnSpeed;
+    private float speedBoost;
+    private float maxSpeed;
 
     private void Start()
     {
@@ -24,6 +26,8 @@ public class Bullet : MonoBehaviour
         gun = GameObject.Find("Gun").GetComponent<Gun>();
         returnSpeed = gun.returnSpeed;
         destroyRange = gun.destroyRange;
+        speedBoost = 0;
+        maxSpeed = gun.maxReturnSpeed;
     }
 
     private void FixedUpdate()
@@ -32,8 +36,13 @@ public class Bullet : MonoBehaviour
         {
             rb.constraints = RigidbodyConstraints.None;
             dirToHand = (hand.transform.position - transform.position).normalized;
+            
+            if (speedBoost < maxSpeed)
+            {
+                speedBoost += (maxSpeed - returnSpeed)/10 * 0.01f* (2+ speedBoost);
+            }
             //rb.AddForce(dirToHand * returnSpeed, ForceMode.Impulse);
-            rb.velocity = dirToHand * returnSpeed * Time.deltaTime;
+            rb.velocity = dirToHand * (returnSpeed + speedBoost) * Time.deltaTime;
             transform.LookAt(hand.transform, Vector3.up);
             if ((hand.transform.position - transform.position).magnitude < destroyRange)
             {

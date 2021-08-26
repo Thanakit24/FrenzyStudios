@@ -239,7 +239,8 @@ MonoBehaviour:
   recoilForce: 0
   magazineSize: 6
   returnSpeed: 1000
-  destroyRange: 0.5
+  maxReturnSpeed: 1500
+  destroyRange: 0.6
   bulletsLeft: 0
   isShooting: 0
   readyToShoot: 0
