@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     public float returnSpeed;
     public float maxReturnSpeed;
     public float destroyRange;
+    public bool holdToReturn;
 
 
     [Header("Status")]
@@ -41,10 +42,16 @@ public class Gun : MonoBehaviour
     {
         isShooting = Input.GetKeyDown(KeyCode.Mouse0);
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKey(KeyCode.R))
         {
             isReloading = true;
-            Reload();
+            MetaReload();
+        }
+        else
+        {
+            isReloading = false;
+            MetaCancelReload();
+            
         }
 
         if (readyToShoot && isShooting && !isReloading && bulletsLeft > 0)
@@ -96,7 +103,7 @@ public class Gun : MonoBehaviour
         }
     }
 
-    private void Reload()
+    private void MetaReload()
     {
         bullets = FindObjectsOfType<Bullet>();
         for (int i = 0; i < bullets.Length; i++)
@@ -108,7 +115,16 @@ public class Gun : MonoBehaviour
         //Invoke("ReloadFinished", reloadTime); //Invoke ReloadFinished function with your reloadTime as delay
     }
 
+    private void MetaCancelReload()
+    {
+        bullets = FindObjectsOfType<Bullet>();
+        for (int i = 0; i < bullets.Length; i++)
+        {
+            bullets[i].CancelRecall();
+        }
 
+        //Invoke("ReloadFinished", reloadTime); //Invoke ReloadFinished function with your reloadTime as delay
+    }
 
     public void AddBullet()
     {

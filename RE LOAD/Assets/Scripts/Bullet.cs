@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     private float returnSpeed;
     private float speedBoost;
     private float maxSpeed;
+    private bool wasFired;
 
     private void Start()
     {
@@ -34,6 +35,8 @@ public class Bullet : MonoBehaviour
     {
         if (isReturning)
         {
+            wasFired = true;
+            useGravity = false;
             rb.constraints = RigidbodyConstraints.None;
             dirToHand = (hand.transform.position - transform.position).normalized;
             
@@ -48,6 +51,13 @@ public class Bullet : MonoBehaviour
             {
                 gun.AddBullet();
                 Destroy(gameObject);
+            }
+        }
+        else
+        {
+            if (gun.holdToReturn && wasFired)
+            {
+                rb.useGravity = true;
             }
         }
         
@@ -107,5 +117,10 @@ public class Bullet : MonoBehaviour
     {
         //Debug.Log("Recalling");
         isReturning = true;
+    }
+
+    public void CancelRecall()
+    {
+        isReturning = false;
     }
 }
