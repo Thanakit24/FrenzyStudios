@@ -44,9 +44,10 @@ public class Bullet : MonoBehaviour
             {
                 speedBoost += (maxSpeed - returnSpeed)/10 * 0.01f* (2+ speedBoost);
             }
-            //rb.AddForce(dirToHand * returnSpeed, ForceMode.Impulse);
+
             rb.velocity = dirToHand * (returnSpeed + speedBoost) * Time.deltaTime;
             transform.LookAt(hand.transform, Vector3.up);
+
             if ((hand.transform.position - transform.position).magnitude < destroyRange)
             {
                 gun.AddBullet();

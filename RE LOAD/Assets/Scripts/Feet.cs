@@ -5,14 +5,14 @@ using UnityEngine;
 public class Feet : MonoBehaviour
 {
     BoxCollider feet;
-    [HideInInspector] public bool isGrounded;
+     public bool isGrounded;
 
     private void Start()
     {
         feet = GetComponent<BoxCollider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         isGrounded = true;
     }

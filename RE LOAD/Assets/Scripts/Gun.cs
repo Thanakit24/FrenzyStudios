@@ -32,6 +32,7 @@ public class Gun : MonoBehaviour
     private Bullet[] bullets;
     public bool allowInvoke = true;
 
+
     private void Awake()
     {
         bulletsLeft = magazineSize;
@@ -42,17 +43,28 @@ public class Gun : MonoBehaviour
     {
         isShooting = Input.GetKeyDown(KeyCode.Mouse0);
 
-        if (Input.GetKey(KeyCode.R))
+        if (holdToReturn)
         {
-            isReloading = true;
-            MetaReload();
+            if (Input.GetKey(KeyCode.R))
+            {
+                isReloading = true;
+                MetaReload();
+            }
+            else
+            {
+                isReloading = false;
+                MetaCancelReload();
+            }
         }
         else
         {
-            isReloading = false;
-            MetaCancelReload();
-            
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                isReloading = true;
+                MetaReload();
+            }
         }
+        
 
         if (readyToShoot && isShooting && !isReloading && bulletsLeft > 0)
         {
@@ -68,12 +80,16 @@ public class Gun : MonoBehaviour
     private void Shoot()
     {
         readyToShoot = false;
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Just a ray through the middle of your current view
+
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        //Ray ray_final = Physics.Raycast(ray, Mathf.Infinity,9) ; //Just a ray through the middle of your current view
+
+        
         RaycastHit hit;
 
         //check if ray hits something & calculate direction.
         Vector3 targetPoint;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 9, QueryTriggerInteraction.Ignore))
             targetPoint = hit.point;
         else
             targetPoint = ray.GetPoint(75); //Just a point far away from the player

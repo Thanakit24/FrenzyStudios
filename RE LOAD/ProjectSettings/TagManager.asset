@@ -18,9 +18,9 @@ TagManager:
   - Bullet
   - Player
   - Enemy
-  - 
-  - 
-  - 
+  - Passable Wall
+  - Wall
+  - BulletTwo
   - 
   - 
   - 
