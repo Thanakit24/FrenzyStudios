@@ -15,7 +15,7 @@ public class PressurePlate : MonoBehaviour
         rend = GetComponent<Renderer>();
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnTriggerStay(Collider col)
     {
         if(col.gameObject.tag == "Player" && shootable == false)
         {
@@ -30,13 +30,9 @@ public class PressurePlate : MonoBehaviour
 
     void Open()
     {
-        if (isOpened == false)
-        {
-            isOpened = true;
-            door.transform.position += new Vector3(0, 4, 0);
+        door.transform.position += new Vector3(0, 4, 0);
 
-            this.gameObject.transform.position -= new Vector3(0, 0.2f, 0);
-            rend.material.SetColor("_Color", Color.green);
-        }
+        this.gameObject.transform.position -= new Vector3(0, 0.2f, 0);
+        rend.material.SetColor("_Color", Color.green);
     }
 }
