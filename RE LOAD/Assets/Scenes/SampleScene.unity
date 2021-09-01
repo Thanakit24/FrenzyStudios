@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 216031530}
-  shootable: 0
+  shootable: 1
 --- !u!65 &366526019
 BoxCollider:
   m_ObjectHideFlags: 0
