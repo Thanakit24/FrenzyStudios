@@ -30,9 +30,13 @@ public class PressurePlate : MonoBehaviour
 
     void Open()
     {
-        door.transform.position += new Vector3(0, 4, 0);
+        if (isOpened == false)
+        {
+            isOpened = true;
+            door.transform.position += new Vector3(0, 4, 0);
 
-        this.gameObject.transform.position -= new Vector3(0, 0.2f, 0);
-        rend.material.SetColor("_Color", Color.green);
+            this.gameObject.transform.position -= new Vector3(0, 0.2f, 0);
+            rend.material.SetColor("_Color", Color.green);
+        }
     }
 }
