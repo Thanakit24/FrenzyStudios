@@ -5,7 +5,7 @@ using UnityEngine;
 public class Feet : MonoBehaviour
 {
     BoxCollider feet;
-     public bool isGrounded;
+    public bool isGrounded;
 
     private void Start()
     {
