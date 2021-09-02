@@ -138,7 +138,7 @@ public class EnemyController : MonoBehaviour
     {
 
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(targetWalkPoints[0].position, Vector3.one);
+        //Gizmos.DrawCube(targetWalkPoints[0].position, Vector3.one);
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 }
