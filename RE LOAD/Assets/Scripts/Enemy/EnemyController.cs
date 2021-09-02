@@ -31,7 +31,7 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        //player = GameObject.Find("Player").transform;
         feet = GetComponentInChildren<Feet>();
         agent = GetComponent<NavMeshAgent>();
         walkPointIndex = 0;
@@ -54,11 +54,11 @@ public class EnemyController : MonoBehaviour
     {
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInSightRange && playerInAttackRange) AttackPlayer();
+        //if (playerInSightRange && playerInAttackRange) AttackPlayer();
 
     }
     //=================================================================================
@@ -111,6 +111,7 @@ public class EnemyController : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        Debug.Log("chasingPlayer");
     }
 
     //=================================================================================

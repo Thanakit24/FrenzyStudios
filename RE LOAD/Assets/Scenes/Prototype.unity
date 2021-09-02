@@ -804,7 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e895fb542dcba2844916a24e30b96c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 50
 --- !u!195 &399358405
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -855,8 +855,8 @@ MonoBehaviour:
   walkPointIndex: 0
   walkPoint: {x: 0, y: 0, z: 0}
   timeBetweenAttacks: 1
-  sightRange: 2
-  attackRange: 3
+  sightRange: 6
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
 --- !u!136 &399358407
@@ -2168,8 +2168,8 @@ MonoBehaviour:
   walkPointIndex: 0
   walkPoint: {x: 0, y: 0, z: 0}
   timeBetweenAttacks: 1
-  sightRange: 2
-  attackRange: 3
+  sightRange: 6
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
 --- !u!114 &1338225315
@@ -2184,7 +2184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e895fb542dcba2844916a24e30b96c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 50
 --- !u!1 &1421087111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2721,7 +2721,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553597665}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 29, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
