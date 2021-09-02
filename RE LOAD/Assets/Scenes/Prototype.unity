@@ -847,10 +847,10 @@ MonoBehaviour:
   feet: {fileID: 1811011547}
   targetWalkPoints:
   - {fileID: 1049223421}
-  - {fileID: 2039212955}
-  - {fileID: 279650471}
   - {fileID: 1064261361}
-  cycleWalkPoints: 0
+  - {fileID: 279650471}
+  - {fileID: 2039212955}
+  loop: 1
   autoSearchWalkPoints: 0
   walkPointIndex: 0
   walkPoint: {x: 0, y: 0, z: 0}
@@ -2163,7 +2163,7 @@ MonoBehaviour:
   - {fileID: 789515367}
   - {fileID: 1159513055}
   - {fileID: 1842865722}
-  cycleWalkPoints: 0
+  loop: 0
   autoSearchWalkPoints: 0
   walkPointIndex: 0
   walkPoint: {x: 0, y: 0, z: 0}
@@ -2721,15 +2721,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553597665}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 29, y: 1.5, z: 0}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 29.000002, y: 1.5, z: -14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1496606148}
   - {fileID: 906157205}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
 --- !u!54 &1553597670
 Rigidbody:
   m_ObjectHideFlags: 0

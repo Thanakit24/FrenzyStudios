@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     [Header("Patrolling")]
     //[SerializeField] private float walkPointRange;
     public Transform[] targetWalkPoints;
-    [SerializeField] private bool cycleWalkPoints;
+    [SerializeField] private bool loop;
     [SerializeField] private bool autoSearchWalkPoints;
     private bool isReturning;
     [SerializeField] private int walkPointIndex;
@@ -65,7 +65,6 @@ public class EnemyController : MonoBehaviour
     private void Patroling()
     {
         agent.SetDestination(walkPoint);
-        //Debug.Log(walk)
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         if (distanceToWalkPoint.magnitude < 0.1f)
@@ -77,31 +76,27 @@ public class EnemyController : MonoBehaviour
 
     private void SetNextWalkPoint()
     {
-        if (!cycleWalkPoints)
+        if (!loop)
         {
             if (!isReturning)
             {
                 if (walkPointIndex < targetWalkPoints.Length-1) walkPointIndex++;
-                else
-                {
-                    walkPointIndex--;
-                    isReturning = true;
-                }
+                else isReturning = true;
             }
             if (isReturning)
             {
                 if (walkPointIndex > 0) walkPointIndex--;
                 else
                 {
-                    walkPointIndex++;
                     isReturning = false;
                 }
+                if (walkPointIndex < 0) walkPointIndex = 1;
             }
         }
         else
         {
-            if (walkPointIndex != targetWalkPoints.Length) walkPointIndex++;
-            else walkPointIndex = 0;
+            walkPointIndex++;
+            if (walkPointIndex == targetWalkPoints.Length) walkPointIndex = 0;
         }
     }
 
@@ -138,8 +133,7 @@ public class EnemyController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
 
-        Gizmos.color = Color.red;
-        //Gizmos.DrawCube(targetWalkPoints[0].position, Vector3.one);
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 }
