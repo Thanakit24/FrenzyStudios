@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private bool loop;
     [SerializeField] private bool autoSearchWalkPoints;
     private bool isReturning;
-    [SerializeField] private int walkPointIndex;
+    private int walkPointIndex;
     [SerializeField] private Vector3 walkPoint;
     private bool walkPointSet;
 
