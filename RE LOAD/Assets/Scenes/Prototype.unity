@@ -869,7 +869,6 @@ MonoBehaviour:
   - {fileID: 2039212955}
   loop: 1
   autoSearchWalkPoints: 0
-  walkPointIndex: 0
   walkPoint: {x: 0, y: 0, z: 0}
   timeBetweenAttacks: 1
   sightRange: 6
@@ -2308,7 +2307,6 @@ MonoBehaviour:
   - {fileID: 1842865722}
   loop: 0
   autoSearchWalkPoints: 0
-  walkPointIndex: 0
   walkPoint: {x: 0, y: 0, z: 0}
   timeBetweenAttacks: 1
   sightRange: 6
