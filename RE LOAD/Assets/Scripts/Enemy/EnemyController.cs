@@ -23,6 +23,8 @@ public class EnemyController : MonoBehaviour
     [Header("Attacking")]
     [SerializeField] private float timeBetweenAttacks;
     private bool hasAttacked;
+    public GameObject enemyBullet;
+    [SerializeField] private Transform attackPoint;
 
     [Header("States")]
     [SerializeField] private float sightRange;
@@ -58,7 +60,7 @@ public class EnemyController : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        //if (playerInSightRange && playerInAttackRange) AttackPlayer();
+        if (playerInSightRange && playerInAttackRange) AttackPlayer();
 
     }
     //=================================================================================
@@ -106,7 +108,7 @@ public class EnemyController : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
-        Debug.Log("chasingPlayer");
+        //Debug.Log("chasingPlayer");
     }
 
     //=================================================================================
@@ -118,6 +120,9 @@ public class EnemyController : MonoBehaviour
 
         if (!hasAttacked)
         {
+            Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, player.rotation).GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * 25f, ForceMode.Impulse);
+
             hasAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -133,7 +138,10 @@ public class EnemyController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
 
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
