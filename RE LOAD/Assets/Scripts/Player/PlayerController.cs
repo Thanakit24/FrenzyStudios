@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController player; //incase u dont know what static does, it enables other script to reference to call PlayerController.player.someFunction(); without needing to do serialized field stuffs
+
     [Header("Player")]
     public float _speed, _sensitivity, _jumpForce;
     private Vector3 playerMovementInput;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        player = this;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

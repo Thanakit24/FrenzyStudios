@@ -12,7 +12,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] private bool isReturning;
     [SerializeField] private GameObject hand;
     [SerializeField] private Gun gun;
-    [SerializeField] private Vector3 dirToHand;
+    [SerializeField] private Vector3 dirToTarget;
+    private GameObject target;
+    private bool hasTarget;
     private float destroyRange;
     private float returnSpeed;
     private float speedBoost;
@@ -29,6 +31,7 @@ public class Bullet : MonoBehaviour
         destroyRange = gun.destroyRange;
         speedBoost = 0;
         maxSpeed = gun.maxReturnSpeed;
+        hasTarget = false;
     }
 
     private void FixedUpdate()
@@ -38,14 +41,15 @@ public class Bullet : MonoBehaviour
             wasFired = true;
             useGravity = false;
             rb.constraints = RigidbodyConstraints.None;
-            dirToHand = (hand.transform.position - transform.position).normalized;
+            SelectTarget();
+            //dirToTarget = (hand.transform.position - transform.position).normalized;
             
             if (speedBoost < maxSpeed)
             {
                 speedBoost += (maxSpeed - returnSpeed)/10 * 0.01f* (2+ speedBoost);
             }
 
-            rb.velocity = dirToHand * (returnSpeed + speedBoost) * Time.deltaTime;
+            rb.velocity = dirToTarget * (returnSpeed + speedBoost) * Time.deltaTime;
             transform.LookAt(hand.transform, Vector3.up);
 
             if ((hand.transform.position - transform.position).magnitude < destroyRange)
@@ -62,6 +66,24 @@ public class Bullet : MonoBehaviour
             }
         }
         
+    }
+
+    private void SelectTarget()
+    {
+        if (target != null && hasTarget)
+        {
+            dirToTarget = (target.transform.position - transform.position).normalized;
+        }
+        else
+        {
+            dirToTarget = (hand.transform.position - transform.position).normalized;
+        }
+    }
+
+    public void AddTarget(GameObject enemy)
+    {
+        target = enemy;
+        hasTarget = true;
     }
 
     private void Setup()

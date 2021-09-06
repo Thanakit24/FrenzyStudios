@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("Patrolling")]
     //[SerializeField] private float walkPointRange;
+    public bool isStationary;
     public Transform[] targetWalkPoints;
     [SerializeField] private bool loop;
     [SerializeField] private bool autoSearchWalkPoints;
@@ -46,10 +47,12 @@ public class EnemyController : MonoBehaviour
             }
         }
         */
-        transform.LookAt(targetWalkPoints[walkPointIndex].position);
-        isReturning = false;
-        walkPoint = targetWalkPoints[walkPointIndex].position;
-
+        if (!isStationary)
+        {
+            transform.LookAt(targetWalkPoints[walkPointIndex].position);
+            isReturning = false;
+            walkPoint = targetWalkPoints[walkPointIndex].position;
+        }
     }
 
     private void Update()
@@ -58,7 +61,7 @@ public class EnemyController : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
+        if (!playerInSightRange && !playerInAttackRange && !isStationary) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
 

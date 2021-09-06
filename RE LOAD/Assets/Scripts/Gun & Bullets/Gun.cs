@@ -3,20 +3,27 @@ using TMPro;
 
 public class Gun : MonoBehaviour
 {
+    public static Gun gun;
+
     [Header("Bullet Customizations")]
     [SerializeField] private GameObject bullet;
     [SerializeField] private float shootForce;
 
     [Header("Shooting Customizations")]
     [SerializeField] private float timeBetweenShooting;
-    [SerializeField] private float reloadTime;
+    //[SerializeField] private float reloadTime;
     [SerializeField] private float recoilForce;
     [SerializeField] private int magazineSize;
     public float returnSpeed;
     public float maxReturnSpeed;
     public float destroyRange;
     public bool holdToReturn;
-
+    [HideInInspector] public bool ReloadButtonPressed()
+    {
+        if (Input.GetKey(KeyCode.R)) return true;
+        else if (Input.GetKey(KeyCode.Mouse1)) return true;
+        else return false;
+    }
 
     [Header("Status")]
     [SerializeField] private int bulletsLeft;
@@ -37,6 +44,7 @@ public class Gun : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         readyToShoot = true;
+        gun = this;
     }
 
     void Update()
@@ -45,7 +53,7 @@ public class Gun : MonoBehaviour
 
         if (holdToReturn)
         {
-            if (Input.GetKey(KeyCode.R))
+            if (ReloadButtonPressed())
             {
                 isReloading = true;
                 MetaReload();
@@ -58,7 +66,7 @@ public class Gun : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (ReloadButtonPressed())
             {
                 isReloading = true;
                 MetaReload();
@@ -93,7 +101,7 @@ public class Gun : MonoBehaviour
             targetPoint = hit.point;
         else
             targetPoint = ray.GetPoint(75); //Just a point far away from the player
-        Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
+        Vector3 directionWithoutSpread = targetPoint - attackPoint.position - new Vector3 (transform.localPosition.x, 0, 0);
 
         //Instantiate bullet/projectile & set its rotation
         GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity); //store instantiated bullet in currentBullet
