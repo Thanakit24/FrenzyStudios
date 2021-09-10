@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private Feet feet;
+    [SerializeField] private GameObject hand;
 
     [Header("Patrolling")]
     //[SerializeField] private float walkPointRange;
@@ -119,11 +120,12 @@ public class EnemyController : MonoBehaviour
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-        transform.LookAt(player);
+        hand.transform.LookAt(player);
+        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.position - transform.position, Vector3.up));
 
         if (!hasAttacked)
         {
-            Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, player.rotation).GetComponent<Rigidbody>();
+            Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 25f, ForceMode.Impulse);
 
             hasAttacked = true;

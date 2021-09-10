@@ -783,9 +783,9 @@ GameObject:
   - component: {fileID: 399358409}
   - component: {fileID: 399358408}
   - component: {fileID: 399358407}
+  - component: {fileID: 399358404}
   - component: {fileID: 399358406}
   - component: {fileID: 399358405}
-  - component: {fileID: 399358404}
   m_Layer: 8
   m_Name: EnemyPatroller (1)
   m_TagString: Enemy
@@ -800,15 +800,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 399358402}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.5, y: 2, z: 6}
+  m_LocalRotation: {x: -0, y: 0.20565844, z: -0, w: 0.9786238}
+  m_LocalPosition: {x: 11.45, y: 2, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1811011546}
   - {fileID: 1586180904}
   m_Father: {fileID: 1470396714}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 23.736, z: 0}
 --- !u!114 &399358404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,6 +862,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   feet: {fileID: 1811011547}
+  hand: {fileID: 1586180900}
   isStationary: 0
   targetWalkPoints:
   - {fileID: 1049223421}
@@ -1425,7 +1426,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729109238}
   m_LocalRotation: {x: -0, y: 0.17364816, z: -0, w: 0.9848078}
-  m_LocalPosition: {x: 24, y: 2.4, z: 9.5}
+  m_LocalPosition: {x: 24, y: 2.3, z: 9.5}
   m_LocalScale: {x: 2.5000005, y: 2.5, z: 2.5000005}
   m_Children: []
   m_Father: {fileID: 1717418802}
@@ -2073,7 +2074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1217620302
 Transform:
   m_ObjectHideFlags: 0
@@ -2142,6 +2143,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   feet: {fileID: 2138374308}
+  hand: {fileID: 0}
   isStationary: 0
   targetWalkPoints:
   - {fileID: 1542615557}
@@ -2357,7 +2359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360682462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.25, z: -0.15}
+  m_LocalPosition: {x: -0.07, y: 0.15, z: 0.7}
   m_LocalScale: {x: 1.7, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 1586180904}
@@ -3117,14 +3119,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586180900}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.32, y: 0.25, z: 0.39999998}
-  m_LocalScale: {x: 0.6, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.6}
   m_Children:
   - {fileID: 1360682463}
   m_Father: {fileID: 399358403}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1590761417
 GameObject:
   m_ObjectHideFlags: 0
@@ -4081,7 +4083,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2136003205
 Transform:
   m_ObjectHideFlags: 0
@@ -4128,6 +4130,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   feet: {fileID: 0}
+  hand: {fileID: 0}
   isStationary: 1
   targetWalkPoints: []
   loop: 0
