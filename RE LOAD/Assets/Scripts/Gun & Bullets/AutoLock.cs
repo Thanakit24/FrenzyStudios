@@ -9,6 +9,7 @@ public class AutoLock : MonoBehaviour
     private Camera cam;
     [HideInInspector] public bool activated;
     public Bullet[] bullets;
+    [SerializeField] GameObject lockOnUI;
 
     void Start()
     {
@@ -33,6 +34,9 @@ public class AutoLock : MonoBehaviour
                 activated = true;
             }
         }
+
+        if (bullets.Length > 0) lockOnUI.SetActive(true);
+        else lockOnUI.SetActive(false);
     }
 
     private void ShootRay()
