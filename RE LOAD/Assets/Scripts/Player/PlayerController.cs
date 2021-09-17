@@ -32,6 +32,13 @@ public class PlayerController : MonoBehaviour
 
         MovePlayer();
         MovePlayerCamera();
+
+        
+        if(!feet.isGrounded)
+        {
+            rb.velocity = rb.velocity * 0.98f;
+            Debug.Log(rb.velocity);
+        }
     }
 
     private void Update()
@@ -42,7 +49,9 @@ public class PlayerController : MonoBehaviour
                 if (Physics.CheckBox(transform.position - Vector3.up * 1.5f, Vector3.one * 0.5f))
                 {
                     rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+                    rb.velocity = rb.velocity * 0.95f * Time.deltaTime;
                 }
+
         }
     }
 
