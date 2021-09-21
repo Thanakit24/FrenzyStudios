@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform playerCamera;
 
+    [Header("Dash Config")]
+    [SerializeField] private float dashForce;
+    [SerializeField] private float dashCooldown;
+    private bool canDash = true;
+
+
     void Start()
     {
         player = this;
@@ -30,11 +36,11 @@ public class PlayerController : MonoBehaviour
         playerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
         mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-        MovePlayer();
+        MovePlayer(); 
         MovePlayerCamera();
 
-        
-        if(!feet.isGrounded)
+
+        if (!feet.isGrounded)
         {
             rb.velocity = rb.velocity * 0.98f;
             Debug.Log(rb.velocity);
@@ -45,13 +51,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (feet.isGrounded)
-                if (Physics.CheckBox(transform.position - Vector3.up * 1.5f, Vector3.one * 0.5f))
-                {
-                    rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-                    rb.velocity = rb.velocity * 0.95f * Time.deltaTime;
-                }
+            Jump();
+        }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            StartCoroutine(Dash());
         }
     }
 
@@ -71,4 +76,24 @@ public class PlayerController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
     }
 
+    void Jump()
+    {
+        if (feet.isGrounded)
+            if (Physics.CheckBox(transform.position - Vector3.up * 1.5f, Vector3.one * 0.5f))
+            {
+                rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+                rb.velocity = rb.velocity * 0.95f * Time.deltaTime;
+            }
+    }
+
+    IEnumerator Dash()
+    {
+        if(canDash)
+        {
+            canDash = false;
+            rb.AddForce(this.gameObject.transform.forward * dashForce, ForceMode.Impulse);
+            yield return new WaitForSeconds(dashCooldown);
+            canDash = true;
+        }
+    }
 }

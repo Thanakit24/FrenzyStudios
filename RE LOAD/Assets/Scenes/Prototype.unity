@@ -3068,6 +3068,8 @@ MonoBehaviour:
   feet: {fileID: 906157207}
   rb: {fileID: 1553597670}
   playerCamera: {fileID: 1496606148}
+  dashForce: 350
+  dashCooldown: 2
 --- !u!114 &1553597672
 MonoBehaviour:
   m_ObjectHideFlags: 0
