@@ -3,34 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class GuardianController : MonoBehaviour
 {
     public NavMeshAgent agent;
     [SerializeField] private Transform player;
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private Feet feet;
-    [SerializeField] private GameObject hand;
+    //[SerializeField] private GameObject hand;
 
+    [SerializeField] private GameObject shield;
 
     [Header("Patrolling")]
     public bool isStationary;
     public Vector3[] targetWalkPoints;
-    [SerializeField] private bool TwoDirectionPath; //Dont check this button if you want the enemy to loop 1-2-3-4-3-2-1-2-3-4. Tick this if you want it to go 1-2-3-4-1-2-3-4
+    [SerializeField] private bool TwoDirectionPath;
     private bool isReturning;
     private int walkPointIndex;
-    private Vector3 walkPoint;
-    private bool walkPointSet;
+    [SerializeField] private Vector3 walkPoint;
 
     [Header("Attacking")]
-    [SerializeField] private float timeBetweenAttacks;
-    private bool hasAttacked;
-    public GameObject enemyBullet;
-    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRecoveryTime;
+    [SerializeField] private float attackAnticipationTime;
+    [SerializeField] private bool hasAttacked;
+    [SerializeField] private Transform baton;
+    private Quaternion batonOriginalPos;
+    //[SerializeField] private float hitSpeed;
 
     [Header("States")]
     [SerializeField] private float sightRange;
     [SerializeField] private float attackRange;
     [SerializeField] private bool playerInSightRange, playerInAttackRange;
+
+    public Vector3 distanceToWalkPoint;
 
     private void Awake()
     {
@@ -44,6 +48,7 @@ public class EnemyController : MonoBehaviour
             isReturning = false;
             walkPoint = targetWalkPoints[walkPointIndex];
         }
+        batonOriginalPos = baton.localRotation;
     }
 
     private void Update()
@@ -52,18 +57,32 @@ public class EnemyController : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
+
         if (!playerInSightRange && !playerInAttackRange && !isStationary) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInSightRange && playerInAttackRange) AttackPlayer();
+        if (playerInSightRange && !playerInAttackRange && !hasAttacked) ChasePlayer();
+        if (playerInSightRange && playerInAttackRange && !hasAttacked) Invoke(nameof(AttackPlayer), attackAnticipationTime);
+        if (hasAttacked) Invoke(nameof(ResetAttack), attackRecoveryTime);
 
     }
+
     //=================================================================================
+    //================================= GUARDIAN ======================================
+    //=================================================================================
+
     private void Patroling()
     {
         agent.SetDestination(walkPoint);
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 0.1f)
+
+        //float y = transform.position.y;
+        float y;
+        if (walkPointIndex > 1) y =  transform.position.y - (targetWalkPoints[walkPointIndex].y - targetWalkPoints[walkPointIndex - 1].y);
+        else y = transform.position.y;
+
+        if (distanceToWalkPoint.magnitude > 2f) transform.LookAt(new Vector3(walkPoint.x, y, walkPoint.z));
+
+        if (distanceToWalkPoint.magnitude < 0.2f)
         {
             SetNextWalkPoint();
             walkPoint = targetWalkPoints[walkPointIndex];
@@ -76,7 +95,7 @@ public class EnemyController : MonoBehaviour
         {
             if (!isReturning)
             {
-                if (walkPointIndex < targetWalkPoints.Length-1) walkPointIndex++;
+                if (walkPointIndex < targetWalkPoints.Length - 1) walkPointIndex++;
                 else isReturning = true;
             }
             if (isReturning)
@@ -98,37 +117,40 @@ public class EnemyController : MonoBehaviour
 
 
     //=================================================================================
+    //================================= GUARDIAN ======================================
+    //=================================================================================
 
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
-        //Debug.Log("chasingPlayer");
+        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
     }
 
+    //=================================================================================
+    //================================= GUARDIAN ======================================
     //=================================================================================
 
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-        hand.transform.LookAt(player);
-        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.position - transform.position, Vector3.up));
-        //transform.rotation = Quaternion.Lerp()
+        //transform.LookAt(player.position, Vector3.forward);
 
-        if (!hasAttacked)
-        {
-            
+        //transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.position - transform.position, Vector3.up));
 
-            Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 25f, ForceMode.Impulse);
+        batonAttack(true);
 
-            hasAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-        }
+        hasAttacked = true;
+    }
 
+    private void batonAttack(bool attack)
+    {
+        if (attack) baton.localRotation = Quaternion.AngleAxis(90, Vector3.right);
+        else baton.localRotation = batonOriginalPos;
     }
 
     private void ResetAttack()
     {
+        batonAttack(false);
         hasAttacked = false;
     }
 
@@ -143,3 +165,4 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
+

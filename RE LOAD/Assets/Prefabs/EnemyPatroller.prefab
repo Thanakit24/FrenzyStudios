@@ -118,17 +118,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   feet: {fileID: 8687954536303615936}
+  hand: {fileID: 0}
+  shield: {fileID: 0}
+  isStationary: 0
   targetWalkPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  loop: 0
-  autoSearchWalkPoints: 0
-  walkPoint: {x: 0, y: 0, z: 0}
+  - {x: -2.7142575e-17, y: 7.74e-43, z: 2.6588317e+23}
+  - {x: 0.00000016707926, y: 2.1379883e+29, z: 7.72e-43}
+  - {x: 4.6e-44, y: 0.00000004149589, z: -2.7142575e-17}
+  - {x: 7.74e-43, y: -2.7142641e-17, z: 7.74e-43}
+  TwoDirectionPath: 0
   timeBetweenAttacks: 1
-  enemyBullet: {fileID: 0}
-  attackPoint: {fileID: 0}
+  baton: {fileID: 0}
+  hitSpeed: 0
   sightRange: 6
   attackRange: 1
   playerInSightRange: 0

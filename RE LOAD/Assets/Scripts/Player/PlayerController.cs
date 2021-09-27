@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         if (!feet.isGrounded)
         {
             rb.velocity = rb.velocity * 0.98f;
-            Debug.Log(rb.velocity);
+            //Debug.Log(rb.velocity);
         }
     }
 
