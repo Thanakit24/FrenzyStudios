@@ -26,7 +26,8 @@ public class Bullet : MonoBehaviour
         Setup();
         isReturning = false;
         hand = GameObject.Find("Recall Point");
-        gun = GameObject.Find("Gun").GetComponent<Gun>();
+        //gun = GameObject.Find("Gun").GetComponent<Gun>();
+        gun = GameObject.Find("Player").GetComponent<Gun>();
         returnSpeed = gun.returnSpeed;
         destroyRange = gun.destroyRange;
         speedBoost = 0;
@@ -107,7 +108,8 @@ public class Bullet : MonoBehaviour
             isReturning = false;
             Destroy(gameObject);
 
-            GameObject.Find("Gun").GetComponent<Gun>().AddBullet();
+            //GameObject.Find("Gun").GetComponent<Gun>().AddBullet();
+            GameObject.Find("Player").GetComponent<Gun>().AddBullet();
             Destroy(gameObject);
         }
 

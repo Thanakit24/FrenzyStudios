@@ -91,17 +91,23 @@ public class Gun : MonoBehaviour
 
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         //Ray ray_final = Physics.Raycast(ray, Mathf.Infinity,9) ; //Just a ray through the middle of your current view
-
-        
         RaycastHit hit;
 
         //check if ray hits something & calculate direction.
         Vector3 targetPoint;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 9, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out hit))
+        {
             targetPoint = hit.point;
+            print("fuck yes");
+        }
         else
+        {
             targetPoint = ray.GetPoint(75); //Just a point far away from the player
-        Vector3 directionWithoutSpread = targetPoint - attackPoint.position - new Vector3 (transform.localPosition.x, 0, 0);
+            print("fuck no");
+        }
+
+        //Vector3 directionWithoutSpread = targetPoint - attackPoint.position - new Vector3 (transform.localPosition.x, 0, 0);
+        Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
 
         //Instantiate bullet/projectile & set its rotation
         GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity); //store instantiated bullet in currentBullet

@@ -55,7 +55,7 @@ public class Shooting : MonoBehaviour
         //Reloading 
         if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
         //Reload automatically when trying to shoot without ammo
-        if (readyToShoot && shooting && !reloading && bulletsLeft <= 0) Reload();
+        //if (readyToShoot && shooting && !reloading && bulletsLeft <= 0) Reload();
 
         //Shooting
         if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
@@ -75,13 +75,21 @@ public class Shooting : MonoBehaviour
         Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Just a ray through the middle of your current view
         RaycastHit hit;
 
-
         //check if ray hits something
         Vector3 targetPoint;
         if (Physics.Raycast(ray, out hit))
+        {
             targetPoint = hit.point;
+            print("prin is ResidentSleeper <3");
+        }
         else
-            targetPoint = ray.GetPoint(75); //Just a point far away from the player
+        {
+            //Just a point far away from the player
+            targetPoint = ray.GetPoint(75);
+            print("prin is 5head <3");
+        }
+
+        //print(targetPoint);
 
         //Calculate direction from attackPoint to targetPoint
         Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
@@ -94,9 +102,7 @@ public class Shooting : MonoBehaviour
         //Add forces to bullet
         currentBullet.GetComponent<Rigidbody>().AddForce(directionWithoutSpread.normalized * shootForce, ForceMode.Impulse);
 
-        //Instantiate muzzle flash, if you have one
-        if (muzzleFlash != null)
-            Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+        if (muzzleFlash != null) Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
 
         bulletsLeft--;
         bulletsShot++;

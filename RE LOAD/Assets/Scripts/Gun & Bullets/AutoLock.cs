@@ -49,6 +49,10 @@ public class AutoLock : MonoBehaviour
             {
                 if (enemies.Count < bullets.Length && !enemies.Contains(hit.collider.gameObject)) enemies.Add(hit.collider.gameObject);
             }
+            if (hit.collider.GetComponent<GuardianController>() != null)
+            {
+                if (enemies.Count < bullets.Length && !enemies.Contains(hit.collider.gameObject)) enemies.Add(hit.collider.gameObject);
+            }
         }
     }
 }

@@ -313,11 +313,13 @@ MonoBehaviour:
   _speed: 7
   _sensitivity: 5
   _jumpForce: 12
+  playerMovementInput: {x: 0, y: 0, z: 0}
   feet: {fileID: 51137696814405655}
   rb: {fileID: 51137696186876006}
   playerCamera: {fileID: 51137696096559428}
-  dashForce: 100
+  dashForce: 10000
   dashCooldown: 2
+  canDash: 1
 --- !u!54 &51137696186876006
 Rigidbody:
   m_ObjectHideFlags: 0

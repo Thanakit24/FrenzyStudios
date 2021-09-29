@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player")]
     public float _speed, _sensitivity, _jumpForce;
-    private Vector3 playerMovementInput;
+    [SerializeField] private Vector3 playerMovementInput;
     private Vector2 mouseMovementInput;
     private float xRotation;
 
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dash Config")]
     [SerializeField] private float dashForce;
     [SerializeField] private float dashCooldown;
-    private bool canDash = true;
+    [SerializeField] private bool canDash = true;
 
 
     void Start()
@@ -33,38 +33,29 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        playerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
+        playerMovementInput =Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
         mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
         MovePlayer(); 
         MovePlayerCamera();
 
-
-        if (!feet.isGrounded)
-        {
-            rb.velocity = rb.velocity * 0.98f;
-            //Debug.Log(rb.velocity);
-        }
+        if (!feet.isGrounded) rb.velocity = rb.velocity * 0.98f;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Jump();
-        }
+        if (Input.GetKeyDown(KeyCode.Space)) Jump();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StartCoroutine(Dash());
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) SuperiorDashingFunction(transform.TransformDirection(playerMovementInput));
+        if (Input.GetKeyDown(KeyCode.LeftShift)) StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
+        //if (Input.GetKeyDown(KeyCode.LeftShift)) StartCoroutine(Dash());
+        //if (!canDash) Invoke(nameof(ResetDash), 1f);
     }
 
     private void MovePlayer()
     {
         Vector3 moveVector = transform.TransformDirection(playerMovementInput * _speed);
         rb.velocity = new Vector3(moveVector.x, rb.velocity.y, moveVector.z);
-
     }
 
     private void MovePlayerCamera()
@@ -86,12 +77,24 @@ public class PlayerController : MonoBehaviour
             }
     }
 
-    IEnumerator Dash()
+    private void SuperiorDashingFunction(Vector3 dir)
+    {
+        //if (canDash) rb.velocity = dir * dashForce;
+        if (canDash) rb.velocity = dir * dashForce;
+        canDash = false;
+    }
+
+    private void ResetDash()
+    {
+        canDash = true;
+    }
+    IEnumerator Dash(Vector3 dir)
     {
         if(canDash)
         {
             canDash = false;
-            rb.AddForce(this.gameObject.transform.forward * dashForce, ForceMode.Impulse);
+            //Debug.Log(dir);
+            rb.AddForce(dir * dashForce, ForceMode.Impulse);
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
         }
