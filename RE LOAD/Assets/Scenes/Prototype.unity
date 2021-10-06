@@ -676,6 +676,11 @@ PrefabInstance:
       propertyPath: targetWalkPoints.Array.data[1].y
       value: 2.18
       objectReference: {fileID: 0}
+    - target: {fileID: 3334423974880386465, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4172411148494004928, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
       propertyPath: isStationary
@@ -719,7 +724,7 @@ PrefabInstance:
     - target: {fileID: 4172411148494004989, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.798796
+      value: 10.8
       objectReference: {fileID: 0}
     - target: {fileID: 4172411148494004989, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
@@ -729,7 +734,7 @@ PrefabInstance:
     - target: {fileID: 4172411148494004989, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.653948
+      value: 7.65
       objectReference: {fileID: 0}
     - target: {fileID: 4172411148494004989, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
