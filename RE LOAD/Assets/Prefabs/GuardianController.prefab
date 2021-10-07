@@ -155,7 +155,8 @@ MonoBehaviour:
   attackAnticipationTime: 0
   hasAttacked: 0
   baton: {fileID: 626238030191641688}
-  sightRange: 6
+  batonDamage: 0
+  sightRange: 8
   attackRange: 2
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -173,8 +174,6 @@ GameObject:
   - component: {fileID: 2960626468001000840}
   - component: {fileID: 3334423974880386465}
   - component: {fileID: 1862476800470214750}
-  - component: {fileID: 5319858804280862573}
-  - component: {fileID: 4512992613299497774}
   m_Layer: 8
   m_Name: Shield
   m_TagString: Untagged
@@ -274,33 +273,6 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 118
   m_CollisionDetection: 2
---- !u!114 &5319858804280862573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5645020022457224137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b0461606a4b5614aa8c90729a6f27a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shieldDamage: 5
-  shieldRange: 2
---- !u!65 &4512992613299497774
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5645020022457224137}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.83, y: 1.51, z: 17.15}
-  m_Center: {x: 0.07, y: 0.03, z: 8.1}
 --- !u!1001 &144530296975837533
 PrefabInstance:
   m_ObjectHideFlags: 0

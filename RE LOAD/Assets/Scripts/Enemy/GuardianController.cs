@@ -28,6 +28,7 @@ public class GuardianController : MonoBehaviour
     [SerializeField] private Transform baton;
     private Quaternion batonOriginalPos;
     //[SerializeField] private float hitSpeed;
+    [SerializeField] private int batonDamage;
 
     [Header("States")]
     [SerializeField] private float sightRange;
@@ -144,7 +145,11 @@ public class GuardianController : MonoBehaviour
 
     private void batonAttack(bool attack)
     {
-        if (attack) baton.localRotation = Quaternion.AngleAxis(90, Vector3.right);
+        if (attack)
+        {
+            Debug.Log("Attacking");
+            baton.localRotation = Quaternion.AngleAxis(90, Vector3.right);
+        }
         else baton.localRotation = batonOriginalPos;
     }
 
