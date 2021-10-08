@@ -59,7 +59,9 @@ public class PlayerController : MonoBehaviour
         MovePlayerCamera();
 
         if (isDashing)
+        {
             StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
+        }
         else
         {
             if (isKnocked)
@@ -114,6 +116,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
             isDashing = false;
+
         }
     }
 
