@@ -98,12 +98,12 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             targetPoint = hit.point;
-            print("fuck yes");
+            //print("fuck yes");  
         }
         else
         {
             targetPoint = ray.GetPoint(75); //Just a point far away from the player
-            print("fuck no");
+            //print("fuck no");
         }
 
         //Vector3 directionWithoutSpread = targetPoint - attackPoint.position - new Vector3 (transform.localPosition.x, 0, 0);

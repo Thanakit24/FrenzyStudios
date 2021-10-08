@@ -7,10 +7,16 @@ public class PlayerController : MonoBehaviour
     public static PlayerController player; //incase u dont know what static does, it enables other script to reference to call PlayerController.player.someFunction(); without needing to do serialized field stuffs
 
     [Header("Player")]
-    public float _speed, _sensitivity, _jumpForce;
+    public float _speed;
+    public float _sensitivity, _jumpForce;
     [SerializeField] private Vector3 playerMovementInput;
     private Vector2 mouseMovementInput;
     private float xRotation;
+
+    private bool isDashing, isJumping;
+    [HideInInspector] public bool isKnocked = false;
+    public float knockbackRecoveryTime = 0.2f;
+
 
     [Header("References")]
     [SerializeField] private Feet feet;
@@ -30,27 +36,50 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        playerMovementInput =Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
-        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-
-        MovePlayer(); 
-        MovePlayerCamera();
-
-        if (!feet.isGrounded) rb.velocity = rb.velocity * 0.98f;
-    }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) Jump();
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isDashing = true;
+        }
 
-        //if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) SuperiorDashingFunction(transform.TransformDirection(playerMovementInput));
-        if (Input.GetKeyDown(KeyCode.LeftShift)) StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
-        //if (Input.GetKeyDown(KeyCode.LeftShift)) StartCoroutine(Dash());
-        //if (!canDash) Invoke(nameof(ResetDash), 1f);
+        if (Input.GetKeyDown(KeyCode.Space) && feet.isGrounded) isJumping = true;
+
+
+
+        //if (Input.GetKeyDown(KeyCode.LeftShift)) StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
+
     }
+
+    void FixedUpdate()
+    {
+        playerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
+        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+
+        MovePlayerCamera();
+
+        if (isDashing)
+            StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
+        else
+        {
+            if (isKnocked)
+                StartCoroutine(Knocked(2));
+            else
+                MovePlayer();
+
+        }
+
+        if (isJumping)
+        {
+            Jump();
+            isJumping = false;
+        }
+
+        //if (!feet.isGrounded)
+        //rb.velocity = rb.velocity.y * 0.98f;
+    }
+
+    
 
     private void MovePlayer()
     {
@@ -69,34 +98,31 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (feet.isGrounded)
-            if (Physics.CheckBox(transform.position - Vector3.up * 1.5f, Vector3.one * 0.5f))
-            {
-                rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-                rb.velocity = rb.velocity * 0.95f * Time.deltaTime;
-            }
+        if (Physics.CheckBox(transform.position - Vector3.up * 1.5f, Vector3.one * 0.5f))
+        {
+            rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+            rb.velocity = rb.velocity * 0.95f * Time.deltaTime;
+        }
     }
 
-    private void SuperiorDashingFunction(Vector3 dir)
-    {
-        //if (canDash) rb.velocity = dir * dashForce;
-        if (canDash) rb.velocity = dir * dashForce;
-        canDash = false;
-    }
-
-    private void ResetDash()
-    {
-        canDash = true;
-    }
     IEnumerator Dash(Vector3 dir)
     {
         if(canDash)
         {
             canDash = false;
-            //Debug.Log(dir);
-            rb.AddForce(dir * dashForce, ForceMode.Impulse);
+            rb.AddForce((dir) * dashForce, ForceMode.Impulse);
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
+            isDashing = false;
         }
+    }
+
+    IEnumerator Knocked(float knockbackForce)
+    {
+            //Debug.Log(dir);
+            //rb.AddForce((dir + Vector3.up) * dashForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
+            yield return new WaitForSeconds(knockbackRecoveryTime);
+            isKnocked = false;
     }
 }

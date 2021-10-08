@@ -182,7 +182,7 @@ MonoBehaviour:
   TwoDirectionPath: 0
   walkPoint: {x: 0, y: 0, z: 0}
   attackRecoveryTime: 0.2
-  attackAnticipationTime: 0.2
+  attackAnticipationTime: 2
   hasAttacked: 0
   baton: {fileID: 626238030191641688}
   batonDamage: 2
