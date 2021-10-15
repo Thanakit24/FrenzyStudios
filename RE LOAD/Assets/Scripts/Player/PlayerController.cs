@@ -65,7 +65,9 @@ public class PlayerController : MonoBehaviour
         else
         {
             if (isKnocked)
+            {
                 StartCoroutine(Knocked(2));
+            }
             else
                 MovePlayer();
 
@@ -124,7 +126,7 @@ public class PlayerController : MonoBehaviour
     {
             //Debug.Log(dir);
             //rb.AddForce((dir + Vector3.up) * dashForce, ForceMode.Impulse);
-            rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
+            //rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
             yield return new WaitForSeconds(knockbackRecoveryTime);
             isKnocked = false;
     }
