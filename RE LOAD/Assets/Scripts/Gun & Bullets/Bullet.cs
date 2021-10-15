@@ -122,6 +122,11 @@ public class Bullet : MonoBehaviour
 
             }
 
+            if (collider.gameObject.CompareTag("Shield"))
+            {
+                
+                //attach to the enemy
+            }
         }
         else
         {

@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - LeftHand
   - Immovable
+  - Shield
   layers:
   - Default
   - TransparentFX
