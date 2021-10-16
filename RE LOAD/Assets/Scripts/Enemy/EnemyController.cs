@@ -111,15 +111,14 @@ public class EnemyController : MonoBehaviour
     {
         agent.SetDestination(transform.position);
         hand.transform.LookAt(player);
+        attackPoint.transform.LookAt(player);
         transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.position - transform.position, Vector3.up));
         //transform.rotation = Quaternion.Lerp()
 
         if (!hasAttacked)
         {
-            
-
             Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 25f, ForceMode.Impulse);
+            rb.AddForce(attackPoint.transform.forward * 25f, ForceMode.Impulse);
 
             hasAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
