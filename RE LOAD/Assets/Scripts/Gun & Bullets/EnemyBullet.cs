@@ -22,9 +22,10 @@ public class EnemyBullet : MonoBehaviour
         
     }
 
-    public void OnCollisionEnter(Collision collider)
+    public void OnTriggerEnter(Collider collider)
     {
-        if(collider.gameObject.tag == "Player")
+        Destroy(gameObject);
+        if (collider.gameObject.tag == "Player")
         {
             PlayerHealth player = collider.gameObject.GetComponent<PlayerHealth>();
             if (player != null)
@@ -32,8 +33,6 @@ public class EnemyBullet : MonoBehaviour
                 player.TakeDamage(damage);
             }
         }
-
-        Destroy(gameObject);
     }
 
     private void Setup()
