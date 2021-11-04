@@ -37,6 +37,9 @@ public class GuardianController : MonoBehaviour
 
     public Vector3 distanceToWalkPoint;
 
+    [Header("Animation")]
+    AnimController ac;
+
     private void Awake()
     {
         feet = GetComponentInChildren<Feet>();
@@ -50,6 +53,7 @@ public class GuardianController : MonoBehaviour
             walkPoint = targetWalkPoints[walkPointIndex];
         }
         batonOriginalPos = baton.localRotation;
+        ac = GetComponentInChildren<AnimController>();
     }
 
     private void Update()
@@ -64,6 +68,7 @@ public class GuardianController : MonoBehaviour
         if (playerInSightRange && playerInAttackRange && !hasAttacked) Invoke(nameof(AttackPlayer), attackAnticipationTime);
         if (hasAttacked) Invoke(nameof(ResetAttack), attackRecoveryTime);
 
+        AnimationUpdate();
     }
 
     //=================================================================================
@@ -168,6 +173,11 @@ public class GuardianController : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    private void AnimationUpdate()
+    {
+        ac.anim.SetFloat("Speed", 1);
     }
 }
 
