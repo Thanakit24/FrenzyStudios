@@ -9,6 +9,7 @@ TagManager:
   - LeftHand
   - Immovable
   - Shield
+  - Sticky
   layers:
   - Default
   - TransparentFX
