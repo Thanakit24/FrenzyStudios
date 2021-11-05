@@ -35,7 +35,7 @@ public class FumaController : MonoBehaviour
     {
         cam = Camera.main.transform;
         col = GetComponent<MeshCollider>();
-        model = GameObject.Find("ShurikenMesh").transform;
+        model = GameObject.Find("ShurikenMeshContainer").transform;
         modelOBJ = GameObject.Find("ShurikenMesh");
         impactFX = GameObject.Find("ImpactFX");
         trailFX = GameObject.Find("TrailFX");
@@ -109,8 +109,11 @@ public class FumaController : MonoBehaviour
         lastPos = transform.position;
 
         var fx = Instantiate(impactFX, transform.position, Quaternion.identity);
+        //Debug.Log("Bounce");
         fx.SetActive(true);
         Destroy(fx, fxDestroyTime);
+
+        rb.useGravity = false;
 
         if (mustReturn)
         {
@@ -155,7 +158,7 @@ public class FumaController : MonoBehaviour
         }
         else 
         {
-            transform.RotateAround(transform.position, transform.forward, xSpinSpeed * Time.deltaTime);
+            model.RotateAround(transform.position, transform.forward, xSpinSpeed * Time.deltaTime);
         }
     }
 
@@ -187,7 +190,9 @@ public class FumaController : MonoBehaviour
         col.enabled = false;
         transform.SetParent(holder);
         transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(Vector3.zero);
+        model.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(0,0,0);
+        model.localRotation = Quaternion.Euler(0,0,0);
         bounces = 1;
         tempBounces = 1;
     }
