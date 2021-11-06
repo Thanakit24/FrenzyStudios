@@ -34,7 +34,7 @@ public class FumaController : MonoBehaviour
     void Start()
     {
         cam = Camera.main.transform;
-        col = GetComponent<MeshCollider>();
+        col = GameObject.Find("ShurikenMesh").GetComponent<MeshCollider>();
         model = GameObject.Find("ShurikenMeshContainer").transform;
         modelOBJ = GameObject.Find("ShurikenMesh");
         impactFX = GameObject.Find("ImpactFX");
@@ -44,7 +44,7 @@ public class FumaController : MonoBehaviour
         Returned();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (state.Equals(FumaState.InHands))
         {
@@ -68,7 +68,7 @@ public class FumaController : MonoBehaviour
             transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
             Rotation();
 
-            if (Input.GetKeyUp(KeyCode.Mouse0)) mustReturn = true;
+            //if (Input.GetKeyUp(KeyCode.Mouse0)) mustReturn = true;
         }
         else if (state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
         {
@@ -86,20 +86,26 @@ public class FumaController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        bool isPlayer = (collision.collider.CompareTag("Player") || collision.collider.CompareTag("LeftHand"));
+
         if (!state.Equals(FumaState.InHands))
         {
             if (collision.transform.CompareTag("Sticky")) Stick();
-            if (collision.transform.name == "Player" && firstBounce) Returned();
+            if (isPlayer && firstBounce) Returned();
         }
 
-        if (!state.Equals(FumaState.Returning)) Ragdoll();
+        if (!state.Equals(FumaState.Flying) && bounces > 0 && !isPlayer)
+        {
+            Bounce(collision.GetContact(0).normal);
+        }
 
-        if (!state.Equals(FumaState.Flying) && bounces > 0 && collision.collider.name != "Player") Bounce(collision.GetContact(0).normal);
+        //if (!state.Equals(FumaState.Returning)) Ragdoll();
 
     }
 
     void Bounce(Vector3 contactNormalDirection)
     {
+        Debug.Log("bounceing");
         firstBounce = true;
         bounces -= 1;
 
@@ -109,7 +115,6 @@ public class FumaController : MonoBehaviour
         lastPos = transform.position;
 
         var fx = Instantiate(impactFX, transform.position, Quaternion.identity);
-        //Debug.Log("Bounce");
         fx.SetActive(true);
         Destroy(fx, fxDestroyTime);
 

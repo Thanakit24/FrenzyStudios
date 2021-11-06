@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &51137695753785754
 Transform:
   m_ObjectHideFlags: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51137696096559427}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4004fb87a6c2e664a90371da8ccc739f, type: 3}
   m_Name: 
@@ -447,7 +447,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51137696186876001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bc5ea2cbc9e1a84f88632377bb20005, type: 3}
   m_Name: 
@@ -578,7 +578,7 @@ GameObject:
   - component: {fileID: 51137696991893230}
   m_Layer: 0
   m_Name: FirePoint
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -826,6 +826,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1311281079027805899, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311281079027805899, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311281079027805899, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
       objectReference: {fileID: 0}
@@ -839,6 +849,26 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 51137696186876005}
+    - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: ySpinSpeed
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: chargeSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: flyingSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: fxDestroyTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8244722058331580976, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
       propertyPath: m_Name
@@ -903,6 +933,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: ShapeModule.alignToDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7596410901369048037, guid: 28590635bfa377a4eb96034c41ccdc94, type: 3}
