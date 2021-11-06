@@ -323,6 +323,7 @@ MonoBehaviour:
   dashForce: 12
   dashCooldown: 0.5
   canDash: 1
+  threeDimensionalDashing: 1
 --- !u!54 &51137696186876006
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -851,23 +852,33 @@ PrefabInstance:
       objectReference: {fileID: 51137696186876005}
     - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
+      propertyPath: maxBounces
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
       propertyPath: ySpinSpeed
       value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
       propertyPath: chargeSpeed
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
       propertyPath: flyingSpeed
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
       propertyPath: fxDestroyTime
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: throwRotation.z
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8244722058331580976, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
@@ -937,7 +948,7 @@ PrefabInstance:
     - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9076006941658679735, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}

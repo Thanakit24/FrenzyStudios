@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum FumaState
 {
@@ -26,10 +27,11 @@ public class FumaController : MonoBehaviour
     Rigidbody rb;
     Transform model, cam;
     GameObject impactFX, trailFX, modelOBJ;
-    bool mustReturn = false, firstBounce;
+    bool mustReturn = true, firstBounce;
     float tempBounces;
     int bounces;
 
+    public TextMeshProUGUI text;
 
     void Start()
     {
@@ -42,9 +44,11 @@ public class FumaController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         Returned();
+
+        impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (state.Equals(FumaState.InHands))
         {
@@ -65,10 +69,10 @@ public class FumaController : MonoBehaviour
             if (!player) Returned();
 
             //Movement
-            transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
-            Rotation();
+            //transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
+            //Rotation();
 
-            //if (Input.GetKeyUp(KeyCode.Mouse0)) mustReturn = true;
+            if (Input.GetKeyUp(KeyCode.Mouse0)) mustReturn = true;
         }
         else if (state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
         {
@@ -82,6 +86,18 @@ public class FumaController : MonoBehaviour
             if (distance > destroyDistance) Returned();
         }
         else Returned();
+
+        if (text != null )text.text = bounces.ToString();
+    }
+
+    private void FixedUpdate()
+    {
+        if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
+        {
+            //Movement
+            transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
+            Rotation();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -94,18 +110,17 @@ public class FumaController : MonoBehaviour
             if (isPlayer && firstBounce) Returned();
         }
 
-        if (!state.Equals(FumaState.Flying) && bounces > 0 && !isPlayer)
+        if (state.Equals(FumaState.Flying) && bounces > 0 && !isPlayer)
         {
+            //Debug.Log(collision.collider.name);
             Bounce(collision.GetContact(0).normal);
         }
 
-        //if (!state.Equals(FumaState.Returning)) Ragdoll();
-
+        if (state.Equals(FumaState.Returning)) Ragdoll();
     }
 
     void Bounce(Vector3 contactNormalDirection)
     {
-        Debug.Log("bounceing");
         firstBounce = true;
         bounces -= 1;
 
@@ -137,7 +152,7 @@ public class FumaController : MonoBehaviour
         state = FumaState.Stuck;
 
         rb.constraints = RigidbodyConstraints.FreezeRotation;
-        //rb.useGravity = false;
+        rb.useGravity = false;
         rb.isKinematic = true;
         mustReturn = false;
 

@@ -411,28 +411,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1155485782851831074, guid: 93d68906338a6dc4b82202576e4b0faf,
         type: 3}
-      propertyPath: curveRot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155485782851831074, guid: 93d68906338a6dc4b82202576e4b0faf,
-        type: 3}
-      propertyPath: curveRot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155485782851831074, guid: 93d68906338a6dc4b82202576e4b0faf,
-        type: 3}
-      propertyPath: curveRot.z
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: text
+      value: 
+      objectReference: {fileID: 939123602}
     - target: {fileID: 1155485782851831074, guid: 93d68906338a6dc4b82202576e4b0faf,
         type: 3}
       propertyPath: flyingSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155485782851831074, guid: 93d68906338a6dc4b82202576e4b0faf,
-        type: 3}
-      propertyPath: throwRotation.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93d68906338a6dc4b82202576e4b0faf, type: 3}

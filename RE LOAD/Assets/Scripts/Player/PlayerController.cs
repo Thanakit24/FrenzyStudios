@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashForce;
     [SerializeField] private float dashCooldown;
     [SerializeField] private bool canDash = true;
-
+    public bool threeDimensionalDashing = true;
 
     void Start()
     {
@@ -114,11 +114,19 @@ public class PlayerController : MonoBehaviour
         if(canDash)
         {
             canDash = false;
-            rb.AddForce((dir) * dashForce, ForceMode.Impulse);
+
+            if (threeDimensionalDashing)
+            {
+                rb.AddForce(Camera.main.transform.forward * dashForce, ForceMode.Impulse);
+            }
+            else
+            {
+                rb.AddForce((dir) * dashForce, ForceMode.Impulse);
+            }
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
-            isDashing = false;
 
+            isDashing = false;
         }
     }
 
