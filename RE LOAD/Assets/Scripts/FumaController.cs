@@ -28,6 +28,7 @@ public class FumaController : MonoBehaviour
     Transform model, cam;
     GameObject impactFX, trailFX, modelOBJ;
     bool mustReturn = true, firstBounce;
+    public bool alwaysReturn = false, lockOnReturnToPlayer = true;
     float tempBounces;
     int bounces;
 
@@ -97,6 +98,11 @@ public class FumaController : MonoBehaviour
             //Movement
             transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
             Rotation();
+
+            if (state.Equals(FumaState.Returning) && lockOnReturnToPlayer)
+            {
+                transform.LookAt(player.position);
+            }
         }
     }
 
@@ -116,7 +122,7 @@ public class FumaController : MonoBehaviour
             Bounce(collision.GetContact(0).normal);
         }
 
-        if (state.Equals(FumaState.Returning)) Ragdoll();
+        //if (state.Equals(FumaState.Returning)) Ragdoll();
     }
 
     void Bounce(Vector3 contactNormalDirection)
@@ -135,6 +141,13 @@ public class FumaController : MonoBehaviour
 
         rb.useGravity = false;
 
+        if (alwaysReturn)
+        {
+            state = FumaState.Returning;
+            return;
+        }
+
+
         if (mustReturn)
         {
             state = FumaState.Returning;
@@ -144,7 +157,19 @@ public class FumaController : MonoBehaviour
             returnPos = player.position;
             transform.LookAt(returnPos);
         }
-        else if (bounces <= 0) Ragdoll();
+        else if (bounces <= 0)
+        {
+            if (alwaysReturn)
+            {
+                state = FumaState.Returning;
+
+                returnPos = player.position;
+                transform.LookAt(returnPos);
+
+                bounces = 1;
+            }
+            else Ragdoll();
+        }
     }
 
     void Stick()
@@ -166,15 +191,15 @@ public class FumaController : MonoBehaviour
 
         if (!curvedStart && !firstBounce)
         {
-            transform.eulerAngles = transform.eulerAngles + (curveRot * Time.deltaTime);
+            transform.eulerAngles = transform.eulerAngles + (curveRot * 5 * bounces * Time.deltaTime);
         }
         else if (curvedFlying && state.Equals(FumaState.Flying))
         {
-            transform.eulerAngles = transform.eulerAngles + (curveRot * Time.deltaTime);
+            transform.eulerAngles = transform.eulerAngles + (curveRot * 5 * bounces * Time.deltaTime);
         }
         else if (curvedFlying && state.Equals(FumaState.Returning))
         {
-            transform.eulerAngles = transform.eulerAngles + (curveRot * Time.deltaTime);
+            transform.eulerAngles = transform.eulerAngles + (curveRot * 5 * bounces * Time.deltaTime);
         }
         else 
         {
@@ -187,7 +212,7 @@ public class FumaController : MonoBehaviour
         firstBounce = false;
         transform.SetParent(null);
         transform.position = cam.position + cam.forward;
-        transform.eulerAngles = cam.eulerAngles + throwRotation;
+        transform.eulerAngles = cam.eulerAngles + (throwRotation * 5 * bounces /2);
         trailFX.SetActive(true);
         col.enabled = true;
         rb.isKinematic = false;

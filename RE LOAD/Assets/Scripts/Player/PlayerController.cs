@@ -12,16 +12,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 playerMovementInput;
     private Vector2 mouseMovementInput;
     private float xRotation;
-
     private bool isDashing, isJumping;
     [HideInInspector] public bool isKnocked = false;
     public float knockbackRecoveryTime = 0.2f;
-
 
     [Header("References")]
     [SerializeField] private Feet feet;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform playerCamera;
+    private GameObject shuriken;
 
     [Header("Dash Config")]
     [SerializeField] private float dashForce;
@@ -41,6 +40,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isDashing = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            player.transform.position = GameObject.Find("Shuriken").transform.position;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && feet.isGrounded) isJumping = true;
