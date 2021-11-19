@@ -321,6 +321,7 @@ MonoBehaviour:
   feet: {fileID: 51137696814405655}
   rb: {fileID: 51137696186876006}
   playerCamera: {fileID: 51137696096559428}
+  shuriken: {fileID: 1155485782851831074}
   trail: {fileID: 5555331812280932247}
   dashForce: 12
   dashCooldown: 0.5
@@ -5807,3 +5808,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6829734371307718772}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1155485782851831074 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
+    type: 3}
+  m_PrefabInstance: {fileID: 6829734371307718772}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e4a81f55e679cb4a9ece5dfe818ac77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

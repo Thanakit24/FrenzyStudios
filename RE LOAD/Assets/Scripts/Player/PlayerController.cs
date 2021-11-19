@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Feet feet;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform playerCamera;
-    private GameObject shuriken;
+    public FumaController shuriken;
     public GameObject trail;
 
     [Header("Dash Config")]
@@ -43,13 +43,15 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = true;
             rb.useGravity = false;
+
         }
 
         trail.SetActive(isDashing);
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            player.transform.position = GameObject.Find("Shuriken").transform.position;
+            player.transform.position = shuriken.transform.position;
+            shuriken.Returned();
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && feet.isGrounded) isJumping = true;
@@ -135,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
 
             yield return new WaitForSeconds(dashCooldown);
-            canDash = true;
+            canDash = true; 
             rb.useGravity = true;
             isDashing = false;
         }

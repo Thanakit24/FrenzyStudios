@@ -254,7 +254,7 @@ public class FumaController : MonoBehaviour
         state = FumaState.Flying;
     }
 
-    void Returned()
+    public void Returned()
     {
         if (!player) return;
 
