@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform playerCamera;
     private GameObject shuriken;
+    public GameObject trail;
 
     [Header("Dash Config")]
     [SerializeField] private float dashForce;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
         player = this;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        isDashing = false;
     }
 
     private void Update()
@@ -40,7 +42,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isDashing = true;
+            rb.useGravity = false;
         }
+
+        trail.SetActive(isDashing);
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -127,9 +132,11 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce((dir) * dashForce, ForceMode.Impulse);
             }
+
+
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
-
+            rb.useGravity = true;
             isDashing = false;
         }
     }

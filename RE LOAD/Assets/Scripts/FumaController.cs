@@ -16,12 +16,14 @@ public class FumaController : MonoBehaviour
 {
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
-    
+
+    public int damage;
 
     public Vector3 curveRot, throwRotation;
     public float flyingSpeed, chargeSpeed, maxBounces, ySpinSpeed, xSpinSpeed, pickupRange, destroyDistance, fxDestroyTime, ragdollSpin;
     public bool curvedStart, curvedFlying, curvedReturn;
-
+    private bool shouldLockOnToPlayer;
+    
     MeshCollider col;
     Vector3 lastPos, returnPos;
     Rigidbody rb;
@@ -51,6 +53,11 @@ public class FumaController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R) && state.Equals(FumaState.Flying)|| state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
+        {
+            shouldLockOnToPlayer = true;
+        }
+
         if (state.Equals(FumaState.InHands))
         {
             if (Input.GetKey(KeyCode.Mouse0))
@@ -69,11 +76,28 @@ public class FumaController : MonoBehaviour
         {
             if (!player) Returned();
 
+            float distance = Vector3.Distance(transform.position, player.position);
+
+            if (shouldLockOnToPlayer && distance > pickupRange)
+            {
+                state = FumaState.Returning;
+
+                bounces = 1;
+
+                returnPos = player.position;
+                transform.LookAt(returnPos);
+            }
+            
+            if (state.Equals(FumaState.Returning))  
+            {
+                if (distance < pickupRange) Returned();
+            }
+
             //Movement
             //transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
             //Rotation();
 
-            if (Input.GetKeyUp(KeyCode.Mouse0)) mustReturn = true;
+            //if (Input.GetKeyUp(KeyCode.Mouse0)) mustReturn = true;
         }
         else if (state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
         {
@@ -89,10 +113,14 @@ public class FumaController : MonoBehaviour
         else Returned();
 
         if (text != null )text.text = bounces.ToString();
+
+        
     }
 
     private void FixedUpdate()
     {
+        
+
         if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
             //Movement
@@ -118,7 +146,12 @@ public class FumaController : MonoBehaviour
 
         if (state.Equals(FumaState.Flying) && bounces > 0 && !isPlayer)
         {
-            //Debug.Log(collision.collider.name);
+
+            if (collision.collider.CompareTag("Enemy"))
+            {
+                collision.collider.GetComponent<Health>().TakeDamage(damage);
+            }
+
             Bounce(collision.GetContact(0).normal);
         }
 
@@ -168,7 +201,8 @@ public class FumaController : MonoBehaviour
 
                 bounces = 1;
             }
-            else Ragdoll();
+            else state = FumaState.Returning;
+            //else Ragdoll();
         }
     }
 
@@ -240,6 +274,8 @@ public class FumaController : MonoBehaviour
         model.localRotation = Quaternion.Euler(0,0,0);
         bounces = 1;
         tempBounces = 1;
+
+        shouldLockOnToPlayer = false;
     }
 
     void Ragdoll()

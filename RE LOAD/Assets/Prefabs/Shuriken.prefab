@@ -14626,19 +14626,22 @@ MonoBehaviour:
   player: {fileID: 0}
   holder: {fileID: 0}
   curveRot: {x: 0, y: 0, z: 0}
-  throwRotation: {x: 0, y: 0, z: 0}
+  throwRotation: {x: 0, y: 0, z: 10}
   flyingSpeed: 30
   chargeSpeed: 3
   maxBounces: 10
-  ySpinSpeed: 100
+  ySpinSpeed: 10000
   xSpinSpeed: 0
-  pickupRange: 3
+  pickupRange: 5
   destroyDistance: 60
-  fxDestroyTime: 1
+  fxDestroyTime: 5
   ragdollSpin: 1000
   curvedStart: 0
   curvedFlying: 0
   curvedReturn: 0
+  alwaysReturn: 0
+  lockOnReturnToPlayer: 1
+  text: {fileID: 0}
 --- !u!54 &6979238252716164088
 Rigidbody:
   m_ObjectHideFlags: 0

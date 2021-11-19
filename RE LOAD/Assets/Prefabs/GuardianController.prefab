@@ -18,6 +18,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   feet: {fileID: 8831744775516853917}
+  health: 0
   shield: {fileID: 5645020022457224137}
   isStationary: 0
   targetWalkPoints:
@@ -205,7 +206,7 @@ GameObject:
   - component: {fileID: 3334423974880386465}
   m_Layer: 9
   m_Name: Shield
-  m_TagString: Enemy
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
