@@ -154,6 +154,7 @@ public class GuardianController : MonoBehaviour
         if (attack)
         {
             //Debug.Log("Attacking");
+            ac.anim.SetTrigger("Attacking");
             baton.localRotation = Quaternion.AngleAxis(90, Vector3.right);
         }
         else baton.localRotation = batonOriginalPos;
