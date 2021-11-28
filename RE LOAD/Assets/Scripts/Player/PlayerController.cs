@@ -8,13 +8,20 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player")]
     public float _speed;
-    public float _sensitivity, _jumpForce;
+    public float _sensitivity;
     [SerializeField] private Vector3 playerMovementInput;
     private Vector2 mouseMovementInput;
     private float xRotation;
     private bool isDashing, isJumping;
     [HideInInspector] public bool isKnocked = false;
     public float knockbackRecoveryTime = 0.2f;
+    private float horizontalMovement;
+
+    [Header("Jump Config")]
+    public float jumpSpeed;
+    public bool holdSpaceToJumpHigher = false;
+    private float jumpTimeCounter;
+    public float maxJumpTime;
 
     [Header("References")]
     [SerializeField] private Feet feet;
@@ -39,6 +46,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //jumpKeyPressing = JumpKeyPressingChecker();
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && feet.isGrounded)
+        {
+            isJumping = true;
+            rb.velocity = Vector3.up * jumpSpeed;
+            jumpTimeCounter = maxJumpTime;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isDashing = true;
@@ -54,17 +70,29 @@ public class PlayerController : MonoBehaviour
             shuriken.Returned();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && feet.isGrounded) isJumping = true;
+        if ((Input.GetKeyUp(KeyCode.Space) && isJumping))
+        {
+            isJumping = false;
+        }
 
-
-
-        //if (Input.GetKeyDown(KeyCode.LeftShift)) StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
 
     }
 
     void FixedUpdate()
     {
-        playerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
+        
+
+        playerMovementInput = Vector3.ClampMagnitude(new Vector3(horizontalMovement, 0, Input.GetAxisRaw("Vertical")), 1f);
+
+        if (Input.GetAxisRaw("Horizontal") == 0)
+        {
+            horizontalMovement = 0;
+        }
+        else
+        {
+            horizontalMovement = Input.GetAxis("Horizontal");
+        }
+
         mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
         MovePlayerCamera();
@@ -84,14 +112,19 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (isJumping)
+        if (Input.GetKey(KeyCode.Space) && isJumping && holdSpaceToJumpHigher && !isDashing)
         {
-            Jump();
-            isJumping = false;
-        }
+            if (jumpTimeCounter > 0)
+            {
+                jumpTimeCounter -= Time.deltaTime;
 
-        //if (!feet.isGrounded)
-        //rb.velocity = rb.velocity.y * 0.98f;
+                rb.velocity = new Vector3(rb.velocity.x, jumpSpeed - jumpTimeCounter * 2, rb.velocity.z );
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
     }
 
     
@@ -111,19 +144,11 @@ public class PlayerController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
     }
 
-    void Jump()
-    {
-        if (Physics.CheckBox(transform.position - Vector3.up * 1.5f, Vector3.one * 0.5f))
-        {
-            rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-            rb.velocity = rb.velocity * 0.95f * Time.deltaTime;
-        }
-    }
-
     IEnumerator Dash(Vector3 dir)
     {
         if(canDash)
         {
+            rb.velocity = Vector3.zero;
             canDash = false;
 
             if (threeDimensionalDashing)

@@ -14588,7 +14588,7 @@ GameObject:
   - component: {fileID: 6979238252716164088}
   m_Layer: 0
   m_Name: Shuriken
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14625,6 +14625,7 @@ MonoBehaviour:
   state: 0
   player: {fileID: 0}
   holder: {fileID: 0}
+  damage: 0
   curveRot: {x: 0, y: 0, z: 0}
   throwRotation: {x: 0, y: 0, z: 10}
   flyingSpeed: 30

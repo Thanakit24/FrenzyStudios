@@ -312,18 +312,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df210667c0d23d2419dc63ec69569d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 7
+  _speed: 10
   _sensitivity: 5
-  _jumpForce: 15
   playerMovementInput: {x: 0, y: 0, z: 0}
   isKnocked: 0
   knockbackRecoveryTime: 0.2
+  jumpSpeed: 12
+  holdSpaceToJumpHigher: 1
+  maxJumpTime: 0.3
   feet: {fileID: 51137696814405655}
   rb: {fileID: 51137696186876006}
   playerCamera: {fileID: 51137696096559428}
   shuriken: {fileID: 1155485782851831074}
   trail: {fileID: 5555331812280932247}
-  dashForce: 12
+  dashForce: 30
   dashCooldown: 0.5
   canDash: 1
   threeDimensionalDashing: 1
@@ -5417,7 +5419,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8523701163594012746}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shuriken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5608,6 +5610,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shuriken2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ebb6b1db907cb584e8843d1129b2ccd6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb6b1db907cb584e8843d1129b2ccd6, type: 3}
 --- !u!4 &5975408383409913422 stripped
@@ -5623,6 +5630,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 51137696991893230}
     m_Modifications:
+    - target: {fileID: 1228964601950249485, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1311281079027805899, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -5647,6 +5659,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447179756511838842, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835581461862085745, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2495912163382124547, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5674829147973045590, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
@@ -5698,10 +5725,20 @@ PrefabInstance:
       propertyPath: throwRotation.z
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7075091183017660904, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8244722058331580976, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
       propertyPath: m_Name
       value: Shuriken
+      objectReference: {fileID: 0}
+    - target: {fileID: 8244722058331580976, guid: 28590635bfa377a4eb96034c41ccdc94,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8244722058331580976, guid: 28590635bfa377a4eb96034c41ccdc94,
         type: 3}
