@@ -100,6 +100,13 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
+
+            if (Physics.OverlapSphere(transform.position + transform.forward,0.8f).Length > 2)
+            {
+                rb.velocity = Vector3.zero;
+                rb.useGravity = true;
+                isDashing = false;
+            }
         }
         else
         {
@@ -153,7 +160,8 @@ public class PlayerController : MonoBehaviour
 
             if (threeDimensionalDashing)
             {
-                rb.AddForce(Camera.main.transform.forward * dashForce, ForceMode.Impulse);
+                //rb.AddForce(Camera.main.transform.forward * dashForce, ForceMode.Impulse);
+                rb.velocity = Camera.main.transform.forward * dashForce;
             }
             else
             {

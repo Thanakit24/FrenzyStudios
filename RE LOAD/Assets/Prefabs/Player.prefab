@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df210667c0d23d2419dc63ec69569d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 9.7
   _sensitivity: 5
   playerMovementInput: {x: 0, y: 0, z: 0}
   isKnocked: 0
@@ -325,8 +325,8 @@ MonoBehaviour:
   playerCamera: {fileID: 51137696096559428}
   shuriken: {fileID: 1155485782851831074}
   trail: {fileID: 5555331812280932247}
-  dashForce: 30
-  dashCooldown: 0.5
+  dashForce: 50
+  dashCooldown: 0.2
   canDash: 1
   threeDimensionalDashing: 1
 --- !u!54 &51137696186876006
