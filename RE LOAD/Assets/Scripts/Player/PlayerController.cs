@@ -32,7 +32,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Dash Config")]
     [SerializeField] private float dashForce;
+    [SerializeField] private float dashDuration;
     [SerializeField] private float dashCooldown;
+    private float dashCooldownTimer;
     [SerializeField] private bool canDash = true;
     public bool threeDimensionalDashing = true;
 
@@ -42,6 +44,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         isDashing = false;
+
+        dashCooldownTimer = dashCooldown;
     }
 
     private void Update()
@@ -55,12 +59,21 @@ public class PlayerController : MonoBehaviour
             jumpTimeCounter = maxJumpTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (dashCooldownTimer > dashCooldown)
         {
-            isDashing = true;
-            rb.useGravity = false;
-
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                isDashing = true;
+                rb.useGravity = false;
+                dashCooldownTimer = 0;
+            }
         }
+        else
+        {
+            dashCooldownTimer += Time.deltaTime;
+        }
+
+        
 
         trail.SetActive(isDashing);
 
@@ -169,10 +182,12 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            yield return new WaitForSeconds(dashCooldown);
+            yield return new WaitForSeconds(dashDuration);
             canDash = true; 
             rb.useGravity = true;
             isDashing = false;
+
+            rb.velocity = Vector3.zero;
         }
     }
 

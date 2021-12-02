@@ -24,7 +24,7 @@ public class FumaController : MonoBehaviour
     public bool curvedStart, curvedFlying, curvedReturn;
     private bool shouldLockOnToPlayer;
     
-    MeshCollider col;
+    public MeshCollider col;
     Vector3 lastPos, returnPos;
     Rigidbody rb;
     Transform model, cam;
@@ -39,7 +39,7 @@ public class FumaController : MonoBehaviour
     void Start()
     {
         cam = Camera.main.transform;
-        col = GameObject.Find("ShurikenMesh").GetComponent<MeshCollider>();
+        //col = GameObject.Find("ShurikenMesh").GetComponent<MeshCollider>();
         model = GameObject.Find("ShurikenMeshContainer").transform;
         modelOBJ = GameObject.Find("ShurikenMesh");
         impactFX = GameObject.Find("ImpactFX");
@@ -166,6 +166,7 @@ public class FumaController : MonoBehaviour
         Vector3 direction = contactNormalDirection - lastPos.normalized;
         direction = direction.normalized;
         transform.rotation = Quaternion.LookRotation(direction, Vector3.forward);
+        transform.rotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, 0);
         lastPos = transform.position;
 
         var fx = Instantiate(impactFX, transform.position, Quaternion.identity);
@@ -246,7 +247,7 @@ public class FumaController : MonoBehaviour
         firstBounce = false;
         transform.SetParent(null);
         transform.position = cam.position + cam.forward;
-        transform.eulerAngles = cam.eulerAngles + (throwRotation * 5 * bounces /2);
+        //transform.eulerAngles = cam.eulerAngles + (throwRotation * 5 * bounces /2);
         trailFX.SetActive(true);
         col.enabled = true;
         rb.isKinematic = false;
