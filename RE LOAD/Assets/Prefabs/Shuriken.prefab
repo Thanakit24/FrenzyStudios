@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2700648058366466808}
   - component: {fileID: 6260061250081497617}
   - component: {fileID: 6577995476201697859}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TrailFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4814,7 +4814,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7239414785879147523}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShurikenMeshContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4861,7 +4861,7 @@ GameObject:
   - component: {fileID: 6800359509510171523}
   - component: {fileID: 9076006941658679735}
   - component: {fileID: 4869823640888361286}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ImpactFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4892,7 +4892,7 @@ ParticleSystem:
   m_GameObject: {fileID: 2495912163382124547}
   serializedVersion: 7
   lengthInSec: 1
-  simulationSpeed: 1
+  simulationSpeed: 5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -4901,7 +4901,7 @@ ParticleSystem:
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
-  autoRandomSeed: 1
+  autoRandomSeed: 0
   useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
@@ -5019,7 +5019,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.7
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5188,7 +5188,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5585,7 +5585,7 @@ ParticleSystem:
     m_SpriteRenderer: {fileID: 0}
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
-    alignToDirection: 0
+    alignToDirection: 1
     m_Texture: {fileID: 0}
     m_TextureClipChannel: 3
     m_TextureClipThreshold: 0
@@ -5597,7 +5597,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.24
+      value: 0.42
       mode: 0
       spread: 0
       speed:
@@ -9724,7 +9724,7 @@ GameObject:
   - component: {fileID: 4237315598158648038}
   - component: {fileID: 714812230164352619}
   - component: {fileID: 8202567526691787658}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShockWaveFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14586,13 +14586,13 @@ GameObject:
   - component: {fileID: 8728243993812283530}
   - component: {fileID: 5674829147973045590}
   - component: {fileID: 6979238252716164088}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shuriken
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8728243993812283530
 Transform:
   m_ObjectHideFlags: 0
@@ -14625,15 +14625,15 @@ MonoBehaviour:
   state: 0
   player: {fileID: 0}
   holder: {fileID: 0}
-  damage: 0
+  damage: 20
   curveRot: {x: 0, y: 0, z: 0}
   throwRotation: {x: 0, y: 0, z: 10}
   flyingSpeed: 30
-  chargeSpeed: 3
+  chargeSpeed: 2
   maxBounces: 10
   ySpinSpeed: 10000
   xSpinSpeed: 0
-  pickupRange: 5
+  pickupRange: 3
   destroyDistance: 60
   fxDestroyTime: 5
   ragdollSpin: 1000
@@ -14714,12 +14714,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ebb6b1db907cb584e8843d1129b2ccd6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ebb6b1db907cb584e8843d1129b2ccd6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ebb6b1db907cb584e8843d1129b2ccd6,
         type: 3}
@@ -14756,6 +14756,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShurikenMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ebb6b1db907cb584e8843d1129b2ccd6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb6b1db907cb584e8843d1129b2ccd6, type: 3}
