@@ -5,14 +5,24 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public int health;
+    public AnimController ac;
+    public GuardianController gc;
 
-    public void TakeDamage(int damage)
-    {
+	private void Start()
+	{
+        ac = GetComponentInChildren<AnimController>();
+        gc = GetComponentInChildren<GuardianController>();
+	}
+
+	public void TakeDamage(int damage)
+    { 
         health -= damage;
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            gc.enabled = false;
+            ac.anim.SetTrigger("Dead");
+            //Destroy(gameObject);
         }
     }
 }

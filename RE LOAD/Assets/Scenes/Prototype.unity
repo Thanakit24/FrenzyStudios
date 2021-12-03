@@ -631,6 +631,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1553597669}
+    - target: {fileID: 2469495654350767690, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
+        type: 3}
+      propertyPath: attackRecoveryTime
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469495654350767690, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
+        type: 3}
+      propertyPath: attackAnticipationTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4172411148494004985, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
       propertyPath: m_Name
