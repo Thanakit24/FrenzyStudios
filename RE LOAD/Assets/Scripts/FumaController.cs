@@ -124,7 +124,8 @@ public class FumaController : MonoBehaviour
         if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
             //Movement
-            transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
+            transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);  //I see why u r using this but its probably why the shuriken going
+                                                                                                 //through wall bug exists, do look into it later
             Rotation();
 
             if (state.Equals(FumaState.Returning) && lockOnReturnToPlayer)

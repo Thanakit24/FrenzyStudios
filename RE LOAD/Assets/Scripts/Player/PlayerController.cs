@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -86,6 +87,11 @@ public class PlayerController : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.Space) && isJumping))
         {
             isJumping = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
         }
 
 
