@@ -153,12 +153,14 @@ public class GuardianController : MonoBehaviour
     {
         if (attack)
         {
+            gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             Debug.Log("Attacking");
             ac.anim.SetBool("IsAttacking", true);
             baton.localRotation = Quaternion.AngleAxis(90, Vector3.right);
         }
         else
 		{
+            gameObject.GetComponent<NavMeshAgent>().isStopped = false;
             baton.localRotation = batonOriginalPos; 
             ac.anim.SetBool("IsAttacking", false);
         }
