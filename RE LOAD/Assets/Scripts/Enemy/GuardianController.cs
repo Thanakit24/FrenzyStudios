@@ -139,7 +139,7 @@ public class GuardianController : MonoBehaviour
 
     private void AttackPlayer()
     {
-        agent.SetDestination(transform.position);
+        //agent.SetDestination(transform.position);
         //transform.LookAt(player.position, Vector3.forward);
 
         //transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.position - transform.position, Vector3.up));
@@ -154,10 +154,14 @@ public class GuardianController : MonoBehaviour
         if (attack)
         {
             Debug.Log("Attacking");
-            ac.anim.SetTrigger("Attacking");
+            ac.anim.SetBool("IsAttacking", true);
             baton.localRotation = Quaternion.AngleAxis(90, Vector3.right);
         }
-        else baton.localRotation = batonOriginalPos;
+        else
+		{
+            baton.localRotation = batonOriginalPos; 
+            ac.anim.SetBool("IsAttacking", false);
+        }
     }
 
     private void ResetAttack()
