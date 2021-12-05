@@ -36,6 +36,8 @@ public class FumaController : MonoBehaviour
 
     public TextMeshProUGUI text;
 
+    public int RayCount = 2;
+
     void Start()
     {
         cam = Camera.main.transform;
@@ -165,7 +167,8 @@ public class FumaController : MonoBehaviour
         bounces -= 1;
 
         Vector3 direction = contactNormalDirection - lastPos.normalized;
-        direction = direction.normalized;
+        direction = Vector3.Reflect(direction, contactNormalDirection);
+        //direction = direction.normalized;
         transform.rotation = Quaternion.LookRotation(direction, Vector3.forward);
         transform.rotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, 0);
         lastPos = transform.position;
@@ -297,5 +300,31 @@ public class FumaController : MonoBehaviour
         Destroy(fx, fxDestroyTime);
 
         trailFX.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        CastRay(transform.position, transform.forward);
+    }
+
+    void CastRay(Vector3 pos, Vector3 dir)
+    {
+        for (int i = 0; i < maxBounces - bounces + 1; i++)
+        {
+            Ray ray = new Ray(pos, dir);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 10))
+            {
+                Debug.DrawLine(pos, hit.point, Color.red);
+                pos = hit.point;
+                dir = Vector3.Reflect(dir, hit.normal);
+            }
+            else
+            {
+                Debug.DrawRay(pos, dir * 10, Color.blue);
+                break;
+            }
+        }
     }
 }

@@ -89,11 +89,12 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
         }
-
+        */
 
     }
 
