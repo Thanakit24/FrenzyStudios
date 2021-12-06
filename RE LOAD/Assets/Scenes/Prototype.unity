@@ -626,6 +626,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1470396714}
     m_Modifications:
+    - target: {fileID: 2419764476924733340, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -189.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2419764476924733340, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 80.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 2419764476924733340, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -235.65
+      objectReference: {fileID: 0}
     - target: {fileID: 2469495654350767690, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
       propertyPath: player
@@ -634,12 +649,12 @@ PrefabInstance:
     - target: {fileID: 2469495654350767690, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
       propertyPath: attackRecoveryTime
-      value: 1.5
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 2469495654350767690, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
       propertyPath: attackAnticipationTime
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4172411148494004985, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
