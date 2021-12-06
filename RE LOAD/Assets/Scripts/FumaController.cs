@@ -32,11 +32,14 @@ public class FumaController : MonoBehaviour
     bool mustReturn = true, firstBounce;
     public bool alwaysReturn = false, lockOnReturnToPlayer = true;
     float tempBounces;
-    int bounces;
+    public int bounces;
 
     public TextMeshProUGUI text;
 
     public int RayCount = 2;
+
+    public Vector3 nextDir, nextPos;
+    public Quaternion nextAngle;
 
     void Start()
     {
@@ -58,6 +61,8 @@ public class FumaController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && state.Equals(FumaState.Flying)|| state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
         {
             shouldLockOnToPlayer = true;
+
+
         }
 
         if (state.Equals(FumaState.InHands))
@@ -77,6 +82,7 @@ public class FumaController : MonoBehaviour
         else if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
             if (!player) Returned();
+
 
             float distance = Vector3.Distance(transform.position, player.position);
 
@@ -121,13 +127,13 @@ public class FumaController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-
         if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
             //Movement
             transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);  //I see why u r using this but its probably why the shuriken going
-                                                                                                 //through wall bug exists, do look into it later
+
+
+            //through wall bug exists, do look into it later
             Rotation();
 
             if (state.Equals(FumaState.Returning) && lockOnReturnToPlayer)
@@ -139,6 +145,7 @@ public class FumaController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+
         bool isPlayer = (collision.collider.CompareTag("Player") || collision.collider.CompareTag("LeftHand"));
 
         if (!state.Equals(FumaState.InHands))
@@ -156,21 +163,28 @@ public class FumaController : MonoBehaviour
             }
 
             Bounce(collision.GetContact(0).normal);
+            //Bounce();
         }
 
         //if (state.Equals(FumaState.Returning)) Ragdoll();
     }
+    
 
     void Bounce(Vector3 contactNormalDirection)
     {
         firstBounce = true;
         bounces -= 1;
 
-        Vector3 direction = contactNormalDirection - lastPos.normalized;
-        direction = Vector3.Reflect(direction, contactNormalDirection);
-        //direction = direction.normalized;
+        //COLLISION BOUNCE
+        Vector3 direction = Vector3.Reflect(transform.forward, contactNormalDirection);
         transform.rotation = Quaternion.LookRotation(direction, Vector3.forward);
-        transform.rotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, 0);
+
+        //RAYCAST BOUNCE
+        //transform.rotation = Quaternion.LookRotation(nextDir, Vector3.forward);
+        //transform.LookAt(nextPos);
+        //CastRayForBounce(transform.position, transform.forward);
+
+        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0);
         lastPos = transform.position;
 
         var fx = Instantiate(impactFX, transform.position, Quaternion.identity);
@@ -256,6 +270,8 @@ public class FumaController : MonoBehaviour
         col.enabled = true;
         rb.isKinematic = false;
 
+        CastRayForBounce(transform.position, transform.forward);
+
         state = FumaState.Flying;
     }
 
@@ -305,6 +321,7 @@ public class FumaController : MonoBehaviour
     private void OnDrawGizmos()
     {
         CastRay(transform.position, transform.forward);
+        //Debug.DrawLine(transform.position, nextPos, Color.green);
     }
 
     void CastRay(Vector3 pos, Vector3 dir)
@@ -317,12 +334,38 @@ public class FumaController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 10))
             {
                 Debug.DrawLine(pos, hit.point, Color.red);
+
                 pos = hit.point;
                 dir = Vector3.Reflect(dir, hit.normal);
             }
             else
             {
                 Debug.DrawRay(pos, dir * 10, Color.blue);
+                break;
+            }
+        }
+    }
+
+    void CastRayForBounce(Vector3 pos, Vector3 dir)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            Ray ray = new Ray(pos, dir);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 50))
+            {
+                pos = hit.point;
+                dir = Vector3.Reflect(dir, hit.normal);
+
+                if (i == 1)
+                {
+                    nextDir = dir;
+                    nextPos = pos;
+                }
+            }
+            else
+            {
                 break;
             }
         }

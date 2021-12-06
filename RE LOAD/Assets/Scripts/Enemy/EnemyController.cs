@@ -38,9 +38,9 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         walkPointIndex = 0;
 
-        if (!isStationary)
+        if (!isStationary && targetWalkPoints.Length > 0)
         {
-            transform.LookAt(targetWalkPoints[walkPointIndex]);
+            //transform.LookAt(targetWalkPoints[walkPointIndex]);
             isReturning = false;
             walkPoint = targetWalkPoints[walkPointIndex];
         }

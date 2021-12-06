@@ -705,7 +705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2570695946653873072
 Transform:
   m_ObjectHideFlags: 0
@@ -15613,6 +15613,7 @@ MonoBehaviour:
   alwaysReturn: 0
   lockOnReturnToPlayer: 1
   text: {fileID: 0}
+  RayCount: 2
 --- !u!54 &7105247571521373181
 Rigidbody:
   m_ObjectHideFlags: 0
