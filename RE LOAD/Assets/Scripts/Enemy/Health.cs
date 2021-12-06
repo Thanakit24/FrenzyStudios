@@ -6,13 +6,18 @@ using UnityEngine.AI;
 public class Health : MonoBehaviour
 {
     public int health;
-    public AnimController ac;
-    public GuardianController gc;
+    [SerializeField] private Animator anim;
+    [SerializeField] private GuardianController gc;
+    [SerializeField] private DeathDelete dd;
+
+    Collider col;
 
 	private void Start()
 	{
-        ac = GetComponentInChildren<AnimController>();
+        anim = GetComponentInChildren<Animator>();
         gc = GetComponentInChildren<GuardianController>();
+        dd = GetComponent<DeathDelete>();
+        col = GetComponent<Collider>();
 	}
 
 	public void TakeDamage(int damage)
@@ -22,9 +27,10 @@ public class Health : MonoBehaviour
         if (health <= 0)
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+            col.enabled = false;
+            dd.DeathDestroy();
             gc.enabled = false;
-            ac.anim.SetTrigger("Dead");
-            //Destroy(gameObject);
+            anim.enabled = false;
         }
     }
 }
