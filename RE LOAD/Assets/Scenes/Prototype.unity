@@ -628,18 +628,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 294367267946618124, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 478644722069491713, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1867768327695272050, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2419764476924733340, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
@@ -673,8 +673,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2792141280954484325, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4172411148494004985, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
@@ -753,38 +753,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5015823424314538946, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5197028725540291167, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6514967034537041926, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6717136996344461026, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6745610837198508534, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7052643549853044691, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8022647462984641228, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8540006645220690140, guid: ac36a95b3584ecf40b7f73e1df8aedc5,
         type: 3}
