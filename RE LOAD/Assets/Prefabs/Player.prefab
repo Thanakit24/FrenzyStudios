@@ -15597,6 +15597,7 @@ MonoBehaviour:
   holder: {fileID: 51137696991893230}
   prefab: {fileID: 4785768568222284490, guid: 20e3054235deeab4984efdc8e3d18992, type: 3}
   lines: []
+  linesShown: 1
   damage: 20
   curveRot: {x: 0, y: 0, z: 0}
   throwRotation: {x: 0, y: 0, z: 10}
@@ -15634,7 +15635,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 2
   m_Constraints: 112
   m_CollisionDetection: 3
 --- !u!114 &1066275424

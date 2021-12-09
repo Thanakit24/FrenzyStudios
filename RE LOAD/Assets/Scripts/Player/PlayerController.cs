@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
         trail.SetActive(isDashing);
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
             player.transform.position = shuriken.transform.position;
             shuriken.Returned();
