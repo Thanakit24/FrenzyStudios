@@ -15555,6 +15555,7 @@ GameObject:
   - component: {fileID: 6000968706672132580}
   - component: {fileID: 8262543006952494058}
   - component: {fileID: 7105247571521373181}
+  - component: {fileID: 1066275424}
   m_Layer: 0
   m_Name: Shuriken2
   m_TagString: Untagged
@@ -15594,12 +15595,14 @@ MonoBehaviour:
   state: 0
   player: {fileID: 51137696186876005}
   holder: {fileID: 51137696991893230}
+  prefab: {fileID: 4785768568222284490, guid: 20e3054235deeab4984efdc8e3d18992, type: 3}
+  lines: []
   damage: 20
   curveRot: {x: 0, y: 0, z: 0}
   throwRotation: {x: 0, y: 0, z: 10}
   flyingSpeed: 30
   chargeSpeed: 2
-  maxBounces: 2
+  maxBounces: 3
   ySpinSpeed: 1000
   xSpinSpeed: 0
   pickupRange: 3
@@ -15612,8 +15615,12 @@ MonoBehaviour:
   col: {fileID: 8073142739315910669}
   alwaysReturn: 0
   lockOnReturnToPlayer: 1
+  bounces: 0
   text: {fileID: 0}
   RayCount: 2
+  nextDir: {x: 0, y: 0, z: 0}
+  nextPos: {x: 0, y: 0, z: 0}
+  nextAngle: {x: 0, y: 0, z: 0, w: 0}
 --- !u!54 &7105247571521373181
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15630,6 +15637,21 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 112
   m_CollisionDetection: 3
+--- !u!114 &1066275424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6344562051378961246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4622c4bef58310847a750d9914d265d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4785768568222284490, guid: 20e3054235deeab4984efdc8e3d18992, type: 3}
+  lines: []
+  maxBounces: 2
 --- !u!1 &7047853462302295333
 GameObject:
   m_ObjectHideFlags: 0

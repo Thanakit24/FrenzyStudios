@@ -17,6 +17,10 @@ public class FumaController : MonoBehaviour
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
 
+    public GameObject prefab;
+    public List<GameObject> lines;
+
+
     public int damage;
 
     public Vector3 curveRot, throwRotation;
@@ -41,8 +45,13 @@ public class FumaController : MonoBehaviour
     public Vector3 nextDir, nextPos;
     public Quaternion nextAngle;
 
-    void Start()
+    void Awake()
     {
+        for (int i = 0; i < 2; i++)
+        {
+            CreateLine(transform.position);
+        }
+
         cam = Camera.main.transform;
         //col = GameObject.Find("ShurikenMesh").GetComponent<MeshCollider>();
         model = GameObject.Find("ShurikenMeshContainer").transform;
@@ -54,6 +63,8 @@ public class FumaController : MonoBehaviour
         Returned();
 
         impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
+
+        
     }
 
     void Update()
@@ -78,6 +89,8 @@ public class FumaController : MonoBehaviour
             else if (Input.GetKeyUp(KeyCode.Mouse0)) Throw();
 
             rb.velocity = Vector3.zero;
+
+            RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
         }
         else if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
@@ -105,6 +118,9 @@ public class FumaController : MonoBehaviour
             //transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
             //Rotation();
 
+            RepositionLine(transform.position, transform.forward, true);
+
+
             //if (Input.GetKeyUp(KeyCode.Mouse0)) mustReturn = true;
         }
         else if (state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
@@ -121,8 +137,6 @@ public class FumaController : MonoBehaviour
         else Returned();
 
         if (text != null )text.text = bounces.ToString();
-
-        
     }
 
     private void FixedUpdate()
@@ -297,6 +311,8 @@ public class FumaController : MonoBehaviour
         tempBounces = 1;
 
         shouldLockOnToPlayer = false;
+
+        ResetLine();
     }
 
     void Ragdoll()
@@ -331,7 +347,7 @@ public class FumaController : MonoBehaviour
             Ray ray = new Ray(pos, dir);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 10))
+            if (Physics.Raycast(ray, out hit, 15))
             {
                 Debug.DrawLine(pos, hit.point, Color.red);
 
@@ -369,5 +385,62 @@ public class FumaController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void CreateLine(Vector3 start)
+    {
+        GameObject newLine = Instantiate(prefab, start, Quaternion.identity);
+        LineRenderer newLineRender = newLine.GetComponent<LineRenderer>();
+
+        newLineRender.SetPosition(0, start);
+        newLineRender.SetPosition(1, start);
+
+        lines.Add(newLine);
+    }
+
+    void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            Ray ray = new Ray(pos, dir);
+            RaycastHit hit;
+
+            LineRenderer lr = lines[i].GetComponent<LineRenderer>();
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (i == 1)
+                {
+                    lr.SetPosition(1, pos + dir.normalized * 5);
+                    lr.SetPosition(0, pos);
+                }
+                if (bounces < 0)
+                {
+                    lr.SetPosition(1, pos + dir.normalized * 5);
+                    lr.SetPosition(0, pos);
+                }
+
+                pos = hit.point;
+                dir = Vector3.Reflect(dir, hit.normal);
+
+
+            }
+            else
+            {
+                lr.SetPosition(0, transform.position);
+                lr.SetPosition(1, transform.position);
+                break;
+            }
+        }
+    }
+
+    void ResetLine()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            LineRenderer lr = lines[i].GetComponent<LineRenderer>();
+            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, transform.forward);
+        } 
     }
 }

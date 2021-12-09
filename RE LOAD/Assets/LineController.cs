@@ -12,7 +12,7 @@ public class LineController : MonoBehaviour
 
     private void Update()
     {
-        RayCast(transform.position, transform.forward);
+        RayCast(Camera.main.transform.position, Camera.main.transform.forward);
     }
 
     void RayCast(Vector3 pos, Vector3 dir)
