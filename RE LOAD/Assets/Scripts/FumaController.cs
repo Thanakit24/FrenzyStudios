@@ -19,7 +19,7 @@ public class FumaController : MonoBehaviour
 
     public GameObject prefab;
     public List<GameObject> lines;
-
+    public int linesShown = 2;
 
     public int damage;
 
@@ -47,7 +47,7 @@ public class FumaController : MonoBehaviour
 
     void Awake()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < linesShown; i++)
         {
             CreateLine(transform.position);
         }
@@ -60,11 +60,13 @@ public class FumaController : MonoBehaviour
         trailFX = GameObject.Find("TrailFX");
         rb = GetComponent<Rigidbody>();
 
-        Returned();
-
-        impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
-
         
+    }
+
+    private void Start()
+    {
+        Returned();
+        impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
     }
 
     void Update()
@@ -400,7 +402,7 @@ public class FumaController : MonoBehaviour
 
     void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < lines.Count; i++)
         {
             Ray ray = new Ray(pos, dir);
             RaycastHit hit;
@@ -409,21 +411,34 @@ public class FumaController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (i == 1)
+                if (i != 0)
                 {
-                    lr.SetPosition(1, pos + dir.normalized * 5);
-                    lr.SetPosition(0, pos);
+                    if (state.Equals(FumaState.Flying) && bounces -1 <=0)
+                    {
+                        Vector3 dirToPlayer = pos - player.transform.position;
+                        lr.SetPosition(1, pos - dirToPlayer.normalized * 10);
+                        lr.SetPosition(0, pos);
+
+                        lr.startColor = Color.green;
+                    }
+                    else
+                    {
+                        lr.SetPosition(1, pos + dir.normalized * 5);
+                        lr.SetPosition(0, pos);
+
+                        lr.startColor = Color.white;
+
+                    }
                 }
-                if (bounces < 0)
+                
+                if (state.Equals(FumaState.Returning))
                 {
-                    lr.SetPosition(1, pos + dir.normalized * 5);
-                    lr.SetPosition(0, pos);
+                    lr.SetPosition(0, transform.position);
+                    lr.SetPosition(1, transform.position);
                 }
 
                 pos = hit.point;
                 dir = Vector3.Reflect(dir, hit.normal);
-
-
             }
             else
             {
@@ -436,7 +451,7 @@ public class FumaController : MonoBehaviour
 
     void ResetLine()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < lines.Count; i++)
         {
             LineRenderer lr = lines[i].GetComponent<LineRenderer>();
             lr.SetPosition(0, transform.position);
