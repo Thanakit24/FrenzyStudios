@@ -22,7 +22,7 @@ public class FumaController : MonoBehaviour
     public int linesShown = 2;
     public bool IsHoldingRightclick()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(0))
         {
             return true;
         }
@@ -449,7 +449,7 @@ public class FumaController : MonoBehaviour
                         lr.SetPosition(1, hit.point);
                         lr.SetPosition(0, pos);
 
-                        lr.startColor = Color.white;
+                        lr.startColor = Color.red;
 
                     }
                 }
