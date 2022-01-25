@@ -32,8 +32,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private bool playerInSightRange, playerInAttackRange;
 
-    private void Awake()
+    private void Start()
     {
+        player = PlayerController.instance.transform;
         feet = GetComponentInChildren<Feet>();
         agent = GetComponent<NavMeshAgent>();
         walkPointIndex = 0;

@@ -27,10 +27,10 @@ public class Health : MonoBehaviour
         if (health <= 0)
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
-            col.enabled = false;
-            dd.DeathDestroy();
-            gc.enabled = false;
-            anim.enabled = false;
+            //col.enabled = false;
+            //dd.DeathDestroy();
+            //gc.enabled = false;
+            //anim.enabled = false;
         }
     }
 }

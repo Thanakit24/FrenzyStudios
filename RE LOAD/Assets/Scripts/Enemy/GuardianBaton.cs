@@ -20,7 +20,7 @@ public class GuardianBaton : MonoBehaviour
 			Collider[] damageRadius = Physics.OverlapSphere(transform.position, batonRange);
 			for (int i = 0; i < damageRadius.Length; i++)
 			{
-                PlayerController.player.isKnocked = true;
+                PlayerController.instance.isKnocked = true;
 				PlayerHealth playerHP = damageRadius[i].GetComponent<PlayerHealth>();
 				if (playerHP != null)
 				{

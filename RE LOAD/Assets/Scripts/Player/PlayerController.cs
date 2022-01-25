@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController player; //incase u dont know what static does, it enables other script to reference to call PlayerController.player.someFunction(); without needing to do serialized field stuffs
+    public static PlayerController instance;
 
     [Header("Player")]
     public float _speed;
@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isKnocked = false;
     public float knockbackRecoveryTime = 0.2f;
     private float horizontalMovement;
+
+    [Header("Melee Attack Config")]
+    public bool isMeleeing = false;
+    public float meleeCooldown = 0.5f;
+    public Collider attackArea;
+    public int meleeDamage = 1;
 
     [Header("Jump Config")]
     public float jumpSpeed;
@@ -41,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        player = this;
+        instance = this;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         isDashing = false;
@@ -80,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
-            player.transform.position = shuriken.transform.position;
+            instance.transform.position = shuriken.transform.position;
             shuriken.Returned();
         }
 
@@ -94,6 +100,10 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
         }
 
+        if (Input.GetKeyDown(KeyCode.V) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
+        {
+            Melee();
+        }
     }
 
     void FixedUpdate()
@@ -194,6 +204,28 @@ public class PlayerController : MonoBehaviour
 
             rb.velocity = Vector3.zero;
         }
+    }
+
+    public void Melee()
+    {
+        isMeleeing = true;
+
+        foreach (Collider collider in Physics.OverlapSphere(transform.position + Vector3.forward * 0.91f, 0.78f))
+        {
+            if (collider.CompareTag("Enemy"))
+            {
+                print("enemy Found");
+
+                if (collider.GetComponent<Health>() != null)
+                {
+                    collider.GetComponent<Health>().TakeDamage(meleeDamage);
+                    print("something hit");
+                }
+            }
+        }
+
+        //put delay for the animation;
+        isMeleeing = false;
     }
 
     IEnumerator Knocked(float knockbackForce)
