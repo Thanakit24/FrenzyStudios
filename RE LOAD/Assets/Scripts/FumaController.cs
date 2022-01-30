@@ -351,8 +351,14 @@ public class FumaController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        CastRay(transform.position, transform.forward);
-        //Debug.DrawLine(transform.position, nextPos, Color.green);
+        //CastRay(transform.position, transform.forward);
+        if (state.Equals(FumaState.Flying))
+        {
+            Ray ray;
+            RaycastHit hit;
+            Physics.Raycast(transform.position, Vector3.down, out hit);
+            Debug.DrawLine(transform.position, hit.point);
+        }
     }
 
     void CastRay(Vector3 pos, Vector3 dir)
@@ -427,8 +433,8 @@ public class FumaController : MonoBehaviour
             {
                 if (i ==0 && state.Equals(FumaState.Returning))
                 {
-                    lr2.SetPosition(1, hit.point);
-                    lr2.SetPosition(0, pos);
+                    //lr2.SetPosition(1, hit.point);
+                    //lr2.SetPosition(0, pos);
                 }
 
                 if (i != 0)
@@ -481,4 +487,5 @@ public class FumaController : MonoBehaviour
             lr.SetPosition(1, transform.position);
         } 
     }
+
 }
