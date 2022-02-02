@@ -14,6 +14,8 @@ public enum FumaState
 
 public class FumaController : MonoBehaviour
 {
+    public KeyCode shootingKey;
+
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
 
@@ -86,7 +88,7 @@ public class FumaController : MonoBehaviour
 
         if (state.Equals(FumaState.InHands))
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(shootingKey))
             {
                 tempBounces += chargeSpeed * Time.deltaTime;
                 bounces = Mathf.RoundToInt(tempBounces);
@@ -94,7 +96,7 @@ public class FumaController : MonoBehaviour
                 if (bounces >= maxBounces)
                     Throw();
             }
-            else if (Input.GetKeyUp(KeyCode.Mouse0)) Throw();
+            else if (Input.GetKeyUp(shootingKey)) Throw();
 
             rb.velocity = Vector3.zero;
 

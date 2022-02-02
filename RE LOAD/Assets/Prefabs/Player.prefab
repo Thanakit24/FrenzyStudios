@@ -270,13 +270,13 @@ GameObject:
   m_Component:
   - component: {fileID: 51137696186876005}
   - component: {fileID: 51137696186876007}
+  - component: {fileID: 4726457935285488619}
   - component: {fileID: 51137696186876006}
   - component: {fileID: 51137696186876008}
   - component: {fileID: 51137696186876009}
   - component: {fileID: 51137696186876002}
   - component: {fileID: 51137696186876004}
   - component: {fileID: 51137696186876003}
-  - component: {fileID: 659635139}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -334,6 +334,21 @@ MonoBehaviour:
   dashCooldown: 1.5
   canDash: 1
   threeDimensionalDashing: 1
+--- !u!114 &4726457935285488619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51137696186876001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c845a95665e0741a320b2b7b7694c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stanceChange: 324
+  action: 323
+  shuriken: {fileID: 8262543006952494058}
 --- !u!54 &51137696186876006
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -451,37 +466,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &659635139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51137696186876001}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bc5ea2cbc9e1a84f88632377bb20005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 9012075742234333984, guid: eab8c70b6a383854fb11e2cac57993b4, type: 3}
-  shootForce: 80
-  timeBetweenShooting: 0.25
-  recoilForce: 0
-  magazineSize: 6
-  returnSpeed: 1000
-  maxReturnSpeed: 2000
-  destroyRange: 0.6
-  holdToReturn: 0
-  bulletsLeft: 0
-  isShooting: 0
-  readyToShoot: 0
-  isReloading: 0
-  playerRb: {fileID: 51137696186876006}
-  playerCamera: {fileID: 51137696096559430}
-  attackPoint: {fileID: 51137696991893230}
-  muzzleFlash: {fileID: 0}
-  ammunitionDisplay: {fileID: 0}
-  allowInvoke: 1
 --- !u!1 &51137696916178019
 GameObject:
   m_ObjectHideFlags: 0
@@ -15596,6 +15580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e4a81f55e679cb4a9ece5dfe818ac77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootingKey: 323
   state: 0
   player: {fileID: 51137696186876005}
   holder: {fileID: 51137696991893230}
