@@ -9,26 +9,49 @@ public class StanceController : MonoBehaviour
     public KeyCode action;
 
     public FumaController shuriken;
+    public PlayerController player;
 
     [Header("Feedbacks")]
     public MMFeedbacks ThrowingStance_Start;
     public MMFeedbacks ThrowingStance_Reset;
+    public float _slowedTime;
+    public float delayZoom;
+    private float zoomCounter;
+
+    private void Start()
+    {
+        player = gameObject.GetComponent<PlayerController>() ;
+    }
 
     public bool throwingStanceActiveStatus()
     {
-        if (Input.GetKey(stanceChange))
+        if (Input.GetKeyDown(stanceChange))
         {
             if (shuriken.state.Equals(FumaState.InHands))
             {
-                shuriken.RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
+                if (!player.feet.isGrounded)
+                    Time.timeScale = _slowedTime;
             }
             else if (shuriken.state.Equals(FumaState.Flying) || shuriken.state.Equals(FumaState.Stuck) || shuriken.state.Equals(FumaState.Ragdoll))
             {
                 shuriken.shouldLockOnToPlayer = true;
             }
-            ThrowingStance_Start.PlayFeedbacks();
 
             return true;
+        }
+        else if (Input.GetKey(stanceChange))
+        {
+            ThrowingStance_Start.PlayFeedbacks();
+
+            if (shuriken.state.Equals(FumaState.InHands))
+                shuriken.RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
+
+            return true;
+        }
+        else if (Input.GetKeyUp(stanceChange) && shuriken.state.Equals(FumaState.InHands))
+        {
+            shuriken.Throw();
+            return false;
         }
 
         ThrowingStance_Reset.PlayFeedbacks();
@@ -39,23 +62,8 @@ public class StanceController : MonoBehaviour
     {
         //shuriken.canShoot = throwingStanceActiveStatus();
 
-        if (Input.GetKeyUp(stanceChange) && shuriken.state.Equals(FumaState.InHands))
-        {
-            shuriken.Throw();
-        }
-
-        if (Input.GetKeyDown(action) && (shuriken.stance.Equals(FumaState.Flying) || shuriken.stance.Equals(FumaState.Flying)))
-        {
-            //Teleport and Melee
-        }
-
-
-        if (throwingStanceActiveStatus())
-        {
-            Time.timeScale = 0.2f;
-        }
-        else
-        {
+        if (!throwingStanceActiveStatus())
+        { 
             Time.timeScale = 1;
         }
     }

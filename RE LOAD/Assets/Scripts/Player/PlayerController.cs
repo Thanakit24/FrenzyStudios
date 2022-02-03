@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public float maxJumpTime;
 
     [Header("References")]
-    [SerializeField] private Feet feet;
+    [SerializeField] public Feet feet;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform playerCamera;
     public FumaController shuriken;

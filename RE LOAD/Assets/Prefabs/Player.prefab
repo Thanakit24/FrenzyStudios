@@ -580,6 +580,7 @@ MonoBehaviour:
   shuriken: {fileID: 8262543006952494058}
   ThrowingStance_Start: {fileID: 1090678651}
   ThrowingStance_Reset: {fileID: 1934517132}
+  _slowedTime: 0.25
 --- !u!54 &51137696186876006
 Rigidbody:
   m_ObjectHideFlags: 0

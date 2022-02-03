@@ -509,6 +509,11 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 939123602}
+    - target: {fileID: 4726457935285488619, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: _slowedTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
         type: 3}
       propertyPath: text
