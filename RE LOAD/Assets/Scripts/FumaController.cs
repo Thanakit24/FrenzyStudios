@@ -14,7 +14,9 @@ public enum FumaState
 
 public class FumaController : MonoBehaviour
 {
+    public StanceController stance;
     public KeyCode shootingKey;
+    public bool canShoot;
 
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
@@ -22,21 +24,12 @@ public class FumaController : MonoBehaviour
     public GameObject prefab;
     public List<GameObject> lines;
     public int linesShown = 2;
-    public bool IsHoldingRightclick()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            return true;
-        }
-        return false;
-    }
-
     public int damage;
 
     public Vector3 curveRot, throwRotation;
     public float flyingSpeed, chargeSpeed, maxBounces, ySpinSpeed, xSpinSpeed, pickupRange, destroyDistance, fxDestroyTime, ragdollSpin;
     public bool curvedStart, curvedFlying, curvedReturn;
-    private bool shouldLockOnToPlayer;
+    [HideInInspector] public bool shouldLockOnToPlayer;
     
     public MeshCollider col;
     Vector3 lastPos, returnPos;
@@ -47,6 +40,7 @@ public class FumaController : MonoBehaviour
     public bool alwaysReturn = false, lockOnReturnToPlayer = true;
     float tempBounces;
     public int bounces;
+    public int defaultBounces;
 
     public TextMeshProUGUI text;
 
@@ -75,6 +69,8 @@ public class FumaController : MonoBehaviour
     {
         Returned();
         impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
+
+        shootingKey = stance.stanceChange;
     }
 
     void Update()
@@ -90,22 +86,26 @@ public class FumaController : MonoBehaviour
         {
             if (Input.GetKey(shootingKey))
             {
-                tempBounces += chargeSpeed * Time.deltaTime;
-                bounces = Mathf.RoundToInt(tempBounces);
-
-                if (bounces >= maxBounces)
-                    Throw();
-            }
-            else if (Input.GetKeyUp(shootingKey)) Throw();
-
-            rb.velocity = Vector3.zero;
-
-            if (IsHoldingRightclick())
-            {
                 RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
+                if (Input.GetKey(shootingKey))
+                {
+                    /*
+                    tempBounces += chargeSpeed * Time.deltaTime;
+                    bounces = Mathf.RoundToInt(tempBounces);
+
+                    if (bounces >= maxBounces)
+                        Throw();
+                    */
+                }
+                //else if (Input.GetKeyUp(shootingKey)) Throw();
+
+                //rb.velocity = Vector3.zero;
             }
-            else
+            else if(Input.GetKeyUp(shootingKey)) Throw();
             {
+                
+                rb.velocity = Vector3.zero;
+
                 ResetLine();
             }
         }
@@ -291,7 +291,7 @@ public class FumaController : MonoBehaviour
         }
     }
 
-    void Throw()
+    public void Throw()
     {
         firstBounce = false;
         transform.SetParent(null);
@@ -324,7 +324,7 @@ public class FumaController : MonoBehaviour
         model.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(0,0,0);
         model.localRotation = Quaternion.Euler(0,0,0);
-        bounces = 1;
+        bounces = defaultBounces;
         tempBounces = 1;
 
         shouldLockOnToPlayer = false;
@@ -421,7 +421,7 @@ public class FumaController : MonoBehaviour
         lines.Add(newLine);
     }
 
-    void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
+    public void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
     {
         for (int i = 0; i < 2; i++)
         {
