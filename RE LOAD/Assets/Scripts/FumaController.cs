@@ -49,6 +49,8 @@ public class FumaController : MonoBehaviour
     public Vector3 nextDir, nextPos;
     public Quaternion nextAngle;
 
+    public GameObject visualIndicator;
+
     void Awake()
     {
         for (int i = 0; i < linesShown; i++)
@@ -78,9 +80,9 @@ public class FumaController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && state.Equals(FumaState.Flying)|| state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
         {
             shouldLockOnToPlayer = true;
-
-
         }
+
+        VisualIndicatorSystem();
 
         if (state.Equals(FumaState.InHands))
         {
@@ -304,6 +306,26 @@ public class FumaController : MonoBehaviour
         CastRayForBounce(transform.position, transform.forward);
 
         state = FumaState.Flying;
+    }
+
+    public void VisualIndicatorSystem()
+    {
+        if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
+        {
+            visualIndicator.SetActive(true);
+            Ray ray;
+            RaycastHit hit;
+            Physics.Raycast(transform.position, Vector3.down, out hit);
+            //Debug.DrawLine(transform.position, hit.point);
+
+            visualIndicator.transform.position = hit.point + Vector3.up*0.2f;
+            //visualIndicator.transform.rotation = Quaternion.Inverse(transform.rotation);
+            visualIndicator.transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
+        else
+        {
+            visualIndicator.SetActive(false);
+        }
     }
 
     public void Returned()
