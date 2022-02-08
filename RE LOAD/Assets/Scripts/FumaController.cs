@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using MoreMountains.Feedbacks;
 public enum FumaState
 {
     InHands,
@@ -22,7 +22,7 @@ public class FumaController : MonoBehaviour
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
     public SeeThroughWall stw;
-
+    public MMFeedbacks bounceSFX;
     public GameObject prefab;
     public List<GameObject> lines;
     public int linesShown = 2;
@@ -55,6 +55,8 @@ public class FumaController : MonoBehaviour
     [Header("Teleport Indicator")]
     public GameObject visualIndicator;
     public float cacheHeight;
+    public MMFeedbacks differentHeightSoundQ;
+
     void Awake()
     {
         for (int i = 0; i < linesShown; i++)
@@ -189,10 +191,13 @@ public class FumaController : MonoBehaviour
             RaycastHit hit;
             Physics.Raycast(transform.position, Vector3.down, out hit);
 
-            if (cacheHeight != hit.point.y)
+            if (Vector3.Magnitude(hit.point - GetTargetLocation()) < 10)
             {
-                cacheHeight = hit.point.y;
-                Debug.Log("different surface");
+                if (cacheHeight != hit.point.y)
+                {
+                    cacheHeight = hit.point.y;
+                    differentHeightSoundQ.PlayFeedbacks();
+                }
             }
 
             visualIndicator.transform.position = hit.point;
@@ -248,9 +253,10 @@ public class FumaController : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0);
         lastPos = transform.position;
 
-        var fx = Instantiate(impactFX, pos, Quaternion.identity);
+        var fx = Instantiate(impactFX, pos + contactNormalDirection, Quaternion.identity);
         fx.SetActive(true);
         Destroy(fx, fxDestroyTime);
+        bounceSFX.PlayFeedbacks();
 
         rb.useGravity = false;
 
@@ -541,4 +547,11 @@ public class FumaController : MonoBehaviour
         } 
     }
 
+    public Vector3 GetTargetLocation()
+    {
+        Ray ray;
+        RaycastHit hit;
+        Physics.Raycast(transform.position, transform.forward, out hit);
+        return hit.point;
+    }
 }
