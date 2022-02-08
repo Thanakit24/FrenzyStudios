@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform playerCamera;
     public FumaController shuriken;
     public GameObject trail;
+    public Animator playerAnimator;
 
     [Header("Dash Config")]
     [SerializeField] private float dashForce;
@@ -102,9 +103,10 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
         }
 
-        if (Input.GetKeyDown(KeyCode.V) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
         {
-            Melee();
+            isMeleeing = true;
+            playerAnimator.SetBool("isMeleeing", isMeleeing);
         }
     }
 
@@ -208,8 +210,6 @@ public class PlayerController : MonoBehaviour
 
     public void Melee()
     {
-        isMeleeing = true;
-
         foreach (Collider collider in Physics.OverlapSphere(transform.position + Vector3.forward * 0.91f, 0.78f))
         {
             if (collider.CompareTag("Enemy"))
@@ -225,6 +225,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //put delay for the animation;
+        playerAnimator.SetBool("isMeleeing", isMeleeing);
         isMeleeing = false;
     }
 

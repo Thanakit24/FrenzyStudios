@@ -10,6 +10,7 @@ public class StanceController : MonoBehaviour
 
     public FumaController shuriken;
     public PlayerController player;
+    public Animator animator;
 
     [Header("Feedbacks")]
     public MMFeedbacks ThrowingStance_Start;
@@ -46,11 +47,14 @@ public class StanceController : MonoBehaviour
             if (shuriken.state.Equals(FumaState.InHands))
                 shuriken.RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
 
+            if (Input.GetKeyDown(action))
+                shurikenThrow();
+
             return true;
         }
         else if (Input.GetKeyUp(stanceChange) && shuriken.state.Equals(FumaState.InHands))
         {
-            shuriken.Throw();
+            shurikenThrow();
             return false;
         }
 
@@ -60,11 +64,22 @@ public class StanceController : MonoBehaviour
 
     void Update()
     {
-        //shuriken.canShoot = throwingStanceActiveStatus();
-
         if (!throwingStanceActiveStatus())
         { 
             Time.timeScale = 1;
+
+            animator.enabled = true;
         }
+
+        if (!shuriken.state.Equals(FumaState.InHands))
+        {
+            animator.enabled = false;
+        }
+    }
+
+    void shurikenThrow()
+    {
+        animator.enabled = false;
+        shuriken.Throw();
     }
 }
