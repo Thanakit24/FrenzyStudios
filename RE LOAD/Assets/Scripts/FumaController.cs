@@ -20,6 +20,7 @@ public class FumaController : MonoBehaviour
 
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
+    public SeeThroughWall stw;
 
     public GameObject prefab;
     public List<GameObject> lines;
@@ -195,7 +196,7 @@ public class FumaController : MonoBehaviour
                 collision.collider.GetComponent<Health>().TakeDamage(damage);
             }
 
-            Bounce(collision.GetContact(0).normal);
+            Bounce(collision.GetContact(0).normal, collision.GetContact(0).point);
             //Bounce();
         }
 
@@ -203,7 +204,7 @@ public class FumaController : MonoBehaviour
     }
     
 
-    void Bounce(Vector3 contactNormalDirection)
+    void Bounce(Vector3 contactNormalDirection, Vector3 pos)
     {
         firstBounce = true;
         bounces -= 1;
@@ -220,7 +221,7 @@ public class FumaController : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0);
         lastPos = transform.position;
 
-        var fx = Instantiate(impactFX, transform.position, Quaternion.identity);
+        var fx = Instantiate(impactFX, pos, Quaternion.identity);
         fx.SetActive(true);
         Destroy(fx, fxDestroyTime);
 
@@ -445,7 +446,7 @@ public class FumaController : MonoBehaviour
 
     public void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < maxBounces; i++)
         {
             Ray ray = new Ray(pos, dir);
             RaycastHit hit;
@@ -455,22 +456,25 @@ public class FumaController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (i ==0 && state.Equals(FumaState.Returning))
-                {
-                    //lr2.SetPosition(1, hit.point);
-                    //lr2.SetPosition(0, pos);
+                if (bounces <= 1)
+{
+                    ResetLine();
+                    return;
                 }
 
-                if (i != 0)
+                //Debug.Log("bounces");
+
+                if (i == 1)
                 {
                     if (state.Equals(FumaState.Flying) && bounces -1 <=0)
                     {
                         ResetLine();
                         Vector3 dirToPlayer = pos - (player.transform.position - Vector3.up * 0.1f);
-                        lr.SetPosition(1, pos - dirToPlayer.normalized * 10);
-                        lr.SetPosition(0, pos);
+                        lr2.SetPosition(1, pos - dirToPlayer.normalized * 10);
+                        lr2.SetPosition(0, pos);
 
-                        lr.startColor = Color.green;
+                        lr2.startColor = Color.green;
+                        lr2.endColor = Color.green;
                     }
                     else
                     {
@@ -480,15 +484,31 @@ public class FumaController : MonoBehaviour
                         lr.SetPosition(0, pos);
 
                         lr.startColor = Color.red;
+                        lr.endColor = Color.red;
 
                     }
                 }
+
                 
+
+                if (i == maxBounces || i == 2)
+                {
+                    Vector3 dirToPlayer = pos - (player.transform.position - Vector3.up * 0.1f);
+                    lr2.SetPosition(1, pos - dirToPlayer.normalized * 10);
+                    lr2.SetPosition(0, pos);
+
+                    lr2.endColor = Color.green;
+                    lr2.startColor = Color.green;
+                }
+
                 if (state.Equals(FumaState.Returning))
                 {
                     lr.SetPosition(0, transform.position);
                     lr.SetPosition(1, transform.position);
                 }
+
+                lr.endColor = new Color(lr.endColor.a, lr.endColor.g, lr.endColor.b, 0);
+                lr2.endColor = new Color(lr2.endColor.a, lr2.endColor.g, lr2.endColor.b, 0);
 
                 pos = hit.point;
                 dir = Vector3.Reflect(dir, hit.normal);

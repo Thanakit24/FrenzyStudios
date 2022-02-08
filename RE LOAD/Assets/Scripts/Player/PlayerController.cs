@@ -80,13 +80,15 @@ public class PlayerController : MonoBehaviour
             dashCooldownTimer += Time.deltaTime;
         }
 
-        
-
         trail.SetActive(isDashing);
 
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
             instance.transform.position = shuriken.transform.position;
+
+            rb.velocity = Vector3.up;
+            isJumping = false;
+
             shuriken.Returned();
         }
 

@@ -29,6 +29,8 @@ public class StanceController : MonoBehaviour
         {
             if (shuriken.state.Equals(FumaState.InHands))
             {
+                ThrowingStance_Start.PlayFeedbacks();
+
                 if (!player.feet.isGrounded)
                     Time.timeScale = _slowedTime;
             }
@@ -41,8 +43,6 @@ public class StanceController : MonoBehaviour
         }
         else if (Input.GetKey(stanceChange))
         {
-            ThrowingStance_Start.PlayFeedbacks();
-
             if (shuriken.state.Equals(FumaState.InHands))
                 shuriken.RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
 

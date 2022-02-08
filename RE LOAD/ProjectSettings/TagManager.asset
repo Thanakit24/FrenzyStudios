@@ -10,6 +10,7 @@ TagManager:
   - Immovable
   - Shield
   - Sticky
+  - Shuriken
   layers:
   - Default
   - TransparentFX

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2512949335525318958}
   m_Layer: 0
   m_Name: ThrowingStance_Start
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 1934517131}
   m_Layer: 0
   m_Name: ThrowingStance_Reset
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -326,6 +326,7 @@ GameObject:
   - component: {fileID: 51137696096559429}
   - component: {fileID: 51137696096559431}
   - component: {fileID: 400472888}
+  - component: {fileID: 8719056217500413543}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -457,6 +458,23 @@ MonoBehaviour:
   TestTransitionDuration: 0.1
   TestDuration: 0.05
   TestZoomButton: 0
+--- !u!114 &8719056217500413543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51137696096559427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc474f316fd55004a81b5c1da9a9cad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shuriken: {fileID: 6000968706672132580}
+  transparent: {fileID: 2100000, guid: 39246e3319eae1342bbc0a0c8fb385fa, type: 2}
+  col: {fileID: 3806811278521443823}
+  objs: []
+  materials: []
 --- !u!1 &51137696174871493
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,10 +597,10 @@ MonoBehaviour:
   stanceChange: 324
   action: 323
   shuriken: {fileID: 8262543006952494058}
-  player: {fileID: 0}
+  player: {fileID: 51137696186876007}
   ThrowingStance_Start: {fileID: 1090678651}
   ThrowingStance_Reset: {fileID: 1934517132}
-  _slowedTime: 0.25
+  _slowedTime: 0.5
   delayZoom: 0
 --- !u!54 &51137696186876006
 Rigidbody:
@@ -795,7 +813,7 @@ GameObject:
   - component: {fileID: 7107436601173283789}
   m_Layer: 7
   m_Name: Cylinder.003
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -876,7 +894,7 @@ GameObject:
   - component: {fileID: 1094247107133886670}
   m_Layer: 7
   m_Name: Cylinder.001
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -957,7 +975,7 @@ GameObject:
   - component: {fileID: 8011285633091409872}
   m_Layer: 7
   m_Name: FeedbacksHolder
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -991,11 +1009,11 @@ GameObject:
   - component: {fileID: 1153612737595462712}
   m_Layer: 7
   m_Name: Trigger
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3337901874934612771
 Transform:
   m_ObjectHideFlags: 0
@@ -1037,7 +1055,7 @@ GameObject:
   - component: {fileID: 3924846383085611990}
   m_Layer: 7
   m_Name: TrailFX
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5841,7 +5859,7 @@ GameObject:
   - component: {fileID: 8073142739315910669}
   m_Layer: 7
   m_Name: Col
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5886,7 +5904,7 @@ GameObject:
   - component: {fileID: 115978955902276375}
   m_Layer: 7
   m_Name: ShurikenMesh
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5935,7 +5953,7 @@ GameObject:
   - component: {fileID: 6217514684517784004}
   m_Layer: 7
   m_Name: Visual Indicator
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6019,7 +6037,7 @@ GameObject:
   - component: {fileID: 5820950983291623083}
   m_Layer: 0
   m_Name: DashingFeedback
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10824,7 +10842,7 @@ GameObject:
   - component: {fileID: 75265540580500623}
   m_Layer: 7
   m_Name: Cylinder.002
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10905,7 +10923,7 @@ GameObject:
   - component: {fileID: 3703984282909089505}
   m_Layer: 7
   m_Name: ShockWaveFX
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15808,9 +15826,10 @@ MonoBehaviour:
   state: 0
   player: {fileID: 51137696186876005}
   holder: {fileID: 51137696174871494}
+  stw: {fileID: 8719056217500413543}
   prefab: {fileID: 4785768568222284490, guid: 20e3054235deeab4984efdc8e3d18992, type: 3}
   lines: []
-  linesShown: 2
+  linesShown: 3
   damage: 20
   curveRot: {x: 0, y: 0, z: 0}
   throwRotation: {x: 0, y: 0, z: 10}
@@ -15837,7 +15856,7 @@ MonoBehaviour:
   nextDir: {x: 0, y: 0, z: 0}
   nextPos: {x: 0, y: 0, z: 0}
   nextAngle: {x: 0, y: 0, z: 0, w: 0}
-  visualIndicator: {fileID: 0}
+  visualIndicator: {fileID: 4953847614959219005}
 --- !u!54 &7105247571521373181
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15880,7 +15899,7 @@ GameObject:
   - component: {fileID: 7675490350243864479}
   m_Layer: 7
   m_Name: ShurikenMeshContainer
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15915,7 +15934,7 @@ GameObject:
   - component: {fileID: 7202894453836670038}
   m_Layer: 7
   m_Name: Cube.008
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15996,7 +16015,7 @@ GameObject:
   - component: {fileID: 3902555480965053663}
   m_Layer: 7
   m_Name: ImpactFX
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
