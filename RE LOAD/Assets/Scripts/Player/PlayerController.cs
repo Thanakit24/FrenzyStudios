@@ -21,8 +21,7 @@ public class PlayerController : MonoBehaviour
     [Header("Melee Attack Config")]
     public bool isMeleeing = false;
     public float meleeCooldown = 0.5f;
-    public Collider attackArea;
-    public int meleeDamage = 1;
+    public GameObject playerMeleeController;
 
     [Header("Jump Config")]
     public float jumpSpeed;
@@ -108,6 +107,8 @@ public class PlayerController : MonoBehaviour
             isMeleeing = true;
             playerAnimator.SetBool("isMeleeing", isMeleeing);
         }
+
+        playerMeleeController.SetActive(isMeleeing);
     }
 
     void FixedUpdate()
@@ -210,23 +211,10 @@ public class PlayerController : MonoBehaviour
 
     public void Melee()
     {
-        foreach (Collider collider in Physics.OverlapSphere(transform.position + Vector3.forward * 0.91f, 0.78f))
-        {
-            if (collider.CompareTag("Enemy"))
-            {
-                print("enemy Found");
-
-                if (collider.GetComponent<Health>() != null)
-                {
-                    collider.GetComponent<Health>().TakeDamage(meleeDamage);
-                    print("something hit");
-                }
-            }
-        }
 
         //put delay for the animation;
-        playerAnimator.SetBool("isMeleeing", isMeleeing);
         isMeleeing = false;
+        playerAnimator.SetBool("isMeleeing", isMeleeing);
     }
 
     IEnumerator Knocked(float knockbackForce)
