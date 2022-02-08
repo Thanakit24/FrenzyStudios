@@ -18,6 +18,7 @@ public class FumaController : MonoBehaviour
     public KeyCode shootingKey;
     public bool canShoot;
 
+    [Header("References")]
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
     public SeeThroughWall stw;
@@ -27,6 +28,7 @@ public class FumaController : MonoBehaviour
     public int linesShown = 2;
     public int damage;
 
+    [Header("Config")]
     public Vector3 curveRot, throwRotation;
     public float flyingSpeed, chargeSpeed, maxBounces, ySpinSpeed, xSpinSpeed, pickupRange, destroyDistance, fxDestroyTime, ragdollSpin;
     public bool curvedStart, curvedFlying, curvedReturn;
@@ -50,8 +52,9 @@ public class FumaController : MonoBehaviour
     public Vector3 nextDir, nextPos;
     public Quaternion nextAngle;
 
+    [Header("Teleport Indicator")]
     public GameObject visualIndicator;
-
+    public float cacheHeight;
     void Awake()
     {
         for (int i = 0; i < linesShown; i++)
@@ -174,6 +177,30 @@ public class FumaController : MonoBehaviour
             {
                 transform.LookAt(player.position);
             }
+        }
+    }
+
+    public void VisualIndicatorSystem()
+    {
+        if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
+        {
+            visualIndicator.SetActive(true);
+            Ray ray;
+            RaycastHit hit;
+            Physics.Raycast(transform.position, Vector3.down, out hit);
+
+            if (cacheHeight != hit.point.y)
+            {
+                cacheHeight = hit.point.y;
+                Debug.Log("different surface");
+            }
+
+            visualIndicator.transform.position = hit.point;
+            visualIndicator.transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
+        else
+        {
+            visualIndicator.SetActive(false);
         }
     }
 
@@ -309,25 +336,7 @@ public class FumaController : MonoBehaviour
         state = FumaState.Flying;
     }
 
-    public void VisualIndicatorSystem()
-    {
-        if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
-        {
-            visualIndicator.SetActive(true);
-            Ray ray;
-            RaycastHit hit;
-            Physics.Raycast(transform.position, Vector3.down, out hit);
-            //Debug.DrawLine(transform.position, hit.point);
-
-            visualIndicator.transform.position = hit.point + Vector3.up*0.2f;
-            //visualIndicator.transform.rotation = Quaternion.Inverse(transform.rotation);
-            visualIndicator.transform.rotation = Quaternion.Euler(90, 0, 0);
-        }
-        else
-        {
-            visualIndicator.SetActive(false);
-        }
-    }
+    
 
     public void Returned()
     {
