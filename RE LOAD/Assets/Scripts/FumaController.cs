@@ -52,10 +52,14 @@ public class FumaController : MonoBehaviour
     public Vector3 nextDir, nextPos;
     public Quaternion nextAngle;
 
-    [Header("Teleport Indicator")]
+    [Header("Feedbacks")]
     public GameObject visualIndicator;
     public float cacheHeight;
     public MMFeedbacks differentHeightSoundQ;
+    public MMFeedbacks throwFB;
+    public Material safeTP;
+    public Material dangerTP;
+
 
     void Awake()
     {
@@ -190,14 +194,19 @@ public class FumaController : MonoBehaviour
             Ray ray;
             RaycastHit hit;
             Physics.Raycast(transform.position, Vector3.down, out hit);
+            MeshRenderer mr = visualIndicator.GetComponent<MeshRenderer>();
 
-            if (Vector3.Magnitude(hit.point - GetTargetLocation()) < 10)
+            if (hit.collider.gameObject.CompareTag("ElectricFloor"))
             {
-                if (cacheHeight != hit.point.y)
+                mr.material = dangerTP;
+            }
+            else
+            {
+                if (mr.material.name.ToString().Contains("TeleportVisual Danger"))
                 {
-                    cacheHeight = hit.point.y;
                     differentHeightSoundQ.PlayFeedbacks();
                 }
+                mr.material = safeTP;
             }
 
             visualIndicator.transform.position = hit.point;
@@ -336,6 +345,8 @@ public class FumaController : MonoBehaviour
         trailFX.SetActive(true);
         col.enabled = true;
         rb.isKinematic = false;
+
+        throwFB.PlayFeedbacks();
 
         CastRayForBounce(transform.position, transform.forward);
 

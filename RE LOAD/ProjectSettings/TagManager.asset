@@ -11,6 +11,7 @@ TagManager:
   - Shield
   - Sticky
   - Shuriken
+  - ElectricFloor
   layers:
   - Default
   - TransparentFX
