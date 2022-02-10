@@ -255,10 +255,13 @@ public class FumaController : MonoBehaviour
                 impactFB.PlayFeedbacks();
                 rb.AddForce(-collision.GetContact(0).normal, ForceMode.Impulse);
 
-                if (collision.transform.CompareTag("Sticky") && bounces <= 1 && autoTeleportsToStickyInsteadofReturnShuriken)
+                if (bounces <= 1 && autoTeleportsToStickyInsteadofReturnShuriken)
                 {
-                    PlayerController.instance.TeleportTo(transform.position);
-                    PlayerController.instance.teleportWithSlowmoFB.PlayFeedbacks();
+                    if (collision.transform.CompareTag("Sticky") || collision.transform.CompareTag("Enemy"))
+                    {
+                        PlayerController.instance.TeleportTo(transform.position);
+                        PlayerController.instance.teleportWithSlowmoFB.PlayFeedbacks();
+                    }
                 }
             }
         }

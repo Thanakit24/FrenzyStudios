@@ -660,7 +660,7 @@ MonoBehaviour:
   canDash: 1
   threeDimensionalDashing: 1
   teleportWithSlowmoFB: {fileID: 7980911224884367365}
-  teleportNormalFB: {fileID: 629755755991951695}
+  teleportNormalFB: {fileID: 7980911224884367365}
   meleeSFX: {fileID: 1874634232900125980}
 --- !u!114 &4726457935285488619
 MonoBehaviour:
