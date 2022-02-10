@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using MoreMountains.Feedbacks;
 public class PlayerMelee : MonoBehaviour
 {
     public Vector3 meleeKnockback;
     public int damage;
+    public MMFeedbacks meleeImpact;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,9 +18,9 @@ public class PlayerMelee : MonoBehaviour
 
             if (rb != null)
             {
-                Debug.Log(other.name);
-
                 rb.AddForce(transform.forward * meleeKnockback.z + Vector3.up * meleeKnockback.y, ForceMode.Impulse);
+                meleeImpact.PlayFeedbacks();
+
             }
             if (hp != null)
             {

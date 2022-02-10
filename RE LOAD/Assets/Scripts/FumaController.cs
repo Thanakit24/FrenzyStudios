@@ -33,7 +33,9 @@ public class FumaController : MonoBehaviour
     public float flyingSpeed, chargeSpeed, maxBounces, ySpinSpeed, xSpinSpeed, pickupRange, destroyDistance, fxDestroyTime, ragdollSpin;
     public bool curvedStart, curvedFlying, curvedReturn;
     [HideInInspector] public bool shouldLockOnToPlayer;
-    
+
+    public bool autoTeleportsToStickyInsteadofReturnShuriken = false;
+
     public MeshCollider col;
     Vector3 lastPos, returnPos;
     Rigidbody rb;
@@ -57,8 +59,10 @@ public class FumaController : MonoBehaviour
     public float cacheHeight;
     public MMFeedbacks differentHeightSoundQ;
     public MMFeedbacks throwFB;
+    public MMFeedbacks recallFB;
     public Material safeTP;
     public Material dangerTP;
+    public MMFeedbacks impactFB;
 
 
     void Awake()
@@ -87,9 +91,18 @@ public class FumaController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && state.Equals(FumaState.Flying)|| state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            shouldLockOnToPlayer = true;
+            if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
+            {
+                state = FumaState.Returning;
+                transform.SetParent(null);
+                rb.constraints = RigidbodyConstraints.None;
+                rb.isKinematic = false;
+
+                recallFB.PlayFeedbacks();
+                shouldLockOnToPlayer = true;
+            }
         }
 
         VisualIndicatorSystem();
@@ -155,6 +168,7 @@ public class FumaController : MonoBehaviour
         else if (state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
         {
             float distance = Vector3.Distance(transform.position, player.position);
+            ResetLine();
             if (distance < pickupRange) Returned();
         }
 
@@ -173,10 +187,9 @@ public class FumaController : MonoBehaviour
         if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
             //Movement
-            transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);  //I see why u r using this but its probably why the shuriken going
+            //transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
+            rb.velocity = transform.forward * flyingSpeed;
 
-
-            //through wall bug exists, do look into it later
             Rotation();
 
             if (state.Equals(FumaState.Returning) && lockOnReturnToPlayer)
@@ -220,27 +233,43 @@ public class FumaController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (state.Equals(FumaState.Stuck)) return;
 
-        bool isPlayer = (collision.collider.CompareTag("Player") || collision.collider.CompareTag("LeftHand"));
+        bool isPlayer = (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Shuriken"));
 
         if (!state.Equals(FumaState.InHands))
         {
-            if (collision.transform.CompareTag("Sticky")) Stick();
+            if (collision.transform.CompareTag("Sticky"))
+            {
+                Stick(collision.collider.gameObject.transform);
+                impactFB.PlayFeedbacks();
+            }
             if (isPlayer && firstBounce) Returned();
         }
 
-        if (state.Equals(FumaState.Flying) && bounces > 0 && !isPlayer)
+        if (!isPlayer)
         {
-
-            if (collision.collider.CompareTag("Enemy"))
+            Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                collision.collider.GetComponent<Health>().TakeDamage(damage);
-            }
+                impactFB.PlayFeedbacks();
+                rb.AddForce(-collision.GetContact(0).normal, ForceMode.Impulse);
 
-            Bounce(collision.GetContact(0).normal, collision.GetContact(0).point);
-            //Bounce();
+                if (collision.transform.CompareTag("Sticky") && bounces <= 1 && autoTeleportsToStickyInsteadofReturnShuriken)
+                {
+                    PlayerController.instance.TeleportTo(transform.position);
+                    PlayerController.instance.teleportWithSlowmoFB.PlayFeedbacks();
+                }
+            }
         }
 
+        Health hp = collision.collider.GetComponent<Health>();
+        if (hp != null) hp.TakeDamage(damage);
+
+        if (state.Equals(FumaState.Flying) && bounces > 0 && !isPlayer && !collision.transform.CompareTag("Sticky"))
+        {
+            Bounce(collision.GetContact(0).normal, collision.GetContact(0).point);
+        }
         //if (state.Equals(FumaState.Returning)) Ragdoll();
     }
     
@@ -262,7 +291,7 @@ public class FumaController : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0);
         lastPos = transform.position;
 
-        var fx = Instantiate(impactFX, pos + contactNormalDirection, Quaternion.identity);
+        var fx = Instantiate(impactFX, pos + contactNormalDirection * 0.1f, Quaternion.identity);
         fx.SetActive(true);
         Destroy(fx, fxDestroyTime);
         bounceSFX.PlayFeedbacks();
@@ -301,10 +330,12 @@ public class FumaController : MonoBehaviour
         }
     }
 
-    void Stick()
+    void Stick(Transform newParent)
     {
         state = FumaState.Stuck;
+        bounceSFX.PlayFeedbacks();
 
+        transform.SetParent(newParent);
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         rb.useGravity = false;
         rb.isKinematic = true;

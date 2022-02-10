@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using MoreMountains.Feedbacks;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,10 +18,12 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isKnocked = false;
     public float knockbackRecoveryTime = 0.2f;
     private float horizontalMovement;
+    public bool isTeleporting;
 
     [Header("Melee Attack Config")]
     public bool isMeleeing = false;
     public float meleeCooldown = 0.5f;
+    private float meleeCounter = 0f;
     public GameObject playerMeleeController;
 
     [Header("Jump Config")]
@@ -45,6 +48,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool canDash = true;
     public bool threeDimensionalDashing = true;
 
+    [Header("Feedbacks")]
+    public MMFeedbacks teleportWithSlowmoFB;
+    public MMFeedbacks teleportNormalFB;
+    public MMFeedbacks meleeSFX;
+
     void Start()
     {
         instance = this;
@@ -53,6 +61,7 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
 
         dashCooldownTimer = dashCooldown;
+        isTeleporting = false;
     }
 
     private void Update()
@@ -84,13 +93,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
-            instance.transform.position = shuriken.transform.position;
-
-            rb.velocity = Vector3.up;
-            isJumping = false;
-
-            shuriken.Returned();
+            teleportNormalFB.PlayFeedbacks();
+            TeleportTo(shuriken.transform.position);
         }
+        
+
 
         if ((Input.GetKeyUp(KeyCode.Space) && isJumping))
         {
@@ -102,8 +109,13 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
+        //Melee
+        if (meleeCounter > 0)
         {
+            meleeCounter -= Time.deltaTime;
+        }else if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
+        {
+            meleeSFX.PlayFeedbacks();
             isMeleeing = true;
             playerAnimator.SetBool("isMeleeing", isMeleeing);
         }
@@ -124,7 +136,7 @@ public class PlayerController : MonoBehaviour
             horizontalMovement = Input.GetAxis("Horizontal");
         }
 
-        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X") / Time.timeScale, Input.GetAxis("Mouse Y") / Time.timeScale);
+        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
         MovePlayerCamera();
 
@@ -165,7 +177,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    public void TeleportTo(Vector3 pos)
+    {
+        if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned();
+
+        transform.position = pos;
+        rb.velocity = Vector3.up + rb.velocity;
+        isJumping = false;
+        isTeleporting = false;
+    }
 
     private void MovePlayer()
     {
@@ -211,8 +231,8 @@ public class PlayerController : MonoBehaviour
 
     public void Melee()
     {
-
         //put delay for the animation;
+        meleeCounter = meleeCooldown;
         isMeleeing = false;
         playerAnimator.SetBool("isMeleeing", isMeleeing);
     }
