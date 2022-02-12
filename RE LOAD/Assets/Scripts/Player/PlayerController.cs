@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
             horizontalMovement = Input.GetAxis("Horizontal");
         }
 
-        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X")/Time.deltaTime, Input.GetAxis("Mouse Y")/Time.deltaTime);
 
         MovePlayerCamera();
 

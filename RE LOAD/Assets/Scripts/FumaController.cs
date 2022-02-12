@@ -54,6 +54,9 @@ public class FumaController : MonoBehaviour
     public Vector3 nextDir, nextPos;
     public Quaternion nextAngle;
 
+    [Header("Electricyty Debug")]
+    public bool isElectrolyzed;
+
     [Header("Feedbacks")]
     public GameObject visualIndicator;
     public float cacheHeight;
@@ -237,6 +240,21 @@ public class FumaController : MonoBehaviour
 
         bool isPlayer = (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Shuriken"));
 
+
+
+        //Electricity
+        Electrolyzed electrolyzed = collision.collider.GetComponent<Electrolyzed>();
+        if (electrolyzed != null)
+        {
+            if (electrolyzed.input)
+                isElectrolyzed = true;
+            else
+            {
+                isElectrolyzed = false;
+            }
+            electrolyzed.OnContactActivation();
+        }
+        //Sticky
         if (!state.Equals(FumaState.InHands))
         {
             if (collision.transform.CompareTag("Sticky"))
@@ -247,6 +265,11 @@ public class FumaController : MonoBehaviour
             if (isPlayer && firstBounce) Returned();
         }
 
+        //Health
+        Health hp = collision.collider.GetComponent<Health>();
+        if (hp != null) hp.TakeDamage(damage);
+
+        //Knockback + auto Tp
         if (!isPlayer)
         {
             Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
@@ -266,13 +289,13 @@ public class FumaController : MonoBehaviour
             }
         }
 
-        Health hp = collision.collider.GetComponent<Health>();
-        if (hp != null) hp.TakeDamage(damage);
-
+        //Bounce
         if (state.Equals(FumaState.Flying) && bounces > 0 && !isPlayer && !collision.transform.CompareTag("Sticky"))
         {
             Bounce(collision.GetContact(0).normal, collision.GetContact(0).point);
         }
+
+        //Ragdoll
         //if (state.Equals(FumaState.Returning)) Ragdoll();
     }
     
