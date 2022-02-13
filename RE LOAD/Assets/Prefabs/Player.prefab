@@ -12851,14 +12851,14 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  Sfx: {fileID: 8300000, guid: dc88ea483a0a12041870a6833e6eec6b, type: 3}
+  Sfx: {fileID: 8300000, guid: 30cd30d7f740fa844b39ad3960c4b064, type: 3}
   RandomSfx: []
   TestButton: 0
   TestStopButton: 0
   MinVolume: 0.1
   MaxVolume: 0.1
-  MinPitch: 0.8
-  MaxPitch: 1.3
+  MinPitch: 1
+  MaxPitch: 1
   MmSoundManagerTrack: 0
   ID: 0
   AudioGroup: {fileID: -3165942800488051908, guid: 7e984f512e89b60468e829489e8883e3,
