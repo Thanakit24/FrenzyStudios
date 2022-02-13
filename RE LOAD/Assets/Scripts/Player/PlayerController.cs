@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
-            teleportNormalFB.PlayFeedbacks();
+            teleportWithSlowmoFB.PlayFeedbacks();
             TeleportTo(shuriken.transform.position);
         }
         

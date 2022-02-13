@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 9.7
-  _sensitivity: 5
+  _sensitivity: 0.3
   playerMovementInput: {x: 0, y: 0, z: 0}
   isKnocked: 0
   knockbackRecoveryTime: 0.2
@@ -647,7 +647,7 @@ MonoBehaviour:
   playerMeleeController: {fileID: 6202599931824046600}
   jumpSpeed: 12
   holdSpaceToJumpHigher: 1
-  maxJumpTime: 0.3
+  maxJumpTime: 0.1
   feet: {fileID: 51137696814405655}
   rb: {fileID: 51137696186876006}
   playerCamera: {fileID: 51137696096559428}
@@ -18118,6 +18118,7 @@ MonoBehaviour:
   nextDir: {x: 0, y: 0, z: 0}
   nextPos: {x: 0, y: 0, z: 0}
   nextAngle: {x: 0, y: 0, z: 0, w: 0}
+  isElectrolyzed: 0
   visualIndicator: {fileID: 5976283935346808043}
   cacheHeight: 0
   differentHeightSoundQ: {fileID: 4000575339765078530}
