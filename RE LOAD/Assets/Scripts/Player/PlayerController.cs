@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Feedbacks")]
     public MMFeedbacks teleportWithSlowmoFB;
+    public MMFeedbacks teleportWithSlowmoSFX;
     public MMFeedbacks teleportNormalFB;
     public MMFeedbacks meleeSFX;
 
@@ -93,7 +94,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
-            teleportNormalFB.PlayFeedbacks();
+            teleportWithSlowmoFB.PlayFeedbacks();
+            teleportWithSlowmoSFX.PlayFeedbacks();
             TeleportTo(shuriken.transform.position);
         }
         
@@ -136,7 +138,7 @@ public class PlayerController : MonoBehaviour
             horizontalMovement = Input.GetAxis("Horizontal");
         }
 
-        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X")/Time.deltaTime, Input.GetAxis("Mouse Y")/Time.deltaTime);
+        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X")*Time.timeScale / Time.deltaTime, Input.GetAxis("Mouse Y")*Time.timeScale / Time.deltaTime);
 
         MovePlayerCamera();
 
@@ -195,10 +197,14 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayerCamera()
     {
-        xRotation -= mouseMovementInput.y * _sensitivity;
+        float tempSens = _sensitivity;
+
+        //if (teleportWithSlowmoFB.IsPlaying) tempSens = _sensitivity / 2;
+
+        xRotation -= mouseMovementInput.y * tempSens;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.Rotate(0f, mouseMovementInput.x * _sensitivity, 0f);
+        transform.Rotate(0f, mouseMovementInput.x * tempSens, 0f);
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
     }
 

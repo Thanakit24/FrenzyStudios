@@ -280,11 +280,13 @@ public class FumaController : MonoBehaviour
 
                 if (bounces <= 1 && autoTeleportsToStickyInsteadofReturnShuriken)
                 {
+                    /*
                     if (collision.transform.CompareTag("Sticky") || collision.transform.CompareTag("Enemy"))
                     {
                         PlayerController.instance.TeleportTo(transform.position);
                         PlayerController.instance.teleportWithSlowmoFB.PlayFeedbacks();
                     }
+                    */
                 }
             }
         }
