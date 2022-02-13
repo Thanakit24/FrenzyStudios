@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LevelBlockings.unity
+    path: Assets/Scenes/LevelConcept_Pai.unity
     guid: e67e72d6ce4f4bb48a87a40fb8ff5f2e
   m_configObjects: {}
