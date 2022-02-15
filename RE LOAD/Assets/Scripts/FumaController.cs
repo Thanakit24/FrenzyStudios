@@ -28,6 +28,9 @@ public class FumaController : MonoBehaviour
     public int linesShown = 2;
     public int damage;
 
+    [HideInInspector] public Vector3 teleportLocation;
+    private float teleportLocationCounter;
+
     [Header("Config")]
     public Vector3 curveRot, throwRotation;
     public float flyingSpeed, chargeSpeed, maxBounces, ySpinSpeed, xSpinSpeed, pickupRange, destroyDistance, fxDestroyTime, ragdollSpin;
@@ -46,6 +49,7 @@ public class FumaController : MonoBehaviour
     float tempBounces;
     public int bounces;
     public int defaultBounces;
+
 
     public TextMeshProUGUI text;
 
@@ -94,6 +98,8 @@ public class FumaController : MonoBehaviour
 
     void Update()
     {
+        TeleportLocationDelaySystem();
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
@@ -240,8 +246,6 @@ public class FumaController : MonoBehaviour
 
         bool isPlayer = (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Shuriken"));
 
-
-
         //Electricity
         Electrolyzed electrolyzed = collision.collider.GetComponent<Electrolyzed>();
         if (electrolyzed != null)
@@ -276,6 +280,9 @@ public class FumaController : MonoBehaviour
             if (rb != null)
             {
                 impactFB.PlayFeedbacks();
+                teleportLocationCounter = .5f;
+                teleportLocation = transform.position;
+
                 rb.AddForce(-collision.GetContact(0).normal, ForceMode.Impulse);
 
                 if (bounces <= 1 && autoTeleportsToStickyInsteadofReturnShuriken)
@@ -623,5 +630,17 @@ public class FumaController : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(transform.position, transform.forward, out hit);
         return hit.point;
+    }
+
+    void TeleportLocationDelaySystem()
+    {
+        if (teleportLocationCounter > 0)
+        {
+            teleportLocationCounter -= Time.deltaTime;
+        }
+        else
+        {
+            teleportLocation = transform.position;
+        }
     }
 }

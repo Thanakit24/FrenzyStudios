@@ -114,7 +114,7 @@ MonoBehaviour:
   DebugActive: 0
   Channel: 0
   ZoomMode: 1
-  ZoomFieldOfView: 65
+  ZoomFieldOfView: 85
   ZoomTransitionDuration: 0.05
   ZoomDuration: 0.1
   RelativeFieldOfView: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
   DebugActive: 0
   Channel: 0
   ZoomMode: 1
-  ZoomFieldOfView: 60
+  ZoomFieldOfView: 80
   ZoomTransitionDuration: 0.05
   ZoomDuration: 0.1
   RelativeFieldOfView: 0
@@ -300,7 +300,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -417,11 +417,11 @@ MonoBehaviour:
   ShakeDuration: 0.5
   PlayOnAwake: 0
   Interruptible: 1
-  AlwaysResetTargetValuesAfterShake: 0
+  AlwaysResetTargetValuesAfterShake: 1
   Shaking: 0
   ForwardDirection: 1
   TimescaleMode: 0
-  RelativeFieldOfView: 0
+  RelativeFieldOfView: 1
   ShakeFieldOfView:
     serializedVersion: 2
     m_Curve:
@@ -455,8 +455,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RemapFieldOfViewZero: 60
-  RemapFieldOfViewOne: 120
+  RemapFieldOfViewZero: 0
+  RemapFieldOfViewOne: 27.5
 --- !u!114 &8923221770416815175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 9.7
-  _sensitivity: 0.2
+  _sensitivity: 0.3
   playerMovementInput: {x: 0, y: 0, z: 0}
   isKnocked: 0
   knockbackRecoveryTime: 0.2
@@ -1238,8 +1238,8 @@ MonoBehaviour:
   RandomSfx: []
   TestButton: 0
   TestStopButton: 0
-  MinVolume: 1
-  MaxVolume: 1
+  MinVolume: 0.7
+  MaxVolume: 0.7
   MinPitch: 1
   MaxPitch: 1
   MmSoundManagerTrack: 0
@@ -6435,8 +6435,8 @@ MonoBehaviour:
   TestStopButton: 0
   MinVolume: 0.5
   MaxVolume: 0.5
-  MinPitch: 0.92
-  MaxPitch: 1
+  MinPitch: 0.9
+  MaxPitch: 0.9
   MmSoundManagerTrack: 0
   ID: 0
   AudioGroup: {fileID: -3165942800488051908, guid: 7e984f512e89b60468e829489e8883e3,
@@ -7093,7 +7093,7 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  FreezeFrameDuration: 0.1
+  FreezeFrameDuration: 0.2
   MinimumTimescaleThreshold: 0.1
 --- !u!1 &4666053232739071562
 GameObject:
@@ -18565,8 +18565,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5327059, y: 1.5827448, z: 1.3588217}
-  m_Center: {x: -0.000001291298, y: -0.04843247, z: 1.0768055}
+  m_Size: {x: 1.5327059, y: 1.5827448, z: 2.6567693}
+  m_Center: {x: -0.0000034105321, y: -0.04843247, z: 1.7257817}
 --- !u!114 &1395721267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18646,6 +18646,7 @@ MonoBehaviour:
   lines: []
   linesShown: 3
   damage: 20
+  teleportLocation: {x: 0, y: 0, z: 0}
   curveRot: {x: 0, y: 0, z: 0}
   throwRotation: {x: 0, y: 0, z: 10}
   flyingSpeed: 25
@@ -19032,7 +19033,7 @@ MonoBehaviour:
   Duration: 0.5
   ResetShakerValuesAfterShake: 1
   ResetTargetValuesAfterShake: 1
-  RelativeFieldOfView: 0
+  RelativeFieldOfView: 1
   ShakeFieldOfView:
     serializedVersion: 2
     m_Curve:
@@ -19066,8 +19067,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RemapFieldOfViewZero: 60
-  RemapFieldOfViewOne: 70.4
+  RemapFieldOfViewZero: 0
+  RemapFieldOfViewOne: 15
 --- !u!114 &2863216358449370128
 MonoBehaviour:
   m_ObjectHideFlags: 0

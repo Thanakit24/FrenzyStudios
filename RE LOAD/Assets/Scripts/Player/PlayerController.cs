@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
         {
             teleportWithSlowmoFB.PlayFeedbacks();
             teleportWithSlowmoSFX.PlayFeedbacks();
-            TeleportTo(shuriken.transform.position);
+            TeleportTo(shuriken.teleportLocation);
         }
         
 
