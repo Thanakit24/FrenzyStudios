@@ -122,6 +122,9 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("isMeleeing", isMeleeing);
         }
 
+        if (!isDashing)
+            Camera.main.transform.localPosition = Vector3.zero + Vector3.up * 0.75f;
+
         playerMeleeController.SetActive(isMeleeing);
     }
 

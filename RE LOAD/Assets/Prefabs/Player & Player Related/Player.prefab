@@ -306,7 +306,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16255
   m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 84298032}
   m_Layer: 7
   m_Name: Pivot
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 4608537072530504689}
   - component: {fileID: 4773618073134275319}
   - component: {fileID: 2659986378753450073}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Slice.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 2570695946653873072}
   - component: {fileID: 3443485603187625193}
   - component: {fileID: 7107436601173283789}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Cylinder.003
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -974,7 +974,7 @@ GameObject:
   - component: {fileID: 3498630364952816293}
   - component: {fileID: 6055629540318341221}
   - component: {fileID: 1094247107133886670}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Cylinder.001
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -1430,7 +1430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3337901874934612771}
   - component: {fileID: 1153612737595462712}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Trigger
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -1476,7 +1476,7 @@ GameObject:
   - component: {fileID: 4830986717971712069}
   - component: {fileID: 6273216556696708618}
   - component: {fileID: 3924846383085611990}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: TrailFX
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -6280,7 +6280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5193158940621909645}
   - component: {fileID: 8073142739315910669}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Col
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -6327,7 +6327,7 @@ GameObject:
   - component: {fileID: 3534687984442546013}
   - component: {fileID: 6355751329076815756}
   - component: {fileID: 2315581758224321365}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BounceFeedback
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -6992,7 +6992,7 @@ GameObject:
   - component: {fileID: 4158506702847881500}
   - component: {fileID: 3694357900660953956}
   - component: {fileID: 498206231525564071}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ImpactFeedback
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -7105,7 +7105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6289060832795528086}
   - component: {fileID: 115978955902276375}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: ShurikenMesh
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -7158,7 +7158,7 @@ GameObject:
   - component: {fileID: 6420355270710254320}
   - component: {fileID: 1682435590385600430}
   - component: {fileID: 1336715460163955606}
-  - component: {fileID: 4683117734171399597}
+  - component: {fileID: 7657169892541992555}
   m_Layer: 0
   m_Name: DashingFeedback
   m_TagString: Player
@@ -7174,7 +7174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5555331812280932247}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.793, z: 1.1100001}
+  m_LocalPosition: {x: 0, y: 1, z: 1.1100001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5109875346187508751}
@@ -11968,7 +11968,7 @@ MonoBehaviour:
   Feedbacks:
   - {fileID: 1682435590385600430}
   - {fileID: 1336715460163955606}
-  - {fileID: 4683117734171399597}
+  - {fileID: 7657169892541992555}
   InitializationMode: 2
   SafeMode: 3
   Direction: 0
@@ -12132,10 +12132,10 @@ MonoBehaviour:
     TargetBPM: 120
   DebugActive: 0
   Channel: 0
-  Duration: 0.4
+  Duration: 0.3
   ResetShakerValuesAfterShake: 1
   ResetTargetValuesAfterShake: 1
-  RelativeFieldOfView: 0
+  RelativeFieldOfView: 1
   ShakeFieldOfView:
     serializedVersion: 2
     m_Curve:
@@ -12149,7 +12149,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.1819728
+      time: 0.2
       value: 1
       inSlope: 0
       outSlope: 0
@@ -12169,9 +12169,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RemapFieldOfViewZero: 60
-  RemapFieldOfViewOne: 70
---- !u!114 &4683117734171399597
+  RemapFieldOfViewZero: 0
+  RemapFieldOfViewOne: 10
+--- !u!114 &7657169892541992555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12180,11 +12180,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5555331812280932247}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89c8acfc07fee664da6ad222b6541a44, type: 3}
+  m_Script: {fileID: 11500000, guid: 376d98efc7809f24693ecc03cdc3e05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Active: 1
-  Label: MMSoundManager Sound
+  Label: Position
   Chance: 100
   Timing:
     TimescaleMode: 0
@@ -12206,67 +12206,182 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  Sfx: {fileID: 8300000, guid: 8968d31e9f2b43b49b351ca375c9b6a4, type: 3}
-  RandomSfx: []
-  TestButton: 0
-  TestStopButton: 0
-  MinVolume: 0.1
-  MaxVolume: 0.1
-  MinPitch: 1
-  MaxPitch: 1
-  MmSoundManagerTrack: 0
-  ID: 0
-  AudioGroup: {fileID: -3165942800488051908, guid: 7e984f512e89b60468e829489e8883e3,
-    type: 2}
-  RecycleAudioSource: {fileID: 0}
-  Loop: 0
-  Persistent: 0
-  DoNotPlayIfClipAlreadyPlaying: 0
-  Fade: 0
-  FadeInitialVolume: 0
-  FadeDuration: 1
-  FadeTween:
-    MMTweenDefinitionType: 0
-    MMTweenCurve: 9
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  SoloSingleTrack: 0
-  SoloAllTracks: 0
-  AutoUnSoloOnEnd: 0
-  PanStereo: 0
-  SpatialBlend: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  Priority: 0
-  ReverbZoneMix: 0
-  DopplerLevel: 0
-  Spread: 0
-  RolloffMode: 0
-  MinDistance: 0
-  MaxDistance: 0
+  AnimatePositionTarget: {fileID: 51137696096559427}
+  Mode: 0
+  TimeScale: 1
+  Space: 1
+  AnimatePositionDuration: 0.3
+  AnimatePositionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  RemapCurveZero: 0
+  RemapCurveOne: 1
+  AnimateX: 0
+  AnimatePositionCurveX:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6
+      value: -1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AnimateY: 0
+  AnimatePositionCurveY:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6
+      value: -1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AnimateZ: 0
+  AnimatePositionCurveZ:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6
+      value: -1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AllowAdditivePlays: 0
+  RelativePosition: 1
+  DeterminePositionsOnPlay: 0
+  InitialPosition: {x: 0, y: 0.75, z: 0}
+  DestinationPosition: {x: 0, y: 0.75, z: -2}
+  InitialPositionTransform: {fileID: 0}
+  DestinationPositionTransform: {fileID: 0}
 --- !u!1 &5557428664557779385
 GameObject:
   m_ObjectHideFlags: 0
@@ -12277,7 +12392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7998184751140761081}
   - component: {fileID: 1802253462962128529}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12923,7 +13038,7 @@ GameObject:
   - component: {fileID: 4829613124090097624}
   - component: {fileID: 1347948071939835023}
   - component: {fileID: 75265540580500623}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Cylinder.002
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -13037,7 +13152,7 @@ GameObject:
   - component: {fileID: 4306081251269844918}
   - component: {fileID: 8979129234425130408}
   - component: {fileID: 3703984282909089505}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: ShockWaveFX
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -18595,9 +18710,9 @@ GameObject:
   - component: {fileID: 7105247571521373181}
   - component: {fileID: 1066275424}
   - component: {fileID: 3700384944254334062}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Shuriken2
-  m_TagString: Untagged
+  m_TagString: Shuriken
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19429,7 +19544,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7675490350243864479}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: ShurikenMeshContainer
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -20099,7 +20214,7 @@ GameObject:
   - component: {fileID: 9108121985793717740}
   - component: {fileID: 8177296865270783947}
   - component: {fileID: 7202894453836670038}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Cube.008
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
@@ -20393,7 +20508,7 @@ GameObject:
   - component: {fileID: 8311746378263058148}
   - component: {fileID: 5017670684269273634}
   - component: {fileID: 3902555480965053663}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: ImpactFX
   m_TagString: Shuriken
   m_Icon: {fileID: 0}
