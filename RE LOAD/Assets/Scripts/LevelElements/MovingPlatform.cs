@@ -5,42 +5,45 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     private Rigidbody rb;
-    private Vector3 startingPos, lastPos;
+    private Vector3 startingPos;
     public Vector3 targetPos;
     public float speed;
+    public float snap;
+    public bool isGoing;
 
     public void Start()
     {
         startingPos = transform.position;
-        lastPos = startingPos;
-        rb = GetComponent<Rigidbody>();
+        isGoing = true;
     }
 
     public void Update()
     {
-        if (targetPos != null)
+        Vector3 direction = targetPos - startingPos;
+
+        if (isGoing)
         {
-            Vector3 direction = targetPos - startingPos;
+            float magnitude = Vector3.Magnitude(transform.position - targetPos);
 
-            if (lastPos == startingPos)
+            transform.Translate(direction.normalized * speed * Time.deltaTime);
+
+            if (magnitude < snap)
             {
-                rb.transform.Translate(direction.normalized * speed);
-
-                if (transform.position == targetPos)
-                {
-                    lastPos = targetPos;
-                }
+                transform.position = targetPos;
+                isGoing = false;
             }
-            else
+        }
+        else
+        {
+            float magnitude = Vector3.Magnitude(transform.position - startingPos);
+
+            transform.Translate(-direction.normalized * speed * Time.deltaTime);
+
+            if (magnitude < snap)
             {
-                rb.transform.Translate(-direction.normalized * speed);
-
-                if (transform.position == startingPos)
-                {
-                    lastPos = startingPos;
-                }
+                transform.position = startingPos;
+                isGoing = true;
             }
-            
         }
     }
 
@@ -49,7 +52,7 @@ public class MovingPlatform : MonoBehaviour
 	{
 		if(other.gameObject.tag == "Player")
 		{
-			other.transform.parent = transform;
+            PlayerController.instance.transform.parent = transform;
 		}
 	}
 
@@ -57,7 +60,7 @@ public class MovingPlatform : MonoBehaviour
 	{
 		if (other.gameObject.tag == "Player")
 		{
-			other.transform.parent = null;
-		}
-	}
+            PlayerController.instance.transform.parent = null;
+        }
+    }
 }

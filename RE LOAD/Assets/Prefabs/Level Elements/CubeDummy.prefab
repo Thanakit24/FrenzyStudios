@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 8332315471811555727}
   - component: {fileID: 2659493181215237725}
   m_Layer: 0
-  m_Name: Box
+  m_Name: CubeDummy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
