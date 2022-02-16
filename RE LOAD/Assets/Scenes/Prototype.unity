@@ -1626,7 +1626,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1049223420
 GameObject:
@@ -2054,7 +2054,7 @@ Transform:
   - {fileID: 1717418802}
   - {fileID: 1685171893}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1481028848 stripped
 GameObject:
@@ -2609,7 +2609,7 @@ Transform:
   - {fileID: 1734706591}
   - {fileID: 326404241}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971780511
 GameObject:
@@ -2872,7 +2872,7 @@ PrefabInstance:
     - target: {fileID: 51137696186876005, guid: 93d68906338a6dc4b82202576e4b0faf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 51137696186876005, guid: 93d68906338a6dc4b82202576e4b0faf,
         type: 3}
@@ -2946,7 +2946,7 @@ PrefabInstance:
     - target: {fileID: 798775175282914371, guid: e298f3efa2bb148489a7172642afc8eb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 798775175282914371, guid: e298f3efa2bb148489a7172642afc8eb,
         type: 3}
@@ -3003,6 +3003,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Platform
       objectReference: {fileID: 0}
+    - target: {fileID: 798775175282914374, guid: e298f3efa2bb148489a7172642afc8eb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e298f3efa2bb148489a7172642afc8eb, type: 3}
 --- !u!1001 &2998645670615828766
@@ -3022,10 +3027,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 2998645672262518430, guid: 76812e9ab8a98a048a4cf155bfccfdb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2998645672262518431, guid: 76812e9ab8a98a048a4cf155bfccfdb3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2998645672262518431, guid: 76812e9ab8a98a048a4cf155bfccfdb3,
         type: 3}
