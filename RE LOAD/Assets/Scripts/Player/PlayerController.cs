@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
     public MMFeedbacks teleportWithSlowmoSFX;
     public MMFeedbacks teleportNormalFB;
     public MMFeedbacks meleeSFX;
+    public MMFeedbacks dashRecovery;
 
     void Start()
     {
@@ -234,7 +235,8 @@ public class PlayerController : MonoBehaviour
             rb.useGravity = true;
             isDashing = false;
 
-            rb.velocity = Vector3.zero;
+            rb.velocity = rb.velocity * 0.2f;
+            dashRecovery.PlayFeedbacks();
         }
     }
 
