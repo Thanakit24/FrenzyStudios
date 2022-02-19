@@ -12205,7 +12205,7 @@ MonoBehaviour:
     TargetBPM: 120
   DebugActive: 0
   Channel: 0
-  Duration: 0.21
+  Duration: 0.3
   ResetShakerValuesAfterShake: 1
   ResetTargetValuesAfterShake: 1
   RelativeFieldOfView: 1
@@ -12215,38 +12215,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1.529638
-      outSlope: 1.529638
+      inSlope: -0
+      outSlope: -0
       tangentMode: 0
       weightedMode: 2
       inWeight: 0
-      outWeight: 0.708708
+      outWeight: 0.15051171
     - serializedVersion: 3
-      time: 0.9
+      time: 0.66666
       value: 1
-      inSlope: 26.120409
-      outSlope: 0.9333563
+      inSlope: -0
+      outSlope: 0
       tangentMode: 1
       weightedMode: 3
-      inWeight: 0.0048905513
-      outWeight: 0.1870143
-    - serializedVersion: 3
-      time: 0.95
-      value: 1
-      inSlope: -0.48685116
-      outSlope: -0.48685116
-      tangentMode: 0
-      weightedMode: 3
-      inWeight: 0.3048038
+      inWeight: 0.17856324
       outWeight: 1
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 4.768693
+      inSlope: -5.547205
       outSlope: -0.18910806
       tangentMode: 1
       weightedMode: 1
-      inWeight: 1
+      inWeight: 0.010203813
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -19851,7 +19842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376d98efc7809f24693ecc03cdc3e05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 0
+  Active: 1
   Label: Position Recovery
   Chance: 100
   Timing:
@@ -19892,7 +19883,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.104470365
     - serializedVersion: 3
-      time: 0.7
+      time: 0.4
       value: 1
       inSlope: 0
       outSlope: 0
@@ -20046,8 +20037,8 @@ MonoBehaviour:
   AllowAdditivePlays: 0
   RelativePosition: 1
   DeterminePositionsOnPlay: 0
-  InitialPosition: {x: 0, y: 0.45, z: 0}
-  DestinationPosition: {x: 0, y: 0.45, z: 0.1}
+  InitialPosition: {x: 0, y: 0.4, z: 0}
+  DestinationPosition: {x: 0, y: 0.4, z: 0.1}
   InitialPositionTransform: {fileID: 0}
   DestinationPositionTransform: {fileID: 0}
 --- !u!1 &7313169855806271948
