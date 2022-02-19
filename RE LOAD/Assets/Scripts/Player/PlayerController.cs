@@ -8,10 +8,27 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
 
+    [Header("Physics")]
+    public float actualSpeed;
+    public float acceleration;
+    public float initialVelocity;
+    public float deceleration;
+    public float airControl;
+
+    [Header("AddForceMovement")]
+    public float addForceMoveSpeed;
+    public float groundCounterMovement;
+    public float airCounterMovement;
+    public float groundMaxVelocity;
+    public float airMaxVelocity;
+
     [Header("Player")]
     public float _speed;
     public float _sensitivity;
-    [SerializeField] private Vector3 playerMovementInput;
+    private Vector3 rawPlayerMovementInput;
+    private Vector3 PlayerMovementInput;
+    private Vector3 smartPlayerMovementInput;
+    public float movementThreshold = 0.7f;
     private Vector2 mouseMovementInput;
     private float xRotation;
     private bool isDashing, isJumping;
@@ -68,7 +85,30 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //jumpKeyPressing = JumpKeyPressingChecker();
+        rawPlayerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
+        PlayerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")), 1f);
+
+        float tempMovX = Input.GetAxis("Horizontal");
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        {
+            tempMovX = Input.GetAxisRaw("Horizontal");
+        }
+        else if (Mathf.Abs(Input.GetAxis("Horizontal")) < movementThreshold)
+        {
+            tempMovX = 0;
+        }
+
+        float tempMovY = Input.GetAxis("Vertical");
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+        {
+            tempMovY = Input.GetAxisRaw("Vertical");
+        }
+        else if (Mathf.Abs(Input.GetAxis("Vertical")) < movementThreshold)
+        {
+            tempMovY = 0;
+        }
+        smartPlayerMovementInput = Vector3.ClampMagnitude(new Vector3(tempMovX, 0, tempMovY), 1f);
+
 
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing && feet.isGrounded)
         {
@@ -131,24 +171,12 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        playerMovementInput = Vector3.ClampMagnitude(new Vector3(horizontalMovement, 0, Input.GetAxisRaw("Vertical")), 1f);
-
-        if (Input.GetAxisRaw("Horizontal") == 0)
-        {
-            horizontalMovement = 0;
-        }
-        else
-        {
-            horizontalMovement = Input.GetAxis("Horizontal");
-        }
-
-        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X")*Time.timeScale / Time.deltaTime, Input.GetAxis("Mouse Y")*Time.timeScale / Time.deltaTime);
-
+        mouseMovementInput = new Vector2(Input.GetAxis("Mouse X") * Time.deltaTime * 50, Input.GetAxis("Mouse Y") * Time.deltaTime * 50);
         MovePlayerCamera();
 
         if (isDashing)
         {
-            StartCoroutine(Dash(transform.TransformDirection(playerMovementInput.normalized)));
+            StartCoroutine(Dash(transform.TransformDirection(PlayerMovementInput.normalized)));
 
             if (Physics.OverlapSphere(transform.position + transform.forward,0.8f).Length > 2)
             {
@@ -159,12 +187,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            /*
             if (isKnocked)
             {
                 StartCoroutine(Knocked(2));
             }
             else
-                MovePlayer();
+                */
+            MovePlayerVelocity();
+            //MovePlayerAddForce();
 
         }
 
@@ -175,6 +206,7 @@ public class PlayerController : MonoBehaviour
                 jumpTimeCounter -= Time.deltaTime;
 
                 rb.velocity = new Vector3(rb.velocity.x, jumpSpeed - jumpTimeCounter * 2, rb.velocity.z );
+                //rb.AddForce(transform.TransformDirection(fakePlayerMovementInput) * 10);
             }
             else
             {
@@ -188,16 +220,120 @@ public class PlayerController : MonoBehaviour
         if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned();
 
         transform.position = pos;
-        rb.velocity = Vector3.up + rb.velocity;
+        rb.velocity = Vector3.up * 2;
         isJumping = false;
         isTeleporting = false;
     }
 
-    private void MovePlayer()
+    #region Movements Methods
+    private void MovePlayerVelocity()
     {
-        Vector3 moveVector = transform.TransformDirection(playerMovementInput * _speed);
-        rb.velocity = new Vector3(moveVector.x, rb.velocity.y, moveVector.z);
+
+        //Acceleration
+        if (PlayerMovementInput.magnitude == 0)
+        {
+            actualSpeed = initialVelocity;
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            if (actualSpeed < groundMaxVelocity)
+                actualSpeed += acceleration;
+        }
+
+        //maxVelocityCheck
+        if (!feet.isGrounded)
+        {
+            if (vectorPasser(rb.velocity, 0).magnitude > airMaxVelocity)
+            {
+                //Vector3 tempVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                //rb.velocity = vectorPasser(tempVelocity.normalized * airMaxVelocity, rb.velocity.y);
+            }
+        }
+        else
+        {
+            if (actualSpeed > groundMaxVelocity)
+                actualSpeed = groundMaxVelocity;
+
+            if (vectorPasser(rb.velocity, 0).magnitude > groundMaxVelocity)
+            {
+                Vector3 tempVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.velocity = vectorPasser(tempVelocity.normalized * groundMaxVelocity, 0);
+            }
+        }
+
+        Vector3 moveVector = transform.TransformDirection(smartPlayerMovementInput);
+        Vector3 airVector = transform.TransformDirection(rawPlayerMovementInput);
+
+
+        if (feet.isGrounded)
+        {
+            rb.velocity = new Vector3(moveVector.x * actualSpeed, rb.velocity.y, moveVector.z * actualSpeed);
+        }
+        else if (rb.velocity.magnitude < airMaxVelocity)
+        {
+            //rb.AddForce(transform.TransformDirection(smartPlayerMovementInput) * airControl, ForceMode.VelocityChange);
+
+            if (moveVector.magnitude == 0)
+            {
+                return;
+            }
+
+            rb.velocity = new Vector3((airVector.x * airControl * actualSpeed), rb.velocity.y, (airVector.z * airControl * actualSpeed));
+        }
     }
+
+    private Vector3 vectorPasser(Vector3 input, float preferredY)
+    {
+        return new Vector3(input.x, preferredY, input.x);
+    }
+
+    private void MovePlayerAddForce()
+    {
+        float x = PlayerMovementInput.x;
+        float z = PlayerMovementInput.z;
+        Vector2 mag = new Vector2(rb.velocity.x, rb.velocity.z);
+
+        CounterMovementAddForce(x, z);
+
+
+        Vector3 moveVector = new Vector3(x, 0, z);
+
+        rb.AddForce(transform.TransformDirection(moveVector) * addForceMoveSpeed);
+    }
+
+    void CounterMovementAddForce(float x, float z)
+    {
+        Vector3 planeMovement = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+        if (x == 0 && Mathf.Abs(planeMovement.x) > 0)
+        {
+            if (feet.isGrounded)
+                rb.AddForce(-new Vector3(planeMovement.x, 0,0) * groundCounterMovement);
+            else
+                rb.AddForce(-new Vector3(planeMovement.x, 0, 0) * airCounterMovement);
+        }
+
+        if (z == 0 && Mathf.Abs(planeMovement.z) > 0)
+        {
+            if (feet.isGrounded)
+                rb.AddForce(-new Vector3(0 , 0, planeMovement.z) * groundCounterMovement);
+            else
+                rb.AddForce(-new Vector3(0, 0, planeMovement.z) * airCounterMovement);
+        }
+
+        if (feet.isGrounded & planeMovement.magnitude > groundMaxVelocity)
+        {
+            rb.velocity = rb.velocity.normalized * groundMaxVelocity;
+        }
+        else if (!feet.isGrounded & planeMovement.magnitude > airMaxVelocity)
+        {
+            rb.velocity = rb.velocity.normalized * airMaxVelocity;
+        }
+
+    }
+
+
+#endregion
 
     private void MovePlayerCamera()
     {
@@ -235,7 +371,7 @@ public class PlayerController : MonoBehaviour
             rb.useGravity = true;
             isDashing = false;
 
-            rb.velocity = rb.velocity * 0.2f;
+            rb.velocity = rb.velocity * 0.13f;
             dashRecovery.PlayFeedbacks();
         }
     }
