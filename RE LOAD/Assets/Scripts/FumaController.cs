@@ -41,7 +41,7 @@ public class FumaController : MonoBehaviour
 
     public MeshCollider col;
     Vector3 lastPos, returnPos;
-    Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
     Transform model, cam;
     GameObject impactFX, trailFX, modelOBJ;
     bool mustReturn = true, firstBounce;
@@ -213,7 +213,6 @@ public class FumaController : MonoBehaviour
         if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
             visualIndicator.SetActive(true);
-            Ray ray;
             RaycastHit hit;
             Physics.Raycast(transform.position, Vector3.down, out hit);
             MeshRenderer mr = visualIndicator.GetComponent<MeshRenderer>();
@@ -471,7 +470,6 @@ public class FumaController : MonoBehaviour
         //CastRay(transform.position, transform.forward);
         if (state.Equals(FumaState.Flying))
         {
-            Ray ray;
             RaycastHit hit;
             Physics.Raycast(transform.position, Vector3.down, out hit);
             Debug.DrawLine(transform.position, hit.point);
@@ -626,7 +624,6 @@ public class FumaController : MonoBehaviour
 
     public Vector3 GetTargetLocation()
     {
-        Ray ray;
         RaycastHit hit;
         Physics.Raycast(transform.position, transform.forward, out hit);
         return hit.point;

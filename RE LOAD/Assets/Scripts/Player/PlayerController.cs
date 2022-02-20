@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private float meleeCounter = 0f;
     public GameObject playerMeleeController;
 
+
     [Header("Jump Config")]
     public float jumpSpeed;
     public bool holdSpaceToJumpHigher = false;
@@ -67,8 +68,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Feedbacks")]
     public MMFeedbacks teleportWithSlowmoFB;
-    public MMFeedbacks teleportWithSlowmoSFX;
-    public MMFeedbacks teleportNormalFB;
     public MMFeedbacks meleeSFX;
     public MMFeedbacks dashRecovery;
 
@@ -78,6 +77,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         isDashing = false;
+
+        EventManager.Teleport += TeleportTo;
 
         dashCooldownTimer = dashCooldown;
         isTeleporting = false;
@@ -138,9 +139,13 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
+            isTeleporting = true;
+            shuriken.state = FumaState.Stuck;
+            shuriken.rb.velocity = Vector3.zero;
             teleportWithSlowmoFB.PlayFeedbacks();
-            teleportWithSlowmoSFX.PlayFeedbacks();
-            TeleportTo(shuriken.teleportLocation);
+
+            //Time.timeScale = 0.1f;
+            //TeleportTo(shuriken.teleportLocation);
         }
         
 
@@ -218,11 +223,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TeleportTo(Vector3 pos)
+    public void TeleportTo()
     {
         if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned();
 
-        transform.position = pos;
+        transform.position = shuriken.teleportLocation;
         rb.velocity = Vector3.up * 2;
         isJumping = false;
         isTeleporting = false;

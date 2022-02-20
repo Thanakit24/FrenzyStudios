@@ -64,12 +64,20 @@ public class StanceController : MonoBehaviour
 
     void Update()
     {
+        if (player.isTeleporting)
+        {
+            Time.timeScale = 0.3f;
+            return;
+        }
+
         if (!throwingStanceActiveStatus())
         { 
             Time.timeScale = 1;
 
             animator.enabled = true;
         }
+
+        
 
         if (!shuriken.state.Equals(FumaState.InHands))
         {
