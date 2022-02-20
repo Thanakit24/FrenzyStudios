@@ -81,6 +81,9 @@ public class PlayerController : MonoBehaviour
 
         dashCooldownTimer = dashCooldown;
         isTeleporting = false;
+
+        if (airControl > 1) airControl = 1;
+        if (airControl <= 0) airControl = 0.1f;
     }
 
     private void Update()
@@ -269,16 +272,19 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector3(moveVector.x * actualSpeed, rb.velocity.y, moveVector.z * actualSpeed);
         }
-        else if (rb.velocity.magnitude < airMaxVelocity)
+        else
         {
-            //rb.AddForce(transform.TransformDirection(smartPlayerMovementInput) * airControl, ForceMode.VelocityChange);
+            //rb.AddForce(airVector * airControl, ForceMode.VelocityChange);
 
-            if (moveVector.magnitude == 0)
+            if (airVector.magnitude ==0)
             {
                 return;
             }
 
-            rb.velocity = new Vector3((airVector.x * airControl * actualSpeed), rb.velocity.y, (airVector.z * airControl * actualSpeed));
+            //rb.velocity = new Vector3((airVector.x * airControl * actualSpeed), rb.velocity.y, (airVector.z * airControl * actualSpeed));
+
+            float momentum = 1 - airControl;
+            rb.velocity = new Vector3((momentum * rb.velocity.x) + (airVector.x * airControl * actualSpeed), rb.velocity.y, (momentum * rb.velocity.z) + (airVector.z * airControl * actualSpeed));
         }
     }
 
@@ -371,7 +377,7 @@ public class PlayerController : MonoBehaviour
             rb.useGravity = true;
             isDashing = false;
 
-            rb.velocity = rb.velocity * 0.13f;
+            rb.velocity = rb.velocity * 0.2f;
             dashRecovery.PlayFeedbacks();
         }
     }
