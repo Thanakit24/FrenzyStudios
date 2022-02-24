@@ -649,12 +649,11 @@ MonoBehaviour:
   cameraJumpFeedbackMultiplier: 5
   cameraJumpFeedbackCurrent: 0
   cameraJumpFeedbackUpMultiplier: 10
-  cameraJumpRecoverySpeed: 1000
-  camYPosModifierMultiplier: 3
-  MaxCamYPos: -1
+  cameraJumpRecoverySpeed: 1200
+  camYPosModifierMultiplier: 10
+  MaxCamYPos: -0.2
   recoveringCamYPos: 0
-  recoveryLandingImpactTimer: 0.1
-  recoveryLandingImpactTime: 0
+  impactingCamYPos: 0
   isKnocked: 0
   knockbackRecoveryTime: 0.2
   isTeleporting: 0
@@ -676,7 +675,7 @@ MonoBehaviour:
   trail: {fileID: 5555331812280932247}
   playerAnimator: {fileID: 84298031}
   camHolder: {fileID: 1203593453871592705}
-  jumpImpact: {fileID: 0}
+  jumpImpact: {fileID: 2728899434970915440}
   teleportWithSlowmoFB: {fileID: 6967400651942866925}
   meleeSFX: {fileID: 1874634232900125980}
   dashRecovery: {fileID: 8494826189624917222}

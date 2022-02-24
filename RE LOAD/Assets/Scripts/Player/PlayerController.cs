@@ -35,19 +35,20 @@ public class PlayerController : MonoBehaviour
     public float camYPosModifierMultiplier;
     public float MaxCamYPos;
     public bool recoveringCamYPos;
+    public bool impactingCamYPos;
     private float recoveryCamYPosOffset;
     private float initialCamYPos;
-    public float recoveryLandingImpactTimer;
-    public float recoveryLandingImpactTime;
-
+    private float targetYPos;
 
     [Header("Player Status")]
     public bool isKnocked = false;
     public float knockbackRecoveryTime = 0.2f;
     private float horizontalMovement;
     public bool isTeleporting;
-    private bool isGrounded;
-
+    public bool isGrounded;
+    public bool isOnSlope;
+    Vector3 colBottom;
+    Vector3 colCurve;
 
     [Header("Melee Attack Config")]
     public bool isMeleeing = false;
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour
     public GameObject trail;
     public Animator playerAnimator;
     public Transform camHolder;
+    CapsuleCollider capCollider;
 
     [Header("Feedbacks")]
     public MMFeedbacks jumpImpact;
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         instance = this;
+        capCollider = this.gameObject.GetComponent<CapsuleCollider>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         isDashing = false;
@@ -100,11 +103,15 @@ public class PlayerController : MonoBehaviour
 
         if (airControl > 1) airControl = 1;
         if (airControl <= 0) airControl = 0.1f;
+
+        Vector3 bottom = capCollider.bounds.center - (Vector3.up * capCollider.bounds.extents.y);
+        Vector3 curve = bottom + (Vector3.up * capCollider.radius);
     }
 
     private void Update()
     {
         #region Movement System
+
         rawPlayerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
         PlayerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")), 1f);
 
@@ -141,26 +148,31 @@ public class PlayerController : MonoBehaviour
 
                 if (feet.isGrounded)
                 {
-                    cameraJumpFeedbackCurrent -= cameraJumpRecoverySpeed * Time.deltaTime * cameraJumpFeedbackCurrent * 0.01f ;
+                    cameraJumpFeedbackCurrent -= cameraJumpRecoverySpeed * Time.deltaTime * cameraJumpFeedbackCurrent * 0.01f;
 
-                    if (!recoveringCamYPos)
-                        CamYPosModify();
-                    
 
-                    if (cameraJumpFeedbackCurrent <= 0.1f)
+                    if (cameraJumpFeedbackCurrent <= 0.6f)
+                    {
+                        cameraJumpFeedbackCurrent -= 0.02f * Time.deltaTime;
+                    }
+                    else if (cameraJumpFeedbackCurrent <= 0.5f)
                     {
                         cameraJumpFeedbackCurrent = 0;
                         isInJumpPhase = false;
                     }
+
+
+
                 }
 
-                    if (rb.velocity.y > 0)
-                        cameraJumpFeedbackCurrent -= Time.deltaTime * cameraJumpFeedbackUpMultiplier;
-                    else
-                        cameraJumpFeedbackCurrent += Time.deltaTime * cameraJumpFeedbackMultiplier;
+                if (rb.velocity.y > 0)
+                    cameraJumpFeedbackCurrent -= Time.deltaTime * cameraJumpFeedbackUpMultiplier;
+                else
+                    cameraJumpFeedbackCurrent += Time.deltaTime * cameraJumpFeedbackMultiplier;
             }
         }
 
+        if (impactingCamYPos) CamYPosModify();
         if (recoveringCamYPos) RecoverCamYPos();
 
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing && feet.isGrounded)
@@ -216,7 +228,8 @@ public class PlayerController : MonoBehaviour
         if (meleeCounter > 0)
         {
             meleeCounter -= Time.deltaTime;
-        }else if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
         {
             meleeSFX.PlayFeedbacks();
             isMeleeing = true;
@@ -240,12 +253,15 @@ public class PlayerController : MonoBehaviour
     {
         mouseMovementInput = new Vector2(Input.GetAxis("Mouse X") * Time.deltaTime * 50, Input.GetAxis("Mouse Y") * Time.deltaTime * 50);
         MovePlayerCamera();
+        if (!isDashing & !isKnocked) MovePlayerVelocity();
+
+
 
         if (isDashing)
         {
             StartCoroutine(Dash(transform.TransformDirection(PlayerMovementInput.normalized)));
 
-            if (Physics.OverlapSphere(transform.position + transform.forward,0.8f).Length > 2)
+            if (Physics.OverlapSphere(transform.position + transform.forward, 0.8f).Length > 2)
             {
                 rb.velocity = Vector3.zero;
                 rb.useGravity = true;
@@ -254,16 +270,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            /*
             if (isKnocked)
             {
-                StartCoroutine(Knocked(2));
+                //StartCoroutine(Knocked(2));
+                isKnocked = false;
             }
-            else
-                */
-            MovePlayerVelocity();
-            //MovePlayerAddForce();
-
         }
 
         if (Input.GetKey(KeyCode.Space) && isJumping && holdSpaceToJumpHigher && !isDashing)
@@ -272,7 +283,7 @@ public class PlayerController : MonoBehaviour
             {
                 jumpTimeCounter -= Time.deltaTime;
 
-                rb.velocity = new Vector3(rb.velocity.x, jumpSpeed - jumpTimeCounter * 2, rb.velocity.z );
+                rb.velocity = new Vector3(rb.velocity.x, jumpSpeed - jumpTimeCounter * 2, rb.velocity.z);
                 //rb.AddForce(transform.TransformDirection(fakePlayerMovementInput) * 10);
             }
             else
@@ -284,9 +295,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnGrounded()
     {
+        impactingCamYPos = true;
         initialCamYPos = camHolder.localPosition.y;
-        recoveryCamYPosOffset = cameraJumpFeedbackCurrent;
-        recoveryLandingImpactTimer = 0;
+        targetYPos = rb.velocity.y;
     }
 
     #region Camera
@@ -305,15 +316,17 @@ public class PlayerController : MonoBehaviour
 
     private void CamYPosModify()
     {
-        float targetYPos = - cameraJumpFeedbackCurrent;
+        //float targetYPos = - cameraJumpFeedbackCurrent;
         float currentYPos = camHolder.localPosition.y;
 
-        
-        if (currentYPos < Mathf.Abs(cameraJumpFeedbackCurrent) || currentYPos < Mathf.Abs(targetYPos))
+
+        //if (currentYPos < Mathf.Abs(cameraJumpFeedbackCurrent) || currentYPos < Mathf.Abs(targetYPos))
+        if (currentYPos < Mathf.Abs(targetYPos))
         {
             if (currentYPos < MaxCamYPos)
             {
                 recoveringCamYPos = true;
+                impactingCamYPos = false;
                 return;
             }
 
@@ -323,14 +336,23 @@ public class PlayerController : MonoBehaviour
 
     private void RecoverCamYPos()
     {
-        if (recoveryLandingImpactTimer > recoveryLandingImpactTime || camHolder.localPosition.y < MaxCamYPos)
+        if (camHolder.localPosition.y < MaxCamYPos)
+        {
+            camHolder.localPosition = new Vector3(0, MaxCamYPos, 0);
+
+        }
+        else
+        {
+            camHolder.localPosition += Vector3.up * Time.deltaTime * camYPosModifierMultiplier;
+        }
+
+        if (camHolder.localPosition.y > -0.01f)
         {
             camHolder.localPosition = Vector3.zero;
+            recoveringCamYPos = false;
             return;
         }
-        else recoveryLandingImpactTimer += Time.deltaTime;
 
-        camHolder.localPosition = new Vector3(0, -cameraJumpFeedbackCurrent + initialCamYPos + recoveryCamYPosOffset, 0);
     }
 
     #endregion
@@ -383,7 +405,7 @@ public class PlayerController : MonoBehaviour
         {
             //rb.AddForce(airVector * airControl, ForceMode.VelocityChange);
 
-            if (airVector.magnitude ==0)
+            if (airVector.magnitude == 0)
             {
                 return;
             }
@@ -392,6 +414,15 @@ public class PlayerController : MonoBehaviour
 
             float momentum = 1 - airControl;
             rb.velocity = new Vector3((momentum * rb.velocity.x) + (airVector.x * airControl * actualSpeed), rb.velocity.y, (momentum * rb.velocity.z) + (airVector.z * airControl * actualSpeed));
+        }
+    }
+
+    void SlopeHelper()
+    {
+        if (smartPlayerMovementInput.magnitude != 0)
+        {
+            Physics.Raycast(colBottom, Vector3.down + PlayerMovementInput.normalized, 1.5f);
+            rb.AddForce(Vector2.down);
         }
     }
 
@@ -405,7 +436,7 @@ public class PlayerController : MonoBehaviour
     #region Skills
     IEnumerator Dash(Vector3 dir)
     {
-        if(canDash)
+        if (canDash)
         {
             rb.velocity = Vector3.zero;
             canDash = false;
@@ -422,7 +453,7 @@ public class PlayerController : MonoBehaviour
 
 
             yield return new WaitForSeconds(dashDuration);
-            canDash = true; 
+            canDash = true;
             rb.useGravity = true;
             isDashing = false;
 
@@ -453,10 +484,11 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Knocked(float knockbackForce)
     {
-            //Debug.Log(dir);
-            //rb.AddForce((dir + Vector3.up) * dashForce, ForceMode.Impulse);
-            //rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
-            yield return new WaitForSeconds(knockbackRecoveryTime);
-            isKnocked = false;
+        //Debug.Log(dir);
+        //rb.AddForce((dir + Vector3.up) * dashForce, ForceMode.Impulse);
+        //rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
+        yield return new WaitForSeconds(knockbackRecoveryTime);
+        isKnocked = false;
     }
+
 }
