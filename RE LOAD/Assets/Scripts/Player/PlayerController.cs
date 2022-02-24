@@ -26,9 +26,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Mouse")]
     public float _sensitivity;
-    public float cameraJumpFeedbackThreshold;
-    public float cameraJumpFeedbackMultiplier;
     public float cameraJumpFeedbackCurrent;
+    public float cameraJumpFeedbackThreshold;
+    public float cameraJumpFeedbackDownMultiplier;
     public float cameraJumpFeedbackUpMultiplier;
     public float cameraJumpRecoverySpeed;
     [Space(7)]
@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
                 if (rb.velocity.y > 0)
                     cameraJumpFeedbackCurrent -= Time.deltaTime * cameraJumpFeedbackUpMultiplier;
                 else
-                    cameraJumpFeedbackCurrent += Time.deltaTime * cameraJumpFeedbackMultiplier;
+                    cameraJumpFeedbackCurrent += Time.deltaTime * cameraJumpFeedbackDownMultiplier;
             }
         }
 
@@ -421,8 +421,10 @@ public class PlayerController : MonoBehaviour
     {
         if (smartPlayerMovementInput.magnitude != 0)
         {
-            Physics.Raycast(colBottom, Vector3.down + PlayerMovementInput.normalized, 1.5f);
-            rb.AddForce(Vector2.down);
+            Physics.Raycast(colBottom, Vector3.down, 1.5f);
+
+            rb.velocity += Vector3.down * 10;
+            print("active");
         }
     }
 

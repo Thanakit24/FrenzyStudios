@@ -645,9 +645,9 @@ MonoBehaviour:
   airMaxVelocity: 11
   movementThreshold: 0.666
   _sensitivity: 5
-  cameraJumpFeedbackThreshold: 1
-  cameraJumpFeedbackMultiplier: 5
   cameraJumpFeedbackCurrent: 0
+  cameraJumpFeedbackThreshold: 1
+  cameraJumpFeedbackDownMultiplier: 5
   cameraJumpFeedbackUpMultiplier: 10
   cameraJumpRecoverySpeed: 1200
   camYPosModifierMultiplier: 10
@@ -657,6 +657,8 @@ MonoBehaviour:
   isKnocked: 0
   knockbackRecoveryTime: 0.2
   isTeleporting: 0
+  isGrounded: 0
+  isOnSlope: 0
   isMeleeing: 0
   meleeCooldown: 0.2
   playerMeleeController: {fileID: 6202599931824046600}
