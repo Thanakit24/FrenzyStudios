@@ -8,34 +8,46 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
 
-    [Header("Physics")]
-    public float actualSpeed;
-    public float acceleration;
-    public float initialVelocity;
-    public float deceleration;
-    public float airControl;
-
-    [Header("AddForceMovement")]
-    public float addForceMoveSpeed;
-    public float groundCounterMovement;
-    public float airCounterMovement;
-    public float groundMaxVelocity;
-    public float airMaxVelocity;
-
-    [Header("Player")]
-    public float _speed;
-    public float _sensitivity;
     private Vector3 rawPlayerMovementInput;
     private Vector3 PlayerMovementInput;
     private Vector3 smartPlayerMovementInput;
-    public float movementThreshold = 0.7f;
     private Vector2 mouseMovementInput;
     private float xRotation;
     private bool isDashing, isJumping;
-    [HideInInspector] public bool isKnocked = false;
+
+    [Header("Movements")]
+    public float actualSpeed;
+    public float acceleration;
+    public float initialVelocity;
+    public float airControl;
+    public float groundMaxVelocity;
+    public float airMaxVelocity;
+    public float movementThreshold = 0.7f;
+
+    [Header("Mouse")]
+    public float _sensitivity;
+    public float cameraJumpFeedbackThreshold;
+    public float cameraJumpFeedbackMultiplier;
+    public float cameraJumpFeedbackCurrent;
+    public float cameraJumpFeedbackUpMultiplier;
+    public float cameraJumpRecoverySpeed;
+    [Space(7)]
+    public float camYPosModifierMultiplier;
+    public float MaxCamYPos;
+    public bool recoveringCamYPos;
+    private float recoveryCamYPosOffset;
+    private float initialCamYPos;
+    public float recoveryLandingImpactTimer;
+    public float recoveryLandingImpactTime;
+
+
+    [Header("Player Status")]
+    public bool isKnocked = false;
     public float knockbackRecoveryTime = 0.2f;
     private float horizontalMovement;
     public bool isTeleporting;
+    private bool isGrounded;
+
 
     [Header("Melee Attack Config")]
     public bool isMeleeing = false;
@@ -43,20 +55,12 @@ public class PlayerController : MonoBehaviour
     private float meleeCounter = 0f;
     public GameObject playerMeleeController;
 
-
     [Header("Jump Config")]
+    private bool isInJumpPhase;
     public float jumpSpeed;
     public bool holdSpaceToJumpHigher = false;
     private float jumpTimeCounter;
     public float maxJumpTime;
-
-    [Header("References")]
-    [SerializeField] public Feet feet;
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private Transform playerCamera;
-    public FumaController shuriken;
-    public GameObject trail;
-    public Animator playerAnimator;
 
     [Header("Dash Config")]
     [SerializeField] private float dashForce;
@@ -66,7 +70,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool canDash = true;
     public bool threeDimensionalDashing = true;
 
+
+    [Header("References")]
+    [SerializeField] public Feet feet;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Transform playerCamera;
+    public FumaController shuriken;
+    public GameObject trail;
+    public Animator playerAnimator;
+    public Transform camHolder;
+
     [Header("Feedbacks")]
+    public MMFeedbacks jumpImpact;
     public MMFeedbacks teleportWithSlowmoFB;
     public MMFeedbacks meleeSFX;
     public MMFeedbacks dashRecovery;
@@ -89,6 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        #region Movement System
         rawPlayerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
         PlayerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")), 1f);
 
@@ -113,13 +129,56 @@ public class PlayerController : MonoBehaviour
         }
         smartPlayerMovementInput = Vector3.ClampMagnitude(new Vector3(tempMovX, 0, tempMovY), 1f);
 
+        #endregion
+
+        #region Jump
+
+        if (isInJumpPhase)
+        {
+            if (rb.velocity.y < cameraJumpFeedbackThreshold)
+            {
+                //cameraJumpFeedbackCurrent = cameraJumpFeedbackInitial;
+
+                if (feet.isGrounded)
+                {
+                    cameraJumpFeedbackCurrent -= cameraJumpRecoverySpeed * Time.deltaTime * cameraJumpFeedbackCurrent * 0.01f ;
+
+                    if (!recoveringCamYPos)
+                        CamYPosModify();
+                    
+
+                    if (cameraJumpFeedbackCurrent <= 0.1f)
+                    {
+                        cameraJumpFeedbackCurrent = 0;
+                        isInJumpPhase = false;
+                    }
+                }
+
+                    if (rb.velocity.y > 0)
+                        cameraJumpFeedbackCurrent -= Time.deltaTime * cameraJumpFeedbackUpMultiplier;
+                    else
+                        cameraJumpFeedbackCurrent += Time.deltaTime * cameraJumpFeedbackMultiplier;
+            }
+        }
+
+        if (recoveringCamYPos) RecoverCamYPos();
 
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing && feet.isGrounded)
         {
             isJumping = true;
+            isInJumpPhase = true;
+
             rb.velocity = Vector3.up * jumpSpeed;
             jumpTimeCounter = maxJumpTime;
         }
+
+        if ((Input.GetKeyUp(KeyCode.Space) && isJumping))
+        {
+            isJumping = false;
+        }
+        #endregion
+
+        #region Dash
 
         if (dashCooldownTimer > dashCooldown)
         {
@@ -137,6 +196,9 @@ public class PlayerController : MonoBehaviour
 
         trail.SetActive(isDashing);
 
+        #endregion
+
+        #region Teleport
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
             isTeleporting = true;
@@ -147,20 +209,10 @@ public class PlayerController : MonoBehaviour
             //Time.timeScale = 0.1f;
             //TeleportTo(shuriken.teleportLocation);
         }
-        
 
+        #endregion
 
-        if ((Input.GetKeyUp(KeyCode.Space) && isJumping))
-        {
-            isJumping = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Comma))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
-        }
-
-        //Melee
+        #region Melee
         if (meleeCounter > 0)
         {
             meleeCounter -= Time.deltaTime;
@@ -175,6 +227,13 @@ public class PlayerController : MonoBehaviour
             Camera.main.transform.localPosition = Vector3.zero + Vector3.up * 0.75f;
 
         playerMeleeController.SetActive(isMeleeing);
+
+        #endregion
+
+        if (Input.GetKeyDown(KeyCode.Comma))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
+        }
     }
 
     void FixedUpdate()
@@ -223,15 +282,58 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TeleportTo()
+    public void OnGrounded()
     {
-        if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned();
-
-        transform.position = shuriken.teleportLocation;
-        rb.velocity = Vector3.up * 2;
-        isJumping = false;
-        isTeleporting = false;
+        initialCamYPos = camHolder.localPosition.y;
+        recoveryCamYPosOffset = cameraJumpFeedbackCurrent;
+        recoveryLandingImpactTimer = 0;
     }
+
+    #region Camera
+    private void MovePlayerCamera()
+    {
+        float tempSens = _sensitivity;
+
+        //if (teleportWithSlowmoFB.IsPlaying) tempSens = _sensitivity / 2;
+
+        xRotation -= mouseMovementInput.y * tempSens;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        transform.Rotate(0f, mouseMovementInput.x * tempSens, 0f);
+        playerCamera.transform.localRotation = Quaternion.Euler(xRotation + cameraJumpFeedbackCurrent, 0, 0);
+    }
+
+    private void CamYPosModify()
+    {
+        float targetYPos = - cameraJumpFeedbackCurrent;
+        float currentYPos = camHolder.localPosition.y;
+
+        
+        if (currentYPos < Mathf.Abs(cameraJumpFeedbackCurrent) || currentYPos < Mathf.Abs(targetYPos))
+        {
+            if (currentYPos < MaxCamYPos)
+            {
+                recoveringCamYPos = true;
+                return;
+            }
+
+            camHolder.localPosition += Vector3.down * camYPosModifierMultiplier * Time.deltaTime;
+        }
+    }
+
+    private void RecoverCamYPos()
+    {
+        if (recoveryLandingImpactTimer > recoveryLandingImpactTime || camHolder.localPosition.y < MaxCamYPos)
+        {
+            camHolder.localPosition = Vector3.zero;
+            return;
+        }
+        else recoveryLandingImpactTimer += Time.deltaTime;
+
+        camHolder.localPosition = new Vector3(0, -cameraJumpFeedbackCurrent + initialCamYPos + recoveryCamYPosOffset, 0);
+    }
+
+    #endregion
 
     #region Movements Methods
     private void MovePlayerVelocity()
@@ -298,67 +400,9 @@ public class PlayerController : MonoBehaviour
         return new Vector3(input.x, preferredY, input.x);
     }
 
-    private void MovePlayerAddForce()
-    {
-        float x = PlayerMovementInput.x;
-        float z = PlayerMovementInput.z;
-        Vector2 mag = new Vector2(rb.velocity.x, rb.velocity.z);
+    #endregion
 
-        CounterMovementAddForce(x, z);
-
-
-        Vector3 moveVector = new Vector3(x, 0, z);
-
-        rb.AddForce(transform.TransformDirection(moveVector) * addForceMoveSpeed);
-    }
-
-    void CounterMovementAddForce(float x, float z)
-    {
-        Vector3 planeMovement = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-        if (x == 0 && Mathf.Abs(planeMovement.x) > 0)
-        {
-            if (feet.isGrounded)
-                rb.AddForce(-new Vector3(planeMovement.x, 0,0) * groundCounterMovement);
-            else
-                rb.AddForce(-new Vector3(planeMovement.x, 0, 0) * airCounterMovement);
-        }
-
-        if (z == 0 && Mathf.Abs(planeMovement.z) > 0)
-        {
-            if (feet.isGrounded)
-                rb.AddForce(-new Vector3(0 , 0, planeMovement.z) * groundCounterMovement);
-            else
-                rb.AddForce(-new Vector3(0, 0, planeMovement.z) * airCounterMovement);
-        }
-
-        if (feet.isGrounded & planeMovement.magnitude > groundMaxVelocity)
-        {
-            rb.velocity = rb.velocity.normalized * groundMaxVelocity;
-        }
-        else if (!feet.isGrounded & planeMovement.magnitude > airMaxVelocity)
-        {
-            rb.velocity = rb.velocity.normalized * airMaxVelocity;
-        }
-
-    }
-
-
-#endregion
-
-    private void MovePlayerCamera()
-    {
-        float tempSens = _sensitivity;
-
-        //if (teleportWithSlowmoFB.IsPlaying) tempSens = _sensitivity / 2;
-
-        xRotation -= mouseMovementInput.y * tempSens;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        transform.Rotate(0f, mouseMovementInput.x * tempSens, 0f);
-        playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-    }
-
+    #region Skills
     IEnumerator Dash(Vector3 dir)
     {
         if(canDash)
@@ -387,6 +431,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TeleportTo()
+    {
+        if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned();
+
+        transform.position = shuriken.teleportLocation;
+        rb.velocity = Vector3.up * 2;
+        isJumping = false;
+        isTeleporting = false;
+    }
+
     public void Melee()
     {
         //put delay for the animation;
@@ -394,6 +448,8 @@ public class PlayerController : MonoBehaviour
         isMeleeing = false;
         playerAnimator.SetBool("isMeleeing", isMeleeing);
     }
+
+    #endregion
 
     IEnumerator Knocked(float knockbackForce)
     {
