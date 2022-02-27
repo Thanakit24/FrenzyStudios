@@ -22,7 +22,9 @@ public class PlayerController : MonoBehaviour
     public float airControl;
     public float groundMaxVelocity;
     public float airMaxVelocity;
+    [Range(0f, 1f)]
     public float movementThreshold = 0.7f;
+    public Vector3 slopeMoveVector;
 
     [Header("Mouse")]
     public float _sensitivity;
@@ -41,6 +43,9 @@ public class PlayerController : MonoBehaviour
     private float recoveryCamYPosOffset;
     private float initialCamYPos;
     private float targetYPos;
+    [Range(0f, 1f)]
+    public float maxCamYPosImpactFromVelocity,maxCamTiltImpactFromVelocity;
+
 
     [Header("Player Status")]
     public bool isKnocked = false;
@@ -51,6 +56,7 @@ public class PlayerController : MonoBehaviour
     public bool isOnSlope;
     Vector3 colBottom;
     Vector3 colCurve;
+    RaycastHit floorInfo;
 
     [Header("Melee Attack Config")]
     public bool isMeleeing = false;
@@ -75,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("References")]
+    public float halfOfHeight;
     [SerializeField] public Feet feet;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform playerCamera;
@@ -256,8 +263,6 @@ public class PlayerController : MonoBehaviour
         MovePlayerCamera();
         if (!isDashing & !isKnocked) MovePlayerVelocity();
 
-
-
         if (isDashing)
         {
             StartCoroutine(Dash(transform.TransformDirection(PlayerMovementInput.normalized)));
@@ -327,12 +332,12 @@ public class PlayerController : MonoBehaviour
         float currentYPos = camHolder.localPosition.y;
         isInJumpPhase = false;
 
-        if (cameraJumpFeedbackCurrent > cameraImpactTiltMax)
+        if (cameraJumpFeedbackCurrent > (1 - maxCamTiltImpactFromVelocity) * cameraImpactTiltMax + rb.velocity.y * maxCamTiltImpactFromVelocity)
         {
             recoveringCamTilt = true;
             return;
         }
-        if (currentYPos < MaxCamYPos)
+        if (currentYPos < (1-maxCamYPosImpactFromVelocity) * MaxCamYPos + rb.velocity.y - rb.velocity.y * maxCamYPosImpactFromVelocity)
         {
             recoveringCamYPos = true;
             return;
@@ -419,11 +424,46 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 moveVector = transform.TransformDirection(smartPlayerMovementInput);
+        
         Vector3 airVector = transform.TransformDirection(rawPlayerMovementInput);
 
 
         if (feet.isGrounded)
         {
+            var ray = new Ray(transform.position + Vector3.down * (halfOfHeight + 0.01f), Vector3.down);
+
+            if (Physics.Raycast(ray, out floorInfo, 0.5f))
+            {
+                if (floorInfo.normal != Vector3.up)
+                {
+                    isOnSlope = true;
+                    /*
+                    var slopeRotation = Quaternion.FromToRotation(Vector3.up, floorInfo.normal);
+                    var adjustedDirection = slopeRotation * slopeMoveVector;
+                    
+                    rb.velocity = adjustedDirection * actualSpeed;*/
+
+                    slopeMoveVector = Vector3.ProjectOnPlane(moveVector, floorInfo.normal);
+
+                    if (rawPlayerMovementInput.magnitude == 0)
+                    {
+                        //cancel friction
+                        rb.velocity = Vector3.zero;
+                        return;
+                    }
+                    
+
+                    if (slopeMoveVector.y < 0)
+                        rb.velocity = new Vector3(slopeMoveVector.x * actualSpeed, slopeMoveVector.y * actualSpeed, slopeMoveVector.z * actualSpeed);
+                    else if (slopeMoveVector.y > 0)
+                        rb.velocity = new Vector3(slopeMoveVector.x * actualSpeed, slopeMoveVector.y, slopeMoveVector.z * actualSpeed);
+                    
+
+                    return;
+                }
+                else isOnSlope = false;
+            }
+
             rb.velocity = new Vector3(moveVector.x * actualSpeed, rb.velocity.y, moveVector.z * actualSpeed);
         }
         else

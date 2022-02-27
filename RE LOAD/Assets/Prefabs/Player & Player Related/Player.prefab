@@ -644,21 +644,21 @@ MonoBehaviour:
   groundMaxVelocity: 10
   airMaxVelocity: 11
   movementThreshold: 0.666
+  slopeMoveVector: {x: 0, y: 0, z: 0}
   _sensitivity: 5
   cameraJumpFeedbackCurrent: 0
-  cameraJumpImpactCurrent: 0
   cameraJumpFeedbackThreshold: 100
   cameraJumpFeedbackDownMultiplier: 12
   cameraJumpFeedbackUpMultiplier: 8
   cameraJumpRecoverySpeed: 10
-  cameraGraphMultiplier: 1000
-  cameraGraphOffset: 1000
-  cameraImpactTiltMax: 2
-  camYPosModifierMultiplier: 4
-  MaxCamYPos: -0.35
+  cameraImpactTiltMax: 3
+  camYPosModifierMultiplier: 5
+  MaxCamYPos: -0.2
   recoveringCamYPos: 0
   recoveringCamTilt: 0
   impactingCamYPos: 0
+  maxCamYPosImpactFromVelocity: 0.086
+  maxCamTiltImpactFromVelocity: 0.216
   isKnocked: 0
   knockbackRecoveryTime: 0.2
   isTeleporting: 0
@@ -675,6 +675,7 @@ MonoBehaviour:
   dashCooldown: 1.5
   canDash: 1
   threeDimensionalDashing: 1
+  halfOfHeight: 1
   feet: {fileID: 51137696814405655}
   rb: {fileID: 51137696186876006}
   playerCamera: {fileID: 51137696096559428}
@@ -720,7 +721,7 @@ Rigidbody:
   m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 3
 --- !u!114 &51137696186876008
