@@ -31,10 +31,12 @@ public class PlayerController : MonoBehaviour
     public float cameraJumpFeedbackDownMultiplier;
     public float cameraJumpFeedbackUpMultiplier;
     public float cameraJumpRecoverySpeed;
+    public float cameraImpactTiltMax;
     [Space(7)]
     public float camYPosModifierMultiplier;
     public float MaxCamYPos;
     public bool recoveringCamYPos;
+    public bool recoveringCamTilt;
     public bool impactingCamYPos;
     private float recoveryCamYPosOffset;
     private float initialCamYPos;
@@ -140,6 +142,19 @@ public class PlayerController : MonoBehaviour
 
         #region Jump
 
+        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && feet.isGrounded)
+        {
+            isJumping = true;
+            isInJumpPhase = true;
+            impactingCamYPos = false;
+            recoveringCamYPos = false;
+            camHolder.localPosition = Vector3.zero;
+            cameraJumpFeedbackCurrent = 0;
+
+            rb.velocity = Vector3.up * jumpSpeed;
+            jumpTimeCounter = maxJumpTime;
+        }
+
         if (isInJumpPhase)
         {
             if (rb.velocity.y < cameraJumpFeedbackThreshold)
@@ -148,41 +163,27 @@ public class PlayerController : MonoBehaviour
 
                 if (feet.isGrounded)
                 {
-                    cameraJumpFeedbackCurrent -= cameraJumpRecoverySpeed * Time.deltaTime * cameraJumpFeedbackCurrent * 0.01f;
-
-
                     if (cameraJumpFeedbackCurrent <= 0.6f)
                     {
-                        cameraJumpFeedbackCurrent -= 0.02f * Time.deltaTime;
+                        cameraJumpFeedbackCurrent -= 0.012f * Time.deltaTime;
                     }
                     else if (cameraJumpFeedbackCurrent <= 0.5f)
                     {
                         cameraJumpFeedbackCurrent = 0;
                         isInJumpPhase = false;
                     }
-
-
-
                 }
 
                 if (rb.velocity.y > 0)
                     cameraJumpFeedbackCurrent -= Time.deltaTime * cameraJumpFeedbackUpMultiplier;
-                else
+                else if (rb.velocity.y < 0)
                     cameraJumpFeedbackCurrent += Time.deltaTime * cameraJumpFeedbackDownMultiplier;
             }
         }
 
-        if (impactingCamYPos) CamYPosModify();
-        if (recoveringCamYPos) RecoverCamYPos();
-
-        if (Input.GetKeyDown(KeyCode.Space) && !isDashing && feet.isGrounded)
-        {
-            isJumping = true;
-            isInJumpPhase = true;
-
-            rb.velocity = Vector3.up * jumpSpeed;
-            jumpTimeCounter = maxJumpTime;
-        }
+        if (impactingCamYPos) CamImpactModify();
+        if (recoveringCamYPos) CamYPosRecover();
+        if (recoveringCamTilt) CamTiltRecover();
 
         if ((Input.GetKeyUp(KeyCode.Space) && isJumping))
         {
@@ -314,45 +315,69 @@ public class PlayerController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation + cameraJumpFeedbackCurrent, 0, 0);
     }
 
-    private void CamYPosModify()
+    private void CamImpactModify()
     {
+        if (recoveringCamTilt && recoveringCamYPos)
+        {
+            impactingCamYPos = false;
+            return;
+        }
+
         //float targetYPos = - cameraJumpFeedbackCurrent;
         float currentYPos = camHolder.localPosition.y;
+        isInJumpPhase = false;
 
-
-        //if (currentYPos < Mathf.Abs(cameraJumpFeedbackCurrent) || currentYPos < Mathf.Abs(targetYPos))
-        if (currentYPos < Mathf.Abs(targetYPos))
+        if (cameraJumpFeedbackCurrent > cameraImpactTiltMax)
         {
-            if (currentYPos < MaxCamYPos)
-            {
-                recoveringCamYPos = true;
-                impactingCamYPos = false;
-                return;
-            }
-
-            camHolder.localPosition += Vector3.down * camYPosModifierMultiplier * Time.deltaTime;
+            recoveringCamTilt = true;
+            return;
         }
+        if (currentYPos < MaxCamYPos)
+        {
+            recoveringCamYPos = true;
+            return;
+        }
+
+
+        cameraJumpFeedbackCurrent += cameraJumpFeedbackDownMultiplier * Time.deltaTime * 2;
+        camHolder.localPosition += Vector3.down * camYPosModifierMultiplier * Time.deltaTime * 2;
     }
 
-    private void RecoverCamYPos()
+    private void CamYPosRecover()
     {
-        if (camHolder.localPosition.y < MaxCamYPos)
+        if (camHolder.localPosition == Vector3.zero)
         {
-            camHolder.localPosition = new Vector3(0, MaxCamYPos, 0);
-
+            recoveringCamYPos = false;
         }
-        else
+
+        if (camHolder.localPosition.y < 0)
         {
             camHolder.localPosition += Vector3.up * Time.deltaTime * camYPosModifierMultiplier;
         }
 
-        if (camHolder.localPosition.y > -0.01f)
+        //Reset
+        if (Mathf.Abs(camHolder.localPosition.y) < 0.05f)
         {
             camHolder.localPosition = Vector3.zero;
-            recoveringCamYPos = false;
-            return;
+        }
+    }
+
+    private void CamTiltRecover()
+    {
+        if (cameraJumpFeedbackCurrent == 0)
+        {
+            recoveringCamTilt = false;
         }
 
+        if (cameraJumpFeedbackCurrent > 0)
+            cameraJumpFeedbackCurrent -= cameraJumpRecoverySpeed * Time.deltaTime;
+        else
+            cameraJumpFeedbackCurrent += cameraJumpRecoverySpeed * Time.deltaTime;
+
+        if (Mathf.Abs(cameraJumpFeedbackCurrent) < 0.2f)
+        {
+            cameraJumpFeedbackCurrent = 0;
+        }
     }
 
     #endregion

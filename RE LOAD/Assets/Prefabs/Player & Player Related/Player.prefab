@@ -646,13 +646,18 @@ MonoBehaviour:
   movementThreshold: 0.666
   _sensitivity: 5
   cameraJumpFeedbackCurrent: 0
+  cameraJumpImpactCurrent: 0
   cameraJumpFeedbackThreshold: 100
   cameraJumpFeedbackDownMultiplier: 12
   cameraJumpFeedbackUpMultiplier: 8
-  cameraJumpRecoverySpeed: 1200
-  camYPosModifierMultiplier: 40
-  MaxCamYPos: -0.3
+  cameraJumpRecoverySpeed: 10
+  cameraGraphMultiplier: 1000
+  cameraGraphOffset: 1000
+  cameraImpactTiltMax: 2
+  camYPosModifierMultiplier: 4
+  MaxCamYPos: -0.35
   recoveringCamYPos: 0
+  recoveringCamTilt: 0
   impactingCamYPos: 0
   isKnocked: 0
   knockbackRecoveryTime: 0.2
