@@ -430,9 +430,9 @@ public class PlayerController : MonoBehaviour
 
         if (feet.isGrounded)
         {
-            var ray = new Ray(transform.position + Vector3.down * (halfOfHeight + 0.01f), Vector3.down);
+            var ray = new Ray(transform.position + Vector3.down * (halfOfHeight), Vector3.down);
 
-            if (Physics.Raycast(ray, out floorInfo, 0.5f))
+            if (Physics.Raycast(ray, out floorInfo, 0.1f))
             {
                 if (floorInfo.normal != Vector3.up)
                 {
@@ -451,7 +451,8 @@ public class PlayerController : MonoBehaviour
                         rb.velocity = Vector3.zero;
                         return;
                     }
-                    
+
+                    camHolder.localPosition = Vector3.zero;
 
                     if (slopeMoveVector.y < 0)
                         rb.velocity = new Vector3(slopeMoveVector.x * actualSpeed, slopeMoveVector.y * actualSpeed, slopeMoveVector.z * actualSpeed);
