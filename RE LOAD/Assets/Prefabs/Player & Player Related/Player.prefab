@@ -7196,7 +7196,7 @@ Transform:
   m_GameObject: {fileID: 3806811278521443823}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.3, y: 0.5, z: 3.3}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 7675490350243864479}
   m_RootOrder: 1
@@ -19357,6 +19357,8 @@ MonoBehaviour:
   bounceUIprefabs:
   - {fileID: 7017265412186841940, guid: 59ba12b10a317004580da0869bcc2f39, type: 3}
   - {fileID: 2612533590015108112, guid: 8a32e0f97391d9f43be1d1d6175b0961, type: 3}
+  lineColor1: {r: 0.49411768, g: 0.82745105, b: 1, a: 1}
+  lineColor2: {r: 0, g: 0, b: 0, a: 0}
 --- !u!54 &7105247571521373181
 Rigidbody:
   m_ObjectHideFlags: 0

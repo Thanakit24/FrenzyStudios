@@ -78,7 +78,7 @@ public class FumaController : MonoBehaviour
     GameObject blueIndicator, greenIndicator;
     Vector3 greenIndicatorPos;
 
-    public Color lineColor;
+    public Color lineColor1, lineColor2;
 
     void Awake()
     {
@@ -607,8 +607,8 @@ public class FumaController : MonoBehaviour
                         lr2.SetPosition(1, pos - dirToPlayer.normalized * 10);
                         lr2.SetPosition(0, pos);
 
-                        lr2.startColor = Color.green;
-                        lr2.endColor = Color.green;
+                        lr2.startColor = lineColor2;
+                        lr2.endColor = lineColor2;
                     }
                     else
                     {
@@ -617,8 +617,8 @@ public class FumaController : MonoBehaviour
                         lr.SetPosition(1, hit.point);
                         lr.SetPosition(0, pos);
 
-                        lr.startColor = Color.red;
-                        lr.endColor = Color.red;
+                        lr.startColor = lineColor1;
+                        lr.endColor = lineColor1;
 
                     }
                 }
@@ -631,8 +631,8 @@ public class FumaController : MonoBehaviour
                     lr2.SetPosition(1, pos - dirToPlayer.normalized * 10);
                     lr2.SetPosition(0, pos);
 
-                    lr2.endColor = Color.green;
-                    lr2.startColor = Color.green;
+                    lr2.endColor = lineColor2;
+                    lr2.startColor = lineColor2;
                 }
 
                 if (state.Equals(FumaState.Returning))

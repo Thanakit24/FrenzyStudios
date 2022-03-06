@@ -4695,6 +4695,16 @@ PrefabInstance:
       propertyPath: ammunitionDisplay
       value: 
       objectReference: {fileID: 939123602}
+    - target: {fileID: 5193158940621909645, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193158940621909645, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
         type: 3}
       propertyPath: lineColor.a
@@ -4714,6 +4724,31 @@ PrefabInstance:
         type: 3}
       propertyPath: lineColor.r
       value: 0.49411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor1.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor1.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor1.g
+      value: 0.82745105
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor1.r
+      value: 0.49411768
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor2.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93d68906338a6dc4b82202576e4b0faf, type: 3}
@@ -4858,6 +4893,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Out
       objectReference: {fileID: 0}
+    - target: {fileID: 885788926490908637, guid: 86b077fcfb06419418232405d62de830,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86b077fcfb06419418232405d62de830, type: 3}
 --- !u!1001 &2612533589743443107
@@ -4867,10 +4907,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2612533589379712909, guid: 8a32e0f97391d9f43be1d1d6175b0961,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.7372549
+      objectReference: {fileID: 0}
     - target: {fileID: 2612533590015108112, guid: 8a32e0f97391d9f43be1d1d6175b0961,
         type: 3}
       propertyPath: m_Name
       value: BounceUICanvas2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612533590015108112, guid: 8a32e0f97391d9f43be1d1d6175b0961,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2612533590015108116, guid: 8a32e0f97391d9f43be1d1d6175b0961,
         type: 3}
@@ -5074,6 +5124,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: In
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416583987791545330, guid: 416d1f5d101c8114e92a1a2c29dcf0c3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4416583987791545333, guid: 416d1f5d101c8114e92a1a2c29dcf0c3,
         type: 3}
@@ -5372,6 +5427,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BounceUICanvas1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7017265412186841940, guid: 59ba12b10a317004580da0869bcc2f39,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7017265412186841943, guid: 59ba12b10a317004580da0869bcc2f39,
         type: 3}
