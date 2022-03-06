@@ -11,7 +11,7 @@ public class BounceUICanvasRotator : MonoBehaviour
 
     void Update()
     {
-        transform.LookAt(PlayerController.instance.transform.position);
+        transform.LookAt(Camera.main.transform.position);
 
         if (!onlyDestroyOnActivated)
         {
