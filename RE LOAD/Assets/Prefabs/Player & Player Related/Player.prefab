@@ -670,7 +670,7 @@ MonoBehaviour:
   jumpSpeed: 12
   holdSpaceToJumpHigher: 1
   maxJumpTime: 0.1
-  dashForce: 60
+  dashForce: 30
   dashDuration: 0.2
   dashCooldown: 1.5
   canDash: 1
@@ -704,6 +704,7 @@ MonoBehaviour:
   shuriken: {fileID: 8262543006952494058}
   player: {fileID: 51137696186876007}
   animator: {fileID: 84298031}
+  teleportSlowedTime: 0.5
   ThrowingStance_Start: {fileID: 1090678651}
   ThrowingStance_Reset: {fileID: 1934517132}
   _slowedTime: 0.5
@@ -2412,7 +2413,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -2470,7 +2471,7 @@ ParticleSystem:
       m_PostInfinity: 2
       m_RotationOrder: 4
   moveWithTransform: 0
-  moveWithCustomTransform: {fileID: 0}
+  moveWithCustomTransform: {fileID: 6000968706672132580}
   scalingMode: 1
   randomSeed: 0
   InitialModule:
@@ -19313,7 +19314,7 @@ MonoBehaviour:
   bounceSFX: {fileID: 3534687984442546013}
   prefab: {fileID: 4785768568222284490, guid: 20e3054235deeab4984efdc8e3d18992, type: 3}
   lines: []
-  linesShown: 3
+  linesShown: 2
   damage: 20
   teleportLocation: {x: 0, y: 0, z: 0}
   curveRot: {x: 0, y: 0, z: 0}
@@ -19332,14 +19333,15 @@ MonoBehaviour:
   curvedReturn: 0
   shouldLockOnToPlayer: 0
   autoTeleportsToStickyInsteadofReturnShuriken: 1
+  disableLineRenderer: 1
+  text: {fileID: 0}
+  RayCount: 2
   col: {fileID: 8073142739315910669}
   rb: {fileID: 0}
   alwaysReturn: 0
   lockOnReturnToPlayer: 1
   bounces: 2
   defaultBounces: 2
-  text: {fileID: 0}
-  RayCount: 2
   nextDir: {x: 0, y: 0, z: 0}
   nextPos: {x: 0, y: 0, z: 0}
   nextAngle: {x: 0, y: 0, z: 0, w: 0}
@@ -19352,7 +19354,7 @@ MonoBehaviour:
   safeTP: {fileID: 2100000, guid: 4af31af8f7ff74e4abcdd261041fa179, type: 2}
   dangerTP: {fileID: 2100000, guid: a2869992579674b42a09f072854a1d37, type: 2}
   impactFB: {fileID: 3694357900660953956}
-  bounceUI:
+  bounceUIprefabs:
   - {fileID: 7017265412186841940, guid: 59ba12b10a317004580da0869bcc2f39, type: 3}
   - {fileID: 2612533590015108112, guid: 8a32e0f97391d9f43be1d1d6175b0961, type: 3}
 --- !u!54 &7105247571521373181

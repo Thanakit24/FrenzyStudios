@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2612533589379712908}
   - component: {fileID: 2612533589379712909}
   - component: {fileID: 2612533589379712910}
+  - component: {fileID: 1952791819}
   m_Layer: 5
   m_Name: ShurikenUIOut
   m_TagString: Untagged
@@ -95,6 +96,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1952791819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2612533589379712904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 277eea112ee0b30439b65d184b2caa9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 2612533589379712910}
 --- !u!1 &2612533590015108112
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +120,6 @@ GameObject:
   - component: {fileID: 2612533590015108116}
   - component: {fileID: 2612533590015108117}
   - component: {fileID: 2612533590015108118}
-  - component: {fileID: 2612533590015108119}
   - component: {fileID: 2612533590015108123}
   m_Layer: 5
   m_Name: BounceUICanvas2
@@ -179,23 +192,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &2612533590015108119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2612533590015108112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &2612533590015108123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,3 +204,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36658b8fb0a41624b9cc6612ba0a14d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onlyDestroyOnActivated: 1

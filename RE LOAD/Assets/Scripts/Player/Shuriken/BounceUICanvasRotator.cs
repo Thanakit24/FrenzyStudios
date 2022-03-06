@@ -7,12 +7,22 @@ public class BounceUICanvasRotator : MonoBehaviour
     float destroyTimer = 1;
     float counter = 0;
 
+    public bool onlyDestroyOnActivated;
+
     void Update()
     {
-        if (PlayerController.instance != null)
-            transform.LookAt(PlayerController.instance.transform.position);
+        transform.LookAt(PlayerController.instance.transform.position);
 
-        if (counter < destroyTimer) counter += Time.deltaTime;
-        else Destroy(gameObject);
+        if (!onlyDestroyOnActivated)
+        {
+
+            if (counter < destroyTimer) counter += Time.deltaTime;
+            else Destroy(gameObject);
+        }
+    }
+
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 }

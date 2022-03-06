@@ -10,11 +10,15 @@ public class AnimController : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-
     }
 
     public void MeleeAttack()
     {
         PlayerController.instance.Melee();
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }

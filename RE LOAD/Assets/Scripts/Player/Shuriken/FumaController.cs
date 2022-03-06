@@ -74,7 +74,9 @@ public class FumaController : MonoBehaviour
     public Material dangerTP;
     public MMFeedbacks impactFB;
 
-    public GameObject[] bounceUI;
+    public GameObject[] bounceUIprefabs;
+    GameObject blueIndicator, greenIndicator;
+    Vector3 greenIndicatorPos;
 
     void Awake()
     {
@@ -222,7 +224,8 @@ public class FumaController : MonoBehaviour
             Physics.Raycast(transform.position, Vector3.down, out hit);
             MeshRenderer mr = visualIndicator.GetComponent<MeshRenderer>();
 
-            if (hit.collider.gameObject.CompareTag("ElectricFloor"))
+            Electrolyzed temp;
+            if (hit.collider.gameObject.TryGetComponent<Electrolyzed>(out temp))
             {
                 mr.material = dangerTP;
             }
@@ -247,6 +250,7 @@ public class FumaController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (state.Equals(FumaState.Stuck)) return;
+
 
         bool isPlayer = (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Shuriken"));
 
@@ -317,6 +321,9 @@ public class FumaController : MonoBehaviour
     {
         firstBounce = true;
         bounces -= 1;
+
+        BounceUIIndicator(true);
+
 
         //COLLISION BOUNCE
         Vector3 direction = Vector3.Reflect(transform.forward, contactNormalDirection);
@@ -517,14 +524,25 @@ public class FumaController : MonoBehaviour
 
                 if (i == 0)
                 {
-                    GameObject bounceIndicator = Instantiate(bounceUI[0], pos + hit.normal * 0.1f, Quaternion.identity, null);
+                    GameObject bounceIndicator = Instantiate(bounceUIprefabs[0], pos + hit.normal * 0.1f, Quaternion.identity, null);
+                    blueIndicator = bounceIndicator;
                 }
 
                 if (i == 1)
                 {
                     nextDir = dir;
                     nextPos = pos;
-                    GameObject bounceIndicator = Instantiate(bounceUI[1], pos + hit.normal * 0.1f, Quaternion.identity, null);
+
+                    greenIndicatorPos = pos + hit.normal * 0.1f;
+
+                    Electrolyzed temp;
+
+                    if (hit.collider.CompareTag("Sticky") || hit.collider.CompareTag("Enemy") || hit.collider.TryGetComponent<Electrolyzed>(out temp))
+                    {
+                        GameObject bounceIndicator2 = Instantiate(bounceUIprefabs[1], pos + hit.normal * 0.1f, Quaternion.identity, null);
+                        greenIndicator = bounceIndicator2;
+                    }
+                    
                 }
             }
             else
@@ -654,6 +672,28 @@ public class FumaController : MonoBehaviour
         else
         {
             teleportLocation = transform.position;
+        }
+    }
+
+    void BounceUIIndicator(bool enable)
+    {
+        if (enable)
+        {
+            if (bounces == 1)
+            {
+                blueIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_Clockwise");
+
+                if (greenIndicator == null)
+                {
+                    GameObject bounceIndicator2 = Instantiate(bounceUIprefabs[1], greenIndicatorPos, Quaternion.identity, null);
+                    greenIndicator = bounceIndicator2;
+                }
+            }
+
+            if (bounces == 0)
+            {
+                greenIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_CounterClockwise");
+            }
         }
     }
 }
