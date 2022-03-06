@@ -78,6 +78,8 @@ public class FumaController : MonoBehaviour
     GameObject blueIndicator, greenIndicator;
     Vector3 greenIndicatorPos;
 
+    public Color lineColor;
+
     void Awake()
     {
         for (int i = 0; i < linesShown; i++)
@@ -423,6 +425,8 @@ public class FumaController : MonoBehaviour
         col.enabled = true;
         rb.isKinematic = false;
 
+        
+
         throwFB.PlayFeedbacks();
 
         CastRayForBounce(transform.position, transform.forward);
@@ -455,7 +459,16 @@ public class FumaController : MonoBehaviour
 
         shouldLockOnToPlayer = false;
 
+        if (blueIndicator != null)
+        {
+            Destroy(blueIndicator);
+        }
+        if (greenIndicator != null)
+        {
+            Destroy(greenIndicator);
+        }
         ResetLine();
+
     }
 
     void Ragdoll()
@@ -692,7 +705,7 @@ public class FumaController : MonoBehaviour
 
             if (bounces == 0)
             {
-                greenIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_CounterClockwise");
+                greenIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_Counterclockwise");
             }
         }
     }

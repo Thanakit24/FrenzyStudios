@@ -4695,6 +4695,26 @@ PrefabInstance:
       propertyPath: ammunitionDisplay
       value: 
       objectReference: {fileID: 939123602}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor.g
+      value: 0.83137256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262543006952494058, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: lineColor.r
+      value: 0.49411765
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93d68906338a6dc4b82202576e4b0faf, type: 3}
 --- !u!1001 &798775176241956116
