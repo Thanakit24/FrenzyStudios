@@ -670,7 +670,7 @@ MonoBehaviour:
   jumpSpeed: 12
   holdSpaceToJumpHigher: 1
   maxJumpTime: 0.1
-  dashForce: 30
+  dashForce: 50
   dashDuration: 0.2
   dashCooldown: 1.5
   canDash: 1
