@@ -12,6 +12,8 @@ public class StanceController : MonoBehaviour
     public PlayerController player;
     public Animator animator;
 
+    public float teleportSlowedTime;
+
     [Header("Feedbacks")]
     public MMFeedbacks ThrowingStance_Start;
     public MMFeedbacks ThrowingStance_Reset;
@@ -66,7 +68,7 @@ public class StanceController : MonoBehaviour
     {
         if (player.isTeleporting)
         {
-            Time.timeScale = 0.3f;
+            Time.timeScale = teleportSlowedTime;
             return;
         }
 

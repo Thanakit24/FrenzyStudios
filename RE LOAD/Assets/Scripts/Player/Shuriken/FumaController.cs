@@ -31,14 +31,19 @@ public class FumaController : MonoBehaviour
     [HideInInspector] public Vector3 teleportLocation;
     private float teleportLocationCounter;
 
-    [Header("Config")]
+    [Header("Config 1")]
     public Vector3 curveRot, throwRotation;
     public float flyingSpeed, chargeSpeed, maxBounces, ySpinSpeed, xSpinSpeed, pickupRange, destroyDistance, fxDestroyTime, ragdollSpin;
     public bool curvedStart, curvedFlying, curvedReturn;
     [HideInInspector] public bool shouldLockOnToPlayer;
 
+    [Header("Config 2")]
     public bool autoTeleportsToStickyInsteadofReturnShuriken = false;
+    public bool disableLineRenderer = true;
+    public TextMeshProUGUI text;
+    public int RayCount = 2;
 
+    [Header("General")]
     public MeshCollider col;
     Vector3 lastPos, returnPos;
     [HideInInspector] public Rigidbody rb;
@@ -51,14 +56,12 @@ public class FumaController : MonoBehaviour
     public int defaultBounces;
 
 
-    public TextMeshProUGUI text;
-
-    public int RayCount = 2;
+    
 
     public Vector3 nextDir, nextPos;
     public Quaternion nextAngle;
 
-    [Header("Electricyty Debug")]
+    [Header("Debug")]
     public bool isElectrolyzed;
 
     [Header("Feedbacks")]
@@ -71,6 +74,7 @@ public class FumaController : MonoBehaviour
     public Material dangerTP;
     public MMFeedbacks impactFB;
 
+    public GameObject[] bounceUI;
 
     void Awake()
     {
@@ -147,6 +151,7 @@ public class FumaController : MonoBehaviour
         {
             if (!player) Returned();
 
+            trailFX.SetActive(true);
 
             float distance = Vector3.Distance(transform.position, player.position);
 
@@ -510,10 +515,16 @@ public class FumaController : MonoBehaviour
                 pos = hit.point;
                 dir = Vector3.Reflect(dir, hit.normal);
 
+                if (i == 0)
+                {
+                    GameObject bounceIndicator = Instantiate(bounceUI[0], pos + hit.normal * 0.1f, Quaternion.identity, null);
+                }
+
                 if (i == 1)
                 {
                     nextDir = dir;
                     nextPos = pos;
+                    GameObject bounceIndicator = Instantiate(bounceUI[1], pos + hit.normal * 0.1f, Quaternion.identity, null);
                 }
             }
             else
@@ -536,6 +547,8 @@ public class FumaController : MonoBehaviour
 
     public void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
     {
+        if (linesShown == 0) return;
+
         for (int i = 0; i < maxBounces; i++)
         {
             Ray ray = new Ray(pos, dir);
@@ -614,12 +627,15 @@ public class FumaController : MonoBehaviour
 
     void ResetLine()
     {
-        for (int i = 0; i < lines.Count; i++)
+        if (linesShown != 0)
         {
-            LineRenderer lr = lines[i].GetComponent<LineRenderer>();
-            lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, transform.position);
-        } 
+            for (int i = 0; i < lines.Count; i++)
+            {
+                LineRenderer lr = lines[i].GetComponent<LineRenderer>();
+                lr.SetPosition(0, transform.position);
+                lr.SetPosition(1, transform.position);
+            }
+        }
     }
 
     public Vector3 GetTargetLocation()

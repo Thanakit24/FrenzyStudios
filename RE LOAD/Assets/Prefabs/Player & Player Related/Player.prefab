@@ -19352,6 +19352,9 @@ MonoBehaviour:
   safeTP: {fileID: 2100000, guid: 4af31af8f7ff74e4abcdd261041fa179, type: 2}
   dangerTP: {fileID: 2100000, guid: a2869992579674b42a09f072854a1d37, type: 2}
   impactFB: {fileID: 3694357900660953956}
+  bounceUI:
+  - {fileID: 7017265412186841940, guid: 59ba12b10a317004580da0869bcc2f39, type: 3}
+  - {fileID: 2612533590015108112, guid: 8a32e0f97391d9f43be1d1d6175b0961, type: 3}
 --- !u!54 &7105247571521373181
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -21183,8 +21186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc426250126eec34bafdb8e53b1585fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPos: {x: 0, y: 0, z: 0}
-  playerPos: {x: 0, y: 0, z: 0}
 --- !u!1 &7991411624124136611
 GameObject:
   m_ObjectHideFlags: 0

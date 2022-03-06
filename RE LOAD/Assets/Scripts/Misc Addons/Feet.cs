@@ -20,7 +20,7 @@ public class Feet : MonoBehaviour
     {
         if (!isGrounded)
         {
-            pc.OnGrounded();
+            pc?.OnGrounded();
             landingImpact?.Activate();
         }
         isGrounded = true;
