@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [Header("Mouse")]
     public float _sensitivity;
     public float cameraJumpFeedbackCurrent;
+    [Range(0.5f, 9f)]
     public float cameraJumpFeedbackThreshold;
     public float cameraJumpFeedbackDownMultiplier;
     public float cameraJumpFeedbackUpMultiplier;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     public float cameraImpactTiltMax;
     [Space(7)]
     public float camYPosModifierMultiplier;
+    public float camYPosRecoveryMultiplier;
     public float MaxCamYPos;
     public bool recoveringCamYPos;
     public bool recoveringCamTilt;
@@ -113,6 +115,11 @@ public class PlayerController : MonoBehaviour
         if (airControl > 1) airControl = 1;
         if (airControl <= 0) airControl = 0.1f;
 
+        impactingCamYPos = false;
+        recoveringCamYPos = false;
+        camHolder.localPosition = Vector3.zero;
+        cameraJumpFeedbackCurrent = 0;
+
         Vector3 bottom = capCollider.bounds.center - (Vector3.up * capCollider.bounds.extents.y);
         Vector3 curve = bottom + (Vector3.up * capCollider.radius);
     }
@@ -170,6 +177,7 @@ public class PlayerController : MonoBehaviour
 
                 if (feet.isGrounded)
                 {
+                    impactingCamYPos = true;
                     if (cameraJumpFeedbackCurrent <= 0.6f)
                     {
                         cameraJumpFeedbackCurrent -= 0.012f * Time.deltaTime;
@@ -334,18 +342,20 @@ public class PlayerController : MonoBehaviour
 
         if (cameraJumpFeedbackCurrent > (1 - maxCamTiltImpactFromVelocity) * cameraImpactTiltMax + rb.velocity.y * maxCamTiltImpactFromVelocity)
         {
+            recoveringCamYPos = true;
             recoveringCamTilt = true;
             return;
         }
         if (currentYPos < (1-maxCamYPosImpactFromVelocity) * MaxCamYPos + rb.velocity.y - rb.velocity.y * maxCamYPosImpactFromVelocity)
         {
+            recoveringCamTilt = true;
             recoveringCamYPos = true;
             return;
         }
 
 
         cameraJumpFeedbackCurrent += cameraJumpFeedbackDownMultiplier * Time.deltaTime * 2;
-        camHolder.localPosition += Vector3.down * camYPosModifierMultiplier * Time.deltaTime * 2;
+        camHolder.localPosition += Vector3.down * camYPosModifierMultiplier * Time.deltaTime;
     }
 
     private void CamYPosRecover()
@@ -357,11 +367,11 @@ public class PlayerController : MonoBehaviour
 
         if (camHolder.localPosition.y < 0)
         {
-            camHolder.localPosition += Vector3.up * Time.deltaTime * camYPosModifierMultiplier;
+            camHolder.localPosition += Vector3.up * Time.deltaTime * camYPosRecoveryMultiplier;
         }
 
         //Reset
-        if (Mathf.Abs(camHolder.localPosition.y) < 0.05f)
+        if (Mathf.Abs(camHolder.localPosition.y) < 0.01f)
         {
             camHolder.localPosition = Vector3.zero;
         }
