@@ -8,9 +8,12 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
 
-    private Vector3 rawPlayerMovementInput;
-    private Vector3 PlayerMovementInput;
-    private Vector3 smartPlayerMovementInput;
+    //public enum camState { _default, aiming, recieving, landing};
+    //public camState currentCameraState = camState._default;
+
+    [HideInInspector] public Vector3 rawPlayerMovementInput;
+    [HideInInspector] public Vector3 PlayerMovementInput;
+    [HideInInspector] public Vector3 smartPlayerMovementInput;
     private Vector2 mouseMovementInput;
     private float xRotation;
     private bool isDashing, isJumping;
@@ -85,7 +88,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public float halfOfHeight;
     [SerializeField] public Feet feet;
-    [SerializeField] private Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
     [SerializeField] private Transform playerCamera;
     public FumaController shuriken;
     public GameObject trail;
@@ -126,6 +129,25 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (GameCanvasController.instance.currentState.Equals(GameState.paused))
+        {
+            PlayerMovementInput = Vector3.zero;
+            rawPlayerMovementInput = Vector3.zero;
+            smartPlayerMovementInput = Vector3.zero;
+            rb.isKinematic = true;
+
+            return;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+
+            rb.isKinematic = false;
+
+        }
+
+        if (GameCanvasController.instance.currentState.Equals(GameState.dies)) return;
+
         #region Movement System
 
         rawPlayerMovementInput = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")), 1f);
@@ -259,7 +281,7 @@ public class PlayerController : MonoBehaviour
 
         #endregion
 
-        if (Input.GetKeyDown(KeyCode.Comma))
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //temporary for testing purposes
         }
@@ -267,6 +289,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameCanvasController.instance.currentState.Equals(GameState.paused)) return;
+        if (GameCanvasController.instance.currentState.Equals(GameState.dies)) return;
+
+
         mouseMovementInput = new Vector2(Input.GetAxis("Mouse X") * Time.deltaTime * 50, Input.GetAxis("Mouse Y") * Time.deltaTime * 50);
         MovePlayerCamera();
         if (!isDashing & !isKnocked) MovePlayerVelocity();
@@ -306,6 +332,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 
     public void OnGrounded()
     {
@@ -542,7 +569,7 @@ public class PlayerController : MonoBehaviour
 
     public void TeleportTo()
     {
-        if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned();
+        if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned(Vector3.zero);
 
         transform.position = shuriken.teleportLocation;
         rb.velocity = Vector3.up * 2;

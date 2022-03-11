@@ -54,9 +54,8 @@ public class FumaController : MonoBehaviour
     float tempBounces;
     public int bounces;
     public int defaultBounces;
+    [HideInInspector] public Vector3 returnVector;
 
-
-    
 
     public Vector3 nextDir, nextPos;
     public Quaternion nextAngle;
@@ -98,7 +97,7 @@ public class FumaController : MonoBehaviour
 
     private void Start()
     {
-        Returned();
+        Returned(Vector3.zero);
         impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
 
         shootingKey = stance.stanceChange;
@@ -153,7 +152,7 @@ public class FumaController : MonoBehaviour
         }
         else if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Returning))
         {
-            if (!player) Returned();
+            if (!player) Returned(Vector3.zero);
 
             trailFX.SetActive(true);
 
@@ -171,7 +170,7 @@ public class FumaController : MonoBehaviour
             
             if (state.Equals(FumaState.Returning))  
             {
-                if (distance < pickupRange) Returned();
+                if (distance < pickupRange) Returned((transform.position - player.position).normalized);
             }
 
             //Movement
@@ -187,15 +186,15 @@ public class FumaController : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position, player.position);
             ResetLine();
-            if (distance < pickupRange) Returned();
+            if (distance < pickupRange) Returned((transform.position - player.position).normalized);
         }
 
         if (player)
         {
             float distance = Vector3.Distance(transform.position, player.position);
-            if (distance > destroyDistance) Returned();
+            if (distance > destroyDistance) Returned(Vector3.zero);
         }
-        else Returned();
+        else Returned(Vector3.zero);
 
         if (text != null )text.text = bounces.ToString();
     }
@@ -276,7 +275,7 @@ public class FumaController : MonoBehaviour
                 Stick(collision.collider.gameObject.transform);
                 impactFB.PlayFeedbacks();
             }
-            if (isPlayer && firstBounce) Returned();
+            if (isPlayer && firstBounce) Returned(Vector3.zero);
         }
 
         //Health
@@ -436,10 +435,10 @@ public class FumaController : MonoBehaviour
 
     
 
-    public void Returned()
+    public void Returned(Vector3 returnVector)
     {
         if (!player) return;
-
+        
         state = FumaState.InHands;
 
         rb.constraints = RigidbodyConstraints.FreezeRotation;
