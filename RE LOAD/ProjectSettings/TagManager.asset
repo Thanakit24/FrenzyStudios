@@ -12,6 +12,7 @@ TagManager:
   - Sticky
   - Shuriken
   - ElectricFloor
+  - GameCanvas
   layers:
   - Default
   - TransparentFX

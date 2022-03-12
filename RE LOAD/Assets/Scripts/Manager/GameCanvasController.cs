@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState { gameplay, paused, dies, loading }
 
@@ -20,14 +21,16 @@ public class GameCanvasController : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject fader;
 
-    [Header("Data")]
+    [Header("HUD")]
     public float health;
     public float dashCooldown;
     public float teleportCooldown;
     public bool electrolyzedShuriken;
-
-    [Header("Display")]
     public GameObject healthDisplayer;
+
+    [Header("Fader Config")]
+    public Animator faderAnim;
+    public float transitionTime;
 
     //[Header("Bounce UI Indicator Config")]
     //public GameObject[] prefabs;
@@ -35,11 +38,21 @@ public class GameCanvasController : MonoBehaviour
 
     void Awake()
     {
+        /*
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("GameCanvas");
+
+        if (objs.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+        */
+        faderAnim.Play("Start");
+
         instance = this;
 
         UpdateCanvasState(GameState.gameplay);
-        
-
     }
 
 
@@ -63,7 +76,9 @@ public class GameCanvasController : MonoBehaviour
         #endregion
 
         pauseMenu.SetActive(currentState.Equals(GameState.paused));
-        //fader.SetActive(currentState.Equals(GameState.loading));
+
+        if (Input.GetKeyDown(KeyCode.I)) LoadLevel(0);
+
     }
 
     void UpdateCanvasState(GameState newState)
@@ -122,5 +137,19 @@ public class GameCanvasController : MonoBehaviour
         //float dist = Vector3.Distance(PlayerController.instance.transform.position, worldPos);
         //Vector2 spawnPos = Camera.main.WorldToViewportPoint
 
+    }
+
+    public void LoadLevel(int sceneNumber)
+    {
+        StartCoroutine(LoadLevelEnum(sceneNumber));
+    }
+
+    IEnumerator LoadLevelEnum(int sceneNumber)
+    {
+        faderAnim.SetTrigger("NextScene");
+
+        yield return new WaitForSeconds(transitionTime);
+
+        SceneManager.LoadSceneAsync(sceneNumber);
     }
 }
