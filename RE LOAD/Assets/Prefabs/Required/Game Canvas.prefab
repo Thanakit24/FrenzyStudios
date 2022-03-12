@@ -214,7 +214,7 @@ RectTransform:
   m_GameObject: {fileID: 3487109317012465334}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.01, y: 1.01, z: 1}
   m_Children:
   - {fileID: 8471810647914340268}
   m_Father: {fileID: 4434565331852885761}
@@ -233,9 +233,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3487109317012465334}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!95 &2992452756311597232
 Animator:
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 353162396194216240}
   m_Layer: 5
   m_Name: Game Canvas
-  m_TagString: Untagged
+  m_TagString: GameCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -380,6 +380,8 @@ MonoBehaviour:
   teleportCooldown: 0
   electrolyzedShuriken: 0
   healthDisplayer: {fileID: 0}
+  faderAnim: {fileID: 2992452756311597232}
+  transitionTime: 1
 --- !u!1 &4434565332480767135
 GameObject:
   m_ObjectHideFlags: 0
