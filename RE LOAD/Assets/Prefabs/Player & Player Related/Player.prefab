@@ -637,9 +637,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df210667c0d23d2419dc63ec69569d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawPlayerMovementInput: {x: 0, y: 0, z: 0}
-  PlayerMovementInput: {x: 0, y: 0, z: 0}
-  smartPlayerMovementInput: {x: 0, y: 0, z: 0}
   actualSpeed: 6
   acceleration: 0.2
   initialVelocity: 8
@@ -650,7 +647,7 @@ MonoBehaviour:
   slopeMoveVector: {x: 0, y: 0, z: 0}
   _sensitivity: 5
   cameraJumpFeedbackCurrent: 0
-  cameraJumpFeedbackThreshold: 3.85
+  cameraJumpFeedbackThreshold: 100
   cameraJumpFeedbackDownMultiplier: 12
   cameraJumpFeedbackUpMultiplier: 8
   cameraJumpRecoverySpeed: 10
@@ -19346,7 +19343,6 @@ MonoBehaviour:
   lockOnReturnToPlayer: 1
   bounces: 2
   defaultBounces: 2
-  returnVector: {x: 0, y: 0, z: 0}
   nextDir: {x: 0, y: 0, z: 0}
   nextPos: {x: 0, y: 0, z: 0}
   nextAngle: {x: 0, y: 0, z: 0, w: 0}
