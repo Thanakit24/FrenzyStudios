@@ -15,7 +15,7 @@ public class CamReposition : MonoBehaviour
 
     void Update()
     {
-        transform.position = parent.position + localPos;
+        transform.position = parent.position + localPos + Vector3.up * 0.01f;
         transform.rotation = parent.rotation;
     }
 }

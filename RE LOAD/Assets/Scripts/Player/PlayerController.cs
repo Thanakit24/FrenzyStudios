@@ -143,7 +143,6 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
 
             rb.isKinematic = false;
-
         }
 
         if (GameCanvasController.instance.currentState.Equals(GameState.dies)) return;
@@ -176,7 +175,7 @@ public class PlayerController : MonoBehaviour
 
         #endregion
 
-        #region Jump
+        #region Jump + CamSystem
 
         if (Input.GetKeyDown(KeyCode.Space) && !isDashing && feet.isGrounded)
         {
@@ -214,7 +213,13 @@ public class PlayerController : MonoBehaviour
                 if (rb.velocity.y > 0)
                     cameraJumpFeedbackCurrent -= Time.deltaTime * cameraJumpFeedbackUpMultiplier;
                 else if (rb.velocity.y < 0)
+                {
                     cameraJumpFeedbackCurrent += Time.deltaTime * cameraJumpFeedbackDownMultiplier;
+                    if (rb.velocity.y < -3f && camHolder.localPosition.y > MaxCamYPos * 1.5f)
+                    {
+                        camHolder.localPosition += Vector3.down * 3 * Time.deltaTime;
+                    }
+                }
             }
         }
 
@@ -342,6 +347,15 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Camera
+
+    private void CamYPosLimit()
+    {
+        float x = rb.velocity.y * maxCamYPosImpactFromVelocity;
+        if (x > .5f) x = .5f;
+
+        if (camHolder.localPosition.y < MaxCamYPos - x) camHolder.localPosition = new Vector3(camHolder.localPosition.x, MaxCamYPos-x, camHolder.localPosition.z);
+    }
+
     private void MovePlayerCamera()
     {
         float tempSens = _sensitivity;
