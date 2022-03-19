@@ -226,7 +226,9 @@ public class FumaController : MonoBehaviour
             MeshRenderer mr = visualIndicator.GetComponent<MeshRenderer>();
 
             Electrolyzed temp;
-            if (hit.collider.gameObject.TryGetComponent<Electrolyzed>(out temp))
+            hit.collider.gameObject.TryGetComponent<Electrolyzed>(out temp);
+
+            if (temp != null)
             {
                 mr.material = dangerTP;
             }
