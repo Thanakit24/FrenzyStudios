@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Hebe3-1
+  m_Shader: {fileID: 4800000, guid: e65b54d710e2f2444b2168f8387a6475, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 1c54430536586b645b3616aa9354c20c, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 8d7c25d4eed65fb43ab3830a5e4fad8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Bottom: 0
+    - _Clip: 15.68
+    - _Control: 0.69
+    - _Dissolve: 0.66
+    - _DissolveAmount: -7.46
+    - _Distortion: 0.002
+    - _EmissionThreshold: 0.33
+    - _Glossiness: 0
+    - _Halo: 0.5
+    - _LeftX: -18.51
+    - _Metallic: 0
+    - _NoiseSize: 10
+    - _RightX: -11.06
+    - _Smoothness: 0.2
+    - _Top: 0.5
+    m_Colors:
+    - _BlackHolePos: {r: 1.45, g: 0, b: 0, a: 1}
+    - _ClipPlane: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Direction: {r: 0, g: 0, b: 1, a: 0}
+    - _EffectPoint: {r: -60, g: 0, b: 0, a: 0}
+    - _EffectVector: {r: -0.1, g: -0.1, b: 0, a: 3.28}
+    - _Emission: {r: 0, g: 0.5, b: 1, a: 1}
+    - _Emission1: {r: 0, g: 1, b: 0, a: 1}
+    - _Emission2: {r: 1, g: 1, b: 0, a: 1}
+    - _HaloColor: {r: 1, g: 1, b: 0, a: 1}
+    - _PivotOffset: {r: 0, g: 0, b: -0.005, a: 0}

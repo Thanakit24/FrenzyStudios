@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
     [Header("Feedbacks")]
     public MMFeedbacks jumpImpact;
     public MMFeedbacks teleportWithSlowmoFB;
+    public MMFeedbacks preteleportFB;
     public MMFeedbacks meleeSFX;
     public MMFeedbacks dashRecovery;
 
@@ -267,6 +268,7 @@ public class PlayerController : MonoBehaviour
         #region Teleport
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
+            preteleportFB.PlayFeedbacks();
             isTeleporting = true;
             shuriken.state = FumaState.Stuck;
             shuriken.rb.velocity = Vector3.zero;
