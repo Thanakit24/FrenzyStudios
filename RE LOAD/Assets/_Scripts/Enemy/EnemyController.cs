@@ -20,6 +20,10 @@ public class EnemyController : MonoBehaviour
     private int walkPointIndex;
     private Vector3 walkPoint;
     private bool walkPointSet;
+    public float rememberCountdown;
+    public float rememberTime;
+    public bool remembers;
+    public float confusedTime;
 
     [Header("Attacking")]
     [SerializeField] private float timeBetweenAttacks;
@@ -28,13 +32,44 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform attackPoint;
 
     [Header("States")]
-    [SerializeField] private float sightRange;
+    [SerializeField] private float surroundSightRange;
+    [SerializeField] private float forwardSightRange;
+    [SerializeField] private float sightAngle = 150f;
+    public LayerMask obstructionMask;
+    [Space(10)]
     [SerializeField] private float attackRange;
-    [SerializeField] private bool playerInSightRange, playerInAttackRange;
+    [SerializeField] private bool playerInSight, playerInAttackRange;
+
+
+    private bool InLosOfPlayer()
+    {
+        if (Physics.CheckSphere(transform.position, forwardSightRange, whatIsPlayer))
+        {
+            Vector3 dir = (player.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, dir);
+
+            if (angle < sightAngle)
+            {
+                float dist = Vector3.Distance(transform.position, player.position);
+
+                if (!Physics.Raycast(transform.position, dir, dist, obstructionMask))
+                {
+                    rememberCountdown = rememberTime;
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     private void Start()
     {
-        player = PlayerController.instance.transform;
+        //player = PlayerController.instance.GetComponent<Transform>();
         feet = GetComponentInChildren<Feet>();
         agent = GetComponent<NavMeshAgent>();
         walkPointIndex = 0;
@@ -50,17 +85,31 @@ public class EnemyController : MonoBehaviour
     private void Update()
     {
         //Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        playerInSight = InLosOfPlayer();
+        if (Physics.CheckSphere(transform.position, surroundSightRange, whatIsPlayer)) playerInSight = true;
+        if (rememberCountdown > 0)
+        {
+            remembers = true;
+            rememberCountdown -= Time.deltaTime;
+        }
+        else remembers = false;
+
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange && !isStationary) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInSightRange && playerInAttackRange) AttackPlayer();
+        
 
+        if (!playerInSight && !playerInAttackRange && !isStationary && !remembers) Patroling();
+        if (playerInSight && !playerInAttackRange) ChasePlayer();
+        if (playerInSight && playerInAttackRange) AttackPlayer();
+
+        if (remembers && !playerInSight && !playerInAttackRange) Confused();
     }
+
+
     //=================================================================================
     private void Patroling()
     {
+        LookAt(walkPoint);
         agent.SetDestination(walkPoint);
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -98,11 +147,21 @@ public class EnemyController : MonoBehaviour
     }
 
 
+    private void Confused()
+    {
+        agent.SetDestination(transform.position);
+        StartCoroutine(Wait());
+    }
+
     //=================================================================================
 
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        LookAt(player.position);
+
+
+
         //Debug.Log("chasingPlayer");
     }
 
@@ -111,15 +170,15 @@ public class EnemyController : MonoBehaviour
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-        hand.transform.LookAt(player);
-        attackPoint.transform.LookAt(player);
-        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(player.position - transform.position, Vector3.up));
+        //hand.transform.LookAt(player);
+        //attackPoint.transform.LookAt(player);
+        LookAt(player.position);
         //transform.rotation = Quaternion.Lerp()
 
         if (!hasAttacked)
         {
-            Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
-            rb.AddForce(attackPoint.transform.forward * 25f, ForceMode.Impulse);
+            //Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
+            //rb.AddForce(attackPoint.transform.forward * 25f, ForceMode.Impulse);
 
             hasAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -137,9 +196,24 @@ public class EnemyController : MonoBehaviour
     {
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawWireSphere(transform.position, surroundSightRange);
+
+        Gizmos.DrawWireSphere(transform.position, forwardSightRange);
+
+        if (InLosOfPlayer()) Gizmos.DrawLine(transform.position, player.position);
+
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    private void LookAt(Vector3 pos)
+    {
+        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(pos- transform.position, Vector3.up));
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(confusedTime);
     }
 }
