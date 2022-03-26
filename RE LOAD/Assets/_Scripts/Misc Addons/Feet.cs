@@ -6,6 +6,7 @@ public class Feet : MonoBehaviour
 {
     BoxCollider feet;
     public bool isGrounded;
+    public LayerMask whatIsGround;
     private LandingImpact landingImpact;
     private PlayerController pc;
 
@@ -18,7 +19,7 @@ public class Feet : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!isGrounded)
+        if (!isGrounded && Physics.CheckSphere(transform.position + Vector3.down * .65f, .5f, whatIsGround))
         {
             pc?.OnGrounded();
             landingImpact?.Activate();
@@ -28,8 +29,19 @@ public class Feet : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        landingImpact?.Deactivate();
-        isGrounded = false;
+        Collider[] touchingGrounds = Physics.OverlapSphere(transform.position + Vector3.down * .65f, .5f, whatIsGround);
+
+        if (touchingGrounds.Length == 1)
+        {
+            Debug.Log("Hey");
+            landingImpact?.Deactivate();
+            isGrounded = false;
+        }
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position + Vector3.down * .65f, .5f);
+    }
 }

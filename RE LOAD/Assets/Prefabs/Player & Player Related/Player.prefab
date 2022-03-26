@@ -13700,7 +13700,7 @@ MonoBehaviour:
   BeatID: 0
   NormalizedLevelID: 0
   AudioAnalyzerMultiplier: 1
-  InitialValue: 0
+  InitialValue: -5
   CurrentValue: 0
   CurrentValueNormalized: 0
   PingPong: 0
@@ -28087,6 +28087,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 13400000, guid: 116253c36dc7f1848ab4c3f85513b791,
         type: 2}
+    - target: {fileID: 4861575057460641973, guid: d065c2d7e9569cf45b74b6fea84d8e4a,
+        type: 3}
+      propertyPath: whatIsGround.m_Bits
+      value: 7999
+      objectReference: {fileID: 0}
     - target: {fileID: 4861575057460641974, guid: d065c2d7e9569cf45b74b6fea84d8e4a,
         type: 3}
       propertyPath: m_Name
