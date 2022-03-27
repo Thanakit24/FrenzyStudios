@@ -20,6 +20,7 @@ public class GameCanvasController : MonoBehaviour
     public GameObject HUD;
     public GameObject pauseMenu;
     public GameObject fader;
+    public GameObject skillTree;
 
     [Header("HUD")]
     public float health;
@@ -27,6 +28,7 @@ public class GameCanvasController : MonoBehaviour
     public float teleportCooldown;
     public bool electrolyzedShuriken;
     public GameObject healthDisplayer;
+    public bool skillTreeActive;
 
     [Header("Fader Config")]
     public Animator faderAnim;
@@ -49,6 +51,8 @@ public class GameCanvasController : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         */
         faderAnim.Play("Start");
+        skillTree.SetActive(false);
+        skillTreeActive = false;
 
         instance = this;
 
@@ -79,6 +83,28 @@ public class GameCanvasController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I)) LoadLevel(0);
 
+        if (currentState.Equals(GameState.gameplay) && Input.GetKeyDown(KeyCode.E))
+        {
+            if (skillTreeActive)
+            {
+                Time.timeScale = 0;
+                skillTree.SetActive(false);
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+                skillTreeActive = false;
+            }
+            else
+            {
+                Time.timeScale = 1;
+                skillTree.SetActive(true);
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Confined;
+
+                skillTreeActive = true;
+            }
+
+        }
     }
 
     void UpdateCanvasState(GameState newState)
