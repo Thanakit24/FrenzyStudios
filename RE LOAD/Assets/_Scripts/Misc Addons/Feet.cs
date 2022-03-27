@@ -10,6 +10,8 @@ public class Feet : MonoBehaviour
     private LandingImpact landingImpact;
     private PlayerController pc;
 
+    public int count;
+    private int previousCount;
     private void Start()
     {
         feet = GetComponent<BoxCollider>();
@@ -17,8 +19,38 @@ public class Feet : MonoBehaviour
         pc = GetComponentInParent<PlayerController>();
     }
 
+    private void Update()
+    {
+        Collider[] touchingGrounds = Physics.OverlapSphere(transform.position + Vector3.down * .65f, .5f, whatIsGround);
+        count = touchingGrounds.Length;
+        if (previousCount < count && count == 1)
+        {
+            pc?.OnGrounded();
+            landingImpact?.Activate();
+
+            previousCount = count;
+        }
+        else if (previousCount > count)
+            previousCount = count;
+
+        if (count == 0)
+        {
+            landingImpact?.Deactivate();
+            isGrounded = false;
+        }
+        else
+        {
+            //pc?.OnGrounded();
+            //landingImpact?.Activate();
+            isGrounded = true;
+        }
+    }
+    /*
     private void OnTriggerStay(Collider other)
     {
+        Collider[] touchingGrounds = Physics.OverlapSphere(transform.position + Vector3.down * .65f, .5f, whatIsGround);
+        count = touchingGrounds.Length;
+
         if (!isGrounded && Physics.CheckSphere(transform.position + Vector3.down * .65f, .5f, whatIsGround))
         {
             pc?.OnGrounded();
@@ -30,15 +62,14 @@ public class Feet : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         Collider[] touchingGrounds = Physics.OverlapSphere(transform.position + Vector3.down * .65f, .5f, whatIsGround);
-
+        count = touchingGrounds.Length;
         if (touchingGrounds.Length == 1)
         {
-            Debug.Log("Hey");
             landingImpact?.Deactivate();
             isGrounded = false;
         }
     }
-
+    */
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
