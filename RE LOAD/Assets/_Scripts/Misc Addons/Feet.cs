@@ -21,7 +21,7 @@ public class Feet : MonoBehaviour
 
     private void Update()
     {
-        Collider[] touchingGrounds = Physics.OverlapSphere(transform.position + Vector3.down * .65f, .5f, whatIsGround);
+        Collider[] touchingGrounds = Physics.OverlapSphere(transform.position + Vector3.down * .65f, .48f, whatIsGround);
         count = touchingGrounds.Length;
         if (previousCount < count && count == 1)
         {
@@ -73,6 +73,6 @@ public class Feet : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position + Vector3.down * .65f, .5f);
+        Gizmos.DrawWireSphere(transform.position + Vector3.down * .65f, .48f);
     }
 }
