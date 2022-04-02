@@ -137,11 +137,15 @@ public class PlayerController : MonoBehaviour
             smartPlayerMovementInput = Vector3.zero;
             rb.isKinematic = true;
 
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
             return;
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             rb.isKinematic = false;
         }

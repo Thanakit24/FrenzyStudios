@@ -40,7 +40,6 @@ public class GameCanvasController : MonoBehaviour
 
     void Awake()
     {
-        /*
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameCanvas");
 
         if (objs.Length > 1)
@@ -49,11 +48,12 @@ public class GameCanvasController : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
-        */
+
         faderAnim.Play("Start");
+        /*
         skillTree.SetActive(false);
         skillTreeActive = false;
-
+        */
         instance = this;
 
         UpdateCanvasState(GameState.gameplay);
@@ -83,11 +83,12 @@ public class GameCanvasController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I)) LoadLevel(0);
 
-        if (currentState.Equals(GameState.gameplay) && Input.GetKeyDown(KeyCode.E))
+        /*
+        if (currentState.Equals(GameState.gameplay) && Input.GetKeyDown(KeyCode.F))
         {
             if (skillTreeActive)
             {
-                Time.timeScale = 0;
+                Time.timeScale = 1;
                 skillTree.SetActive(false);
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
@@ -96,7 +97,7 @@ public class GameCanvasController : MonoBehaviour
             }
             else
             {
-                Time.timeScale = 1;
+                Time.timeScale = 0;
                 skillTree.SetActive(true);
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Confined;
@@ -105,6 +106,7 @@ public class GameCanvasController : MonoBehaviour
             }
 
         }
+        */
     }
 
     void UpdateCanvasState(GameState newState)
@@ -122,7 +124,7 @@ public class GameCanvasController : MonoBehaviour
         switch (input)
         {
             case GameState.gameplay:
-                Cursor.visible = false;
+                //Cursor.visible = false;
                 Time.timeScale = 1;
 
                 break;
@@ -131,7 +133,7 @@ public class GameCanvasController : MonoBehaviour
             case GameState.paused:
                 if (currentState.Equals(GameState.paused))
                 {
-                    Cursor.visible = false;
+                    //Cursor.visible = true;
                     lastTimescale = Time.timeScale;
                     Time.timeScale = pausedTimescale;
 
