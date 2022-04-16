@@ -77,6 +77,14 @@ public class PlayerController : MonoBehaviour
     private float jumpTimeCounter;
     public float maxJumpTime;
 
+    [Header("Ledge Grab Config")]
+    public bool isLedgeGrabbing;
+    public float forwardRayDistance;
+    public Vector3 forwardRayStartingPos;
+    public float verticalRayDistance;
+    public Vector3 verticalRayStartingPos;
+    public float verticalRayOffset;
+
     [Header("Dash Config")]
     [SerializeField] private float dashForce;
     [SerializeField] private float dashDuration;
@@ -95,6 +103,7 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnimator;
     public Transform camHolder;
     CapsuleCollider capCollider;
+    private LayerMask whatIsGround;
 
     [Header("Feedbacks")]
     public MMFeedbacks jumpImpact;
@@ -126,6 +135,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 bottom = capCollider.bounds.center - (Vector3.up * capCollider.bounds.extents.y);
         Vector3 curve = bottom + (Vector3.up * capCollider.radius);
+
+        whatIsGround = feet.whatIsGround;
     }
 
     private void Update()
@@ -177,6 +188,8 @@ public class PlayerController : MonoBehaviour
             tempMovY = 0;
         }
         smartPlayerMovementInput = Vector3.ClampMagnitude(new Vector3(tempMovX, 0, tempMovY), 1f);
+
+        LedgeGrabSystem();
 
         #endregion
 
@@ -311,13 +324,19 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GameCanvasController.instance.currentState.Equals(GameState.paused)) return;
+        if (GameCanvasController.instance.currentState.Equals(GameState.paused)) return;    
         if (GameCanvasController.instance.currentState.Equals(GameState.dies)) return;
 
 
         mouseMovementInput = new Vector2(Input.GetAxis("Mouse X") * Time.deltaTime * 50, Input.GetAxis("Mouse Y") * Time.deltaTime * 50);
         MovePlayerCamera();
-        if (!isDashing & !isKnocked) MovePlayerVelocity();
+
+        if (isLedgeGrabbing)
+        {
+
+        }
+
+        if (!isDashing & !isKnocked && !isLedgeGrabbing) MovePlayerVelocity();
 
         if (isDashing)
         {
@@ -626,6 +645,29 @@ public class PlayerController : MonoBehaviour
         return new Vector3(input.x, preferredY, input.x);
     }
 
+    private void LedgeGrabSystem()
+    {
+        bool forwardRayDetected = Physics.Raycast(transform.position + forwardRayStartingPos, transform.forward, forwardRayDistance, feet.whatIsGround);
+        bool verticalRayDetected = Physics.Raycast(transform.position + verticalRayStartingPos + transform.forward * verticalRayOffset, Vector3.down, verticalRayDistance, feet.whatIsGround);
+
+        Debug.Log(forwardRayDetected.ToString() + verticalRayDetected.ToString());
+
+        if (forwardRayDetected && verticalRayDetected && rb.velocity.y < -1) isLedgeGrabbing = true;
+
+        if (isLedgeGrabbing)
+        {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+            rb.velocity = Vector3.zero;
+            isJumping = false;
+        }
+        else
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        }
+    }
+
     #endregion
 
     #region Skills
@@ -684,6 +726,12 @@ public class PlayerController : MonoBehaviour
         //rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
         yield return new WaitForSeconds(knockbackRecoveryTime);
         isKnocked = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawLine(transform.position + forwardRayStartingPos, transform.position + forwardRayStartingPos + transform.forward * forwardRayDistance);
+        Gizmos.DrawLine(transform.position + verticalRayStartingPos + transform.forward * verticalRayOffset, transform.position + verticalRayStartingPos + Vector3.down * verticalRayDistance + transform.forward * verticalRayOffset);
     }
 
 }
