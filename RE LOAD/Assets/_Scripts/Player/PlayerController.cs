@@ -660,6 +660,12 @@ public class PlayerController : MonoBehaviour
             rb.useGravity = false;
             rb.velocity = Vector3.zero;
             isJumping = false;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                transform.position = transform.position + verticalRayStartingPos + transform.forward * verticalRayOffset;
+                isLedgeGrabbing = false;
+            }
         }
         else
         {

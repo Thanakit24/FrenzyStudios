@@ -715,11 +715,12 @@ MonoBehaviour:
   jumpSpeed: 12
   holdSpaceToJumpHigher: 1
   maxJumpTime: 0.1
-  ledgeGrabbing: 0
+  isLedgeGrabbing: 0
   forwardRayDistance: 1
   forwardRayStartingPos: {x: 0, y: 0.5, z: 0}
   verticalRayDistance: 1
   verticalRayStartingPos: {x: 0, y: 1, z: 0}
+  verticalRayOffset: 1
   dashForce: 50
   dashDuration: 0.2
   dashCooldown: 1.5
