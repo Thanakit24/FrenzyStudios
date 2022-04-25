@@ -8,10 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: robot_electricity_0
-  m_Shader: {fileID: -6465566751694194690, guid: e115f64a3a7c1114ba2bac11b8bf6d71, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e115f64a3a7c1114ba2bac11b8bf6d71,
+    type: 3}
   m_ShaderKeywords: _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap:
@@ -26,7 +27,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_1D0F2A55:
-        m_Texture: {fileID: 2800000, guid: 3ba61b963021d884ba2f7266dfdf69ca, type: 3}
+        m_Texture: {fileID: 2800000, guid: bade70a95291e5e4c988e9ec39c0b41f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_3977A1BD:
@@ -42,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_7E3F19CB:
-        m_Texture: {fileID: 2800000, guid: 81dd6be3b6b5c684f8b63171a4ab2e2c, type: 3}
+        m_Texture: {fileID: 2800000, guid: b7743631b73c0bf4c90d5eaf4f181ac4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_7F701676:
@@ -157,6 +158,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_169EC71A: 1
     - Boolean_6F94E581: 0
@@ -164,24 +177,24 @@ Material:
     - Vector1_1A3282DB: -1.52
     - Vector1_1D382313: 1
     - Vector1_1DFDF9B7: 1
-    - Vector1_209747FE: 0.365
+    - Vector1_209747FE: 0.462
     - Vector1_20DD976A: -102
     - Vector1_39DF8966: 0.083
-    - Vector1_39FA7FCA: 16
+    - Vector1_39FA7FCA: 15
     - Vector1_3CD651F7: 0.9
-    - Vector1_3E76E059: 0.49
+    - Vector1_3E76E059: 0.807
     - Vector1_5343348D: 0.001019
     - Vector1_53B45937: -16
     - Vector1_5559E92E: 10
     - Vector1_56495FED: 0.239
     - Vector1_6A3305DC: 5
     - Vector1_6AC0FCA: 1
-    - Vector1_71805689: 8
+    - Vector1_71805689: 0.76
     - Vector1_7834F05F: 0.4
     - Vector1_7C336352: 5
     - Vector1_7FFCBCA4: 0
     - Vector1_9CF95ED1: 0.083
-    - Vector1_9E4081D6: 16
+    - Vector1_9E4081D6: 0
     - Vector1_A7AE73F0: 5
     - Vector1_A7C617BC: 10
     - Vector1_B4FDD9B: 0.274
@@ -315,11 +328,11 @@ Material:
     m_Colors:
     - Color_11936B7C: {r: 30.209383, g: 26.571604, b: 14.551116, a: 0}
     - Color_1D7627CE: {r: 1, g: 1, b: 1, a: 0}
-    - Color_330D15D6: {r: 1, g: 1, b: 1, a: 0}
+    - Color_330D15D6: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0}
     - Color_335D905F: {r: 9.518758, g: 0, b: 0, a: 0}
     - Color_3F3F2BEF: {r: 30.209383, g: 26.571604, b: 14.551116, a: 0}
     - Color_59296C78: {r: 2.270603, g: 2.270603, b: 2.270603, a: 0}
-    - Color_6D19BA3F: {r: 16, g: 0, b: 0, a: 0}
+    - Color_6D19BA3F: {r: 0, g: 11.506225, b: 21.361254, a: 0}
     - Color_6F365877: {r: 0, g: 1.20261, b: 1.367365, a: 0}
     - Color_B37A51A2: {r: 1, g: 1, b: 1, a: 0}
     - Color_C9A10623: {r: 1, g: 1, b: 1, a: 0}
@@ -329,10 +342,10 @@ Material:
     - Vector2_8219C4B3: {r: -0.03, g: 0.05, b: 0, a: 0}
     - Vector2_92E06CBD: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_A0E54746: {r: -0.01, g: 0.01, b: 0, a: 0}
-    - Vector2_A2317308: {r: 0, g: -2, b: 0, a: 0}
-    - Vector2_D8DCF17E: {r: 0, g: 2, b: 0, a: 0}
+    - Vector2_A2317308: {r: 0, g: -1, b: 0, a: 0}
+    - Vector2_D8DCF17E: {r: 0, g: 5, b: 0, a: 0}
     - Vector2_E4CA34D5: {r: 2, g: 2, b: 0, a: 0}
-    - Vector2_F5F8B313: {r: -10, g: 10, b: 0, a: 0}
+    - Vector2_F5F8B313: {r: -1, g: 10, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
