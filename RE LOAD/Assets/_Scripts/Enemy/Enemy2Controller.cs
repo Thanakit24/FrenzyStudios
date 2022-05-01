@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy2Controller : MonoBehaviour
 {
@@ -48,10 +49,12 @@ public class Enemy2Controller : MonoBehaviour
             if (playerInSight && !playerInAttackRange) ChasePlayer();
             if (playerInSight && playerInAttackRange) AttackPlayer();
         }
-       
-
     }
 
+    private void FixedUpdate()
+    {
+        if (currentDestination != transform.position) DestinationExecution();
+    }
 
     //=================================================================================
 
@@ -86,13 +89,14 @@ public class Enemy2Controller : MonoBehaviour
     {
         StartCoroutine(Wait(explosionDelay));
 
-        Explode();
     }
 
 
     IEnumerator Wait(float x)
     {
         yield return new WaitForSeconds(x);
+        Explode();
+
     }
 
     void Explode()
@@ -100,12 +104,13 @@ public class Enemy2Controller : MonoBehaviour
         RaycastHit[] inRagedObjects = Physics.SphereCastAll(transform.position, explosionRadius, Vector3.zero);
         foreach (var item in inRagedObjects)
         {
+            Debug.Log(item.collider.name);
             Rigidbody _rigidbody;
             if (item.collider.gameObject.TryGetComponent<Rigidbody>(out _rigidbody))
             {
                 if (item.collider.CompareTag("Player"))
                 {
-                    item.collider.GetComponent<PlayerController>().Knocked(0);
+                    item.collider.GetComponent<PlayerController>().Knocked(explosionForce, transform.position);
                 }
                 _rigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius, upwardsModifier);
             }

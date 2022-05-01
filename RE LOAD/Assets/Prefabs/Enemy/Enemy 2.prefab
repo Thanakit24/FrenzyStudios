@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7445954576247249397}
   - component: {fileID: 7445954576247249396}
   - component: {fileID: 7445954576247249288}
-  - component: {fileID: 7445954576247249289}
   - component: {fileID: 7445954576247249294}
   m_Layer: 0
   m_Name: Enemy 2
@@ -115,9 +114,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   moveSpeed: 10
-  explosionDelay: 5
+  explosionDelay: 1
   explosionRadius: 10
-  explosionForce: 5
+  explosionForce: 200
   upwardsModifier: 5
   surroundSightRange: 20
   forwardSightRange: 5
@@ -128,28 +127,6 @@ MonoBehaviour:
   playerInSight: 0
   playerInAttackRange: 0
   noticedPlayer: 0
---- !u!195 &7445954576247249289
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445954576247249399}
-  m_Enabled: 1
-  m_AgentTypeID: -334000983
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 2
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
 --- !u!54 &7445954576247249294
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -725,11 +725,12 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    public IEnumerator Knocked(float knockbackForce)
+    public IEnumerator Knocked(float knockbackForce, Vector3 origin)
     {
         //Debug.Log(dir);
         //rb.AddForce((dir + Vector3.up) * dashForce, ForceMode.Impulse);
-        //rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
+        Vector3 dir = (origin - transform.position).normalized;
+        rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
         yield return new WaitForSeconds(knockbackRecoveryTime);
         isKnocked = false;
     }
