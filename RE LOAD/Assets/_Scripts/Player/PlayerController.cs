@@ -725,7 +725,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    IEnumerator Knocked(float knockbackForce)
+    public IEnumerator Knocked(float knockbackForce)
     {
         //Debug.Log(dir);
         //rb.AddForce((dir + Vector3.up) * dashForce, ForceMode.Impulse);
