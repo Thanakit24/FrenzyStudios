@@ -9,7 +9,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private Feet feet;
-    [SerializeField] private GameObject hand;
     [SerializeField] private Animator animator;
     [SerializeField] private Vector3 center;
 
@@ -29,6 +28,8 @@ public class EnemyController : MonoBehaviour
     [Header("Attacking")]
     [SerializeField] private float timeBetweenAttacks;
     private bool hasAttacked;
+    private Vector3 attackPointOffset;
+    private float timeBetweenAttacksCounter = 0;
     public GameObject enemyBullet;
     [SerializeField] private Transform attackPoint;
 
@@ -80,6 +81,8 @@ public class EnemyController : MonoBehaviour
             isReturning = false;
             walkPoint = targetWalkPoints[walkPointIndex];
         }
+
+        attackPointOffset = attackPoint.localRotation.eulerAngles;
     }
 
     private void Update()
@@ -92,15 +95,18 @@ public class EnemyController : MonoBehaviour
             remembers = true;
             rememberCountdown -= Time.deltaTime;
         }
-        else remembers = false;
-
+        else
+        {
+            ResetAttack();
+            remembers = false;
+        }
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
         
-
         if (!playerInSight && !playerInAttackRange && !isStationary && !remembers) Patroling();
         if (playerInSight && !playerInAttackRange) ChasePlayer();
         if (playerInSight && playerInAttackRange) AttackPlayer();
+        
 
         if (remembers && !playerInSight && !playerInAttackRange) Confused();
 
@@ -171,22 +177,18 @@ public class EnemyController : MonoBehaviour
 
     private void AttackPlayer()
     {
-        animator.SetTrigger("Shoot");
-        agent.SetDestination(transform.position);
-        //hand.transform.LookAt(player);
+        if (!agent.isStopped) agent.Stop();
         //attackPoint.transform.LookAt(player);
         LookAt(player.position);
-        //transform.rotation = Quaternion.Lerp()
 
         if (!hasAttacked)
         {
-            //Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
-            //rb.AddForce(attackPoint.transform.forward * 25f, ForceMode.Impulse);
-
             hasAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            animator.SetTrigger("Shoot");
+            Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
+            rb.AddForce(attackPoint.forward * 25f, ForceMode.Impulse);
+            Invoke("ResetAttack", timeBetweenAttacks);
         }
-
     }
 
     private void ResetAttack()
@@ -205,10 +207,15 @@ public class EnemyController : MonoBehaviour
         {
             Gizmos.DrawLine(transform.position + center, player.position);
             Gizmos.DrawWireSphere(transform.position+ center, forwardSightRange);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(attackPoint.position, attackPoint.forward);
         }
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position + center, attackRange);
+
+        
     }
 
     private void LookAt(Vector3 pos)
