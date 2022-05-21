@@ -10,7 +10,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private Feet feet;
     [SerializeField] private GameObject hand;
-
+    [SerializeField] private Animator animator;
+    [SerializeField] private Vector3 center;
 
     [Header("Patrolling")]
     public bool isStationary;
@@ -71,7 +72,6 @@ public class EnemyController : MonoBehaviour
     {
         //player = PlayerController.instance.GetComponent<Transform>();
         feet = GetComponentInChildren<Feet>();
-        agent = GetComponent<NavMeshAgent>();
         walkPointIndex = 0;
 
         if (!isStationary && targetWalkPoints.Length > 0)
@@ -103,6 +103,8 @@ public class EnemyController : MonoBehaviour
         if (playerInSight && playerInAttackRange) AttackPlayer();
 
         if (remembers && !playerInSight && !playerInAttackRange) Confused();
+
+        animator.SetBool("Walking", agent.velocity.normalized.magnitude > 0.5f);
     }
 
 
@@ -169,6 +171,7 @@ public class EnemyController : MonoBehaviour
 
     private void AttackPlayer()
     {
+        animator.SetTrigger("Shoot");
         agent.SetDestination(transform.position);
         //hand.transform.LookAt(player);
         //attackPoint.transform.LookAt(player);
@@ -196,15 +199,16 @@ public class EnemyController : MonoBehaviour
     {
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, surroundSightRange);
+        Gizmos.DrawWireSphere(transform.position+ center, surroundSightRange);
 
-        Gizmos.DrawWireSphere(transform.position, forwardSightRange);
-
-        if (InLosOfPlayer()) Gizmos.DrawLine(transform.position, player.position);
-
+        if (InLosOfPlayer())
+        {
+            Gizmos.DrawLine(transform.position + center, player.position);
+            Gizmos.DrawWireSphere(transform.position+ center, forwardSightRange);
+        }
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position + center, attackRange);
     }
 
     private void LookAt(Vector3 pos)
