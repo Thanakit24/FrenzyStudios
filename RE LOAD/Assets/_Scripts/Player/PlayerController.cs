@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform headBobber;
 
     [Header("Player Status")]
+    public float maxHealth;
+    public float health;
     public bool isKnocked = false;
     public float knockbackRecoveryTime = 0.2f;
     private float horizontalMovement;
@@ -112,7 +114,7 @@ public class PlayerController : MonoBehaviour
     public MMFeedbacks meleeSFX;
     public MMFeedbacks dashRecovery;
 
-    void Start()
+    void Awake()
     {
         instance = this;
         capCollider = this.gameObject.GetComponent<CapsuleCollider>();
@@ -136,11 +138,15 @@ public class PlayerController : MonoBehaviour
         Vector3 bottom = capCollider.bounds.center - (Vector3.up * capCollider.bounds.extents.y);
         Vector3 curve = bottom + (Vector3.up * capCollider.radius);
 
+        health = maxHealth;
+
         whatIsGround = feet.whatIsGround;
     }
 
     private void Update()
     {
+        if (health <= 0) return;
+
         if (GameCanvasController.instance.currentState.Equals(GameState.paused))
         {
             PlayerMovementInput = Vector3.zero;
@@ -650,7 +656,7 @@ public class PlayerController : MonoBehaviour
         bool forwardRayDetected = Physics.Raycast(transform.position + forwardRayStartingPos, transform.forward, forwardRayDistance, feet.whatIsGround);
         bool verticalRayDetected = Physics.Raycast(transform.position + verticalRayStartingPos + transform.forward * verticalRayOffset, Vector3.down, verticalRayDistance, feet.whatIsGround);
 
-        Debug.Log(forwardRayDetected.ToString() + verticalRayDetected.ToString());
+        //Debug.Log(forwardRayDetected.ToString() + verticalRayDetected.ToString());
 
         if (forwardRayDetected && verticalRayDetected && rb.velocity.y < -1) isLedgeGrabbing = true;
 
@@ -724,6 +730,12 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        print(health.ToString());
+    }
 
     public IEnumerator Knocked(float knockbackForce, Vector3 origin)
     {

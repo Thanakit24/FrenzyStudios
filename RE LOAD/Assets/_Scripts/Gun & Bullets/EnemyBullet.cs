@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,15 +24,19 @@ public class EnemyBullet : MonoBehaviour
 
     public void OnTriggerEnter(Collider collider)
     {
-        Destroy(gameObject);
+        print(collider.gameObject.ToString());
         if (collider.gameObject.tag == "Player")
         {
-            PlayerHealth player = collider.gameObject.GetComponent<PlayerHealth>();
+            print("fds");
+            PlayerController player = collider.gameObject.GetComponent<PlayerController>();
             if (player != null)
             {
+                print("fdsdfsafdsa");
                 player.TakeDamage(damage);
             }
         }
+
+        Destroy(gameObject);
     }
 
     private void Setup()

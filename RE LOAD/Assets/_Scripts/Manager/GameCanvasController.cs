@@ -19,6 +19,7 @@ public class GameCanvasController : MonoBehaviour
     [Header("First Generation")]
     public GameObject HUD;
     public GameObject pauseMenu;
+    public GameObject dieScreen;
     public GameObject fader;
     public GameObject skillTree;
 
@@ -55,8 +56,10 @@ public class GameCanvasController : MonoBehaviour
         skillTreeActive = false;
         */
         instance = this;
+        player = PlayerController.instance;
 
         UpdateCanvasState(GameState.gameplay);
+        dieScreen.SetActive(false);
     }
 
 
@@ -64,7 +67,7 @@ public class GameCanvasController : MonoBehaviour
     void Update()
     {
         #region Pausing System
-        if (!currentState.Equals(GameState.loading))
+        if (!currentState.Equals(GameState.loading) || !currentState.Equals(GameState.dies))
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -80,6 +83,12 @@ public class GameCanvasController : MonoBehaviour
         #endregion
 
         pauseMenu.SetActive(currentState.Equals(GameState.paused));
+
+        if (player == null) player = PlayerController.instance;
+
+        if (player.health <= 0)
+            UpdateCanvasState(GameState.dies);
+        else dieScreen.SetActive(false);
 
         if (Input.GetKeyDown(KeyCode.I)) LoadLevel(0);
 
@@ -147,7 +156,8 @@ public class GameCanvasController : MonoBehaviour
 
 
             case GameState.dies:
-
+                dieScreen.SetActive(true);
+                
                 break;
 
 

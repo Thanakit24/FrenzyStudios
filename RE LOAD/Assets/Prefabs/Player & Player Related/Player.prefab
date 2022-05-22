@@ -704,6 +704,8 @@ MonoBehaviour:
     toggleSpeed: 3
     startPos: {x: 0, y: 0, z: 0}
   headBobber: {fileID: 529747741303205324}
+  maxHealth: 100
+  health: 100
   isKnocked: 0
   knockbackRecoveryTime: 0.2
   isTeleporting: 0

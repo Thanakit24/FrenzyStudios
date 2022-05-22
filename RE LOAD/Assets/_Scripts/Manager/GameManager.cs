@@ -7,6 +7,4 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public int tokenCount = 20;
-
-
 }
