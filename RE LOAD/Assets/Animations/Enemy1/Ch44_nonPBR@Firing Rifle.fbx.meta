@@ -53,17 +53,33 @@ ModelImporter:
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.05580758
+        functionName: Shoot
+        data: Shoot
+        objectReferenceParameter: {fileID: 6800941941604898001, guid: 3a31166f02edb2d49992c672de10ed18,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8502879
+        functionName: ResetShooting
+        data: ResetShooting
+        objectReferenceParameter: {fileID: 6800941941604898001, guid: 3a31166f02edb2d49992c672de10ed18,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1

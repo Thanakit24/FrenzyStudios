@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e895fb542dcba2844916a24e30b96c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 10
   anim: {fileID: 273084404445205521}
   gc: {fileID: 0}
   dd: {fileID: 0}

@@ -27,9 +27,9 @@ public class EnemyController : MonoBehaviour
 
     [Header("Attacking")]
     [SerializeField] private float timeBetweenAttacks;
+    private float timeBetweenAttacksCounter =0;
     private bool hasAttacked;
     private Vector3 attackPointOffset;
-    private float timeBetweenAttacksCounter = 0;
     public GameObject enemyBullet;
     [SerializeField] private Transform attackPoint;
 
@@ -97,7 +97,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            ResetAttack();
+            timeBetweenAttacksCounter = timeBetweenAttacks;
             remembers = false;
         }
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -106,7 +106,8 @@ public class EnemyController : MonoBehaviour
         if (!playerInSight && !playerInAttackRange && !isStationary && !remembers) Patroling();
         if (playerInSight && !playerInAttackRange) ChasePlayer();
         if (playerInSight && playerInAttackRange) AttackPlayer();
-        
+        else animator.SetBool("isFiring", false);
+
 
         if (remembers && !playerInSight && !playerInAttackRange) Confused();
 
@@ -169,7 +170,6 @@ public class EnemyController : MonoBehaviour
         LookAt(player.position);
 
 
-
         //Debug.Log("chasingPlayer");
     }
 
@@ -177,23 +177,35 @@ public class EnemyController : MonoBehaviour
 
     private void AttackPlayer()
     {
-        if (!agent.isStopped) agent.Stop();
-        //attackPoint.transform.LookAt(player);
-        LookAt(player.position);
-
-        if (!hasAttacked)
-        {
-            hasAttacked = true;
-            animator.SetTrigger("Shoot");
-            Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
-            rb.AddForce(attackPoint.forward * 25f, ForceMode.Impulse);
-            Invoke("ResetAttack", timeBetweenAttacks);
-        }
+        if (!agent.isStopped) agent.isStopped = true;
+        
+        //if (timeBetweenAttacksCounter <= 0) animator.SetBool("isFiring", true);
+        //else timeBetweenAttacksCounter -= Time.deltaTime;
+        StartCoroutine(ShootAndDelay());
     }
 
-    private void ResetAttack()
+    public IEnumerator ShootAndDelay()
     {
-        hasAttacked = false;
+        animator.SetBool("isFiring", true);
+        yield return new WaitForSeconds(timeBetweenAttacks);
+
+        animator.SetBool("isFiring", false);
+        LookAt(player.position);
+
+    }
+
+    public void Shoot()
+    {
+        Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
+        rb.AddForce(attackPoint.forward * 25f, ForceMode.Impulse);
+        LookAt(player.position);
+        print("shot");
+    }
+    public void ResetShooting()
+    {
+        agent.updateRotation = true;
+        LookAt(player.position);
+        //timeBetweenAttacksCounter = timeBetweenAttacks;
     }
 
     //=================================================================================

@@ -225,8 +225,9 @@ public class FumaController : MonoBehaviour
             Physics.Raycast(transform.position, Vector3.down, out hit);
             MeshRenderer mr = visualIndicator.GetComponent<MeshRenderer>();
 
+            /*
             Electrolyzed temp;
-            hit.collider.gameObject.TryGetComponent<Electrolyzed>(out temp);
+            temp = hit.collider.gameObject.GetComponent<Electrolyzed>();
 
             if (temp != null)
             {
@@ -240,6 +241,7 @@ public class FumaController : MonoBehaviour
                 }
                 mr.material = safeTP;
             }
+            */
 
             visualIndicator.transform.position = hit.point;
             visualIndicator.transform.rotation = Quaternion.Euler(90, 0, 0);
