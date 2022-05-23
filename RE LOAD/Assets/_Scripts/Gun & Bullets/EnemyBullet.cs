@@ -24,19 +24,26 @@ public class EnemyBullet : MonoBehaviour
 
     public void OnTriggerEnter(Collider collider)
     {
-        print(collider.gameObject.ToString());
         if (collider.gameObject.tag == "Player")
         {
-            print("fds");
             PlayerController player = collider.gameObject.GetComponent<PlayerController>();
             if (player != null)
             {
-                print("fdsdfsafdsa");
                 player.TakeDamage(damage);
             }
         }
 
-        Destroy(gameObject);
+        if (collider.CompareTag("Enemy"))
+        {
+            Health health = collider.gameObject.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(damage * 10);
+            }
+        }
+
+        if (collider.gameObject.tag != "Melee")
+            Destroy(gameObject);
     }
 
     private void Setup()

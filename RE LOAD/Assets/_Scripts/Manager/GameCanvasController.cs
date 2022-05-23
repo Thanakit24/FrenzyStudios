@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public enum GameState { gameplay, paused, dies, loading }
@@ -28,7 +29,7 @@ public class GameCanvasController : MonoBehaviour
     public float dashCooldown;
     public float teleportCooldown;
     public bool electrolyzedShuriken;
-    public GameObject healthDisplayer;
+    public Slider healthDisplayer;
     public bool skillTreeActive;
 
     [Header("Fader Config")]
@@ -81,6 +82,9 @@ public class GameCanvasController : MonoBehaviour
             Time.timeScale = 0;
         }
         #endregion
+
+        if (player == null) player = PlayerController.instance;
+        healthDisplayer.value = player.health/player.maxHealth;
 
         pauseMenu.SetActive(currentState.Equals(GameState.paused));
 

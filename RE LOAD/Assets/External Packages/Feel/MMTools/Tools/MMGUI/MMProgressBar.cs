@@ -455,6 +455,13 @@ namespace MoreMountains.Tools
 	        UpdateBar01(newProgress);
         }
 
+		public virtual void MinusXPercent(float x)
+        {
+
+			float newProgress = BarTarget - 0.1f;
+			newProgress = Mathf.Clamp(newProgress, 0f, 1f);
+			UpdateBar01(newProgress);
+		}
 
         #endregion TESTS
 

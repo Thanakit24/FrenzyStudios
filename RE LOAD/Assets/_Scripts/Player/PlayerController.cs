@@ -113,6 +113,7 @@ public class PlayerController : MonoBehaviour
     public MMFeedbacks preteleportFB;
     public MMFeedbacks meleeSFX;
     public MMFeedbacks dashRecovery;
+    public MMFeedbacks takeDamage;
 
     void Awake()
     {
@@ -700,7 +701,6 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce((dir) * dashForce, ForceMode.Impulse);
             }
 
-
             yield return new WaitForSeconds(dashDuration);
             canDash = true;
             rb.useGravity = true;
@@ -734,7 +734,7 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
-        print(health.ToString());
+        takeDamage.PlayFeedbacks();
     }
 
     public IEnumerator Knocked(float knockbackForce, Vector3 origin)

@@ -12,25 +12,36 @@ public class PlayerMelee : MonoBehaviour
     {
         if (!other.CompareTag("Player") || !other.CompareTag("Shuriken"))
         {
-
             Rigidbody rb = other.GetComponent<Rigidbody>();
-            Health hp = other.GetComponent<Health>();
+
 
             if (rb != null)
             {
-                rb.AddForce(transform.forward * meleeKnockback.z + Vector3.up * meleeKnockback.y, ForceMode.Impulse);
-                meleeImpact.PlayFeedbacks();
-
-            }
-            if (hp != null)
-            {
-                if (other.CompareTag("Enemy"))
+                if (other.gameObject.layer == 14)
                 {
-                    Debug.Log("Enemy Found");
+                    rb.velocity = Vector3.zero;
+                    rb.AddForce(transform.forward * 25, ForceMode.Impulse);
+                    meleeImpact.PlayFeedbacks();
+                }
+                else
+                {
+                    rb.velocity = Vector3.zero;
+                    rb.AddForce(transform.forward * meleeKnockback.z + Vector3.up * meleeKnockback.y, ForceMode.Impulse);
+                    meleeImpact.PlayFeedbacks();
                 }
 
-                hp.TakeDamage(damage);
             }
+        }
+
+        Health hp = other.GetComponent<Health>();
+        if (hp != null)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                Debug.Log("Enemy Found");
+            }
+
+            hp.TakeDamage(damage);
         }
     }
 }

@@ -42,6 +42,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private bool playerInSight, playerInAttackRange;
 
+    private float distToPlayer()
+    {
+        return (player.position - transform.position).magnitude;
+    }
 
     private bool InLosOfPlayer()
     {
@@ -118,7 +122,7 @@ public class EnemyController : MonoBehaviour
     //=================================================================================
     private void Patroling()
     {
-        LookAt(walkPoint);
+        if ((walkPoint -transform.position).magnitude > 1) LookAt(walkPoint);
         agent.SetDestination(walkPoint);
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -167,7 +171,8 @@ public class EnemyController : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
-        LookAt(player.position);
+        if (distToPlayer() > 5 ) LookAt(player.position - player.right *0.3f);
+        else LookAt(player.position);
 
 
         //Debug.Log("chasingPlayer");
@@ -190,7 +195,8 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenAttacks);
 
         animator.SetBool("isFiring", false);
-        LookAt(player.position);
+        if (distToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
+        else LookAt(player.position);
 
     }
 
@@ -198,13 +204,14 @@ public class EnemyController : MonoBehaviour
     {
         Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
         rb.AddForce(attackPoint.forward * 25f, ForceMode.Impulse);
-        LookAt(player.position);
-        print("shot");
+        if (distToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
+        else LookAt(player.position);
     }
     public void ResetShooting()
     {
         agent.updateRotation = true;
-        LookAt(player.position);
+        if (distToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
+        else LookAt(player.position);
         //timeBetweenAttacksCounter = timeBetweenAttacks;
     }
 
@@ -232,11 +239,12 @@ public class EnemyController : MonoBehaviour
 
     private void LookAt(Vector3 pos)
     {
-        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(pos- transform.position, Vector3.up));
+        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(pos - transform.position, Vector3.up));
     }
 
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(confusedTime);
     }
+    
 }
