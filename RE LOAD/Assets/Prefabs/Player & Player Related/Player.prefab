@@ -19604,6 +19604,7 @@ MonoBehaviour:
   linesShown: 2
   damage: 20
   teleportLocation: {x: 0, y: 0, z: 0}
+  teleportLocationCounter: 0
   curveRot: {x: 0, y: 0, z: 0}
   throwRotation: {x: 0, y: 0, z: 10}
   flyingSpeed: 25
@@ -19821,6 +19822,7 @@ MonoBehaviour:
   PingPong: 0
   AttributeNames:
   - <Undefined Attribute>
+  - teleportLocationCounter
   - flyingSpeed
   - chargeSpeed
   - maxBounces

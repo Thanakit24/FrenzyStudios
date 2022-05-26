@@ -603,6 +603,11 @@ PrefabInstance:
       propertyPath: cameraJumpFeedbackUpMultiplier
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3700384944254334062, guid: 93d68906338a6dc4b82202576e4b0faf,
+        type: 3}
+      propertyPath: ChoiceIndex
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93d68906338a6dc4b82202576e4b0faf, type: 3}
 --- !u!1 &674781118

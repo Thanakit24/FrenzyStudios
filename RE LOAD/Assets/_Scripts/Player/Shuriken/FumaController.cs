@@ -29,7 +29,7 @@ public class FumaController : MonoBehaviour
     public int damage;
 
     [HideInInspector] public Vector3 teleportLocation;
-    private float teleportLocationCounter;
+    public float teleportLocationCounter;
 
     [Header("Config 1")]
     public Vector3 curveRot, throwRotation;

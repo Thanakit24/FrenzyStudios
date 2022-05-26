@@ -711,11 +711,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private Vector3 RecalculateTeleportPosition(Vector3 tpLocation)
+    {
+        Vector3 center = tpLocation;
+        RaycastHit[] hits = Physics.CapsuleCastAll(center + Vector3.down * 0.5f, center + Vector3.up * 0.5f, 0.5f, transform.up);
+        Vector3 nearestPointofContact = Vector3.zero;
+
+        if (hits.Length > 0)
+        {
+            for (int i = 0; i < hits.Length; i++)
+            {
+                Vector3 tempVector = (hits[i].point - tpLocation);
+                if (tempVector.magnitude > nearestPointofContact.magnitude) nearestPointofContact = tempVector;
+            }
+
+            print(nearestPointofContact);
+        }
+
+        return tpLocation + nearestPointofContact;
+    }
+
     public void TeleportTo()
     {
         if (!shuriken.state.Equals(FumaState.InHands)) shuriken.Returned(Vector3.zero);
 
+        //transform.position = RecalculateTeleportPosition(shuriken.teleportLocation);
         transform.position = shuriken.teleportLocation;
+
         rb.velocity = Vector3.up * 2;
         isJumping = false;
         isTeleporting = false;
