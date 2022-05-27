@@ -30,7 +30,14 @@ public class TutorialPopUp : MonoBehaviour
     [SerializeField] private GameObject mouse;
     [SerializeField] private GameObject LMB;
     [SerializeField] private GameObject RMB;
+
+    [Header("Backgrounds")]
     [SerializeField] private GameObject background;
+    [SerializeField] private GameObject background2;
+    [SerializeField] private GameObject background3;
+    [SerializeField] private GameObject background4;
+    [SerializeField] private GameObject background5;
+    [SerializeField] private GameObject background6;
 
     // Start is called before the first frame update
     void Start()
@@ -51,39 +58,49 @@ public class TutorialPopUp : MonoBehaviour
             if (textid == 1 && interacted == false)
 			{
                 StartCoroutine(One());
+
+                interacted = true;
 			}
 
             if (textid == 2 && interacted == false)
             {
-                StopCoroutine(One());
                 StartCoroutine(Two());
+                Destroy(background);
+
+                interacted = true;
             }
 
             if (textid == 3 && interacted == false)
             {
-                StopCoroutine(Two());
+                Destroy(background2);
                 StartCoroutine(ThreeFour());
+
+                interacted = true;
             }
 
             if (textid == 5 && interacted == false)
             {
-                StopCoroutine(ThreeFour());
+                Destroy(background3);
                 StartCoroutine(Five());
+
+                interacted = true;
             }
 
             if (textid == 6 && interacted == false)
             {
-                StopCoroutine(Five());
+                Destroy(background4);
                 StartCoroutine(Six());
+
+                interacted = true;
             }
 
             if (textid == 7 && interacted == false)
             {
-                StopCoroutine(Six());
+                Destroy(background5);
                 StartCoroutine(Seven());
-            }
 
-            interacted = true;
+                interacted = true;
+            }
         }
     }
 
@@ -99,50 +116,50 @@ public class TutorialPopUp : MonoBehaviour
 
         yield return new WaitForSeconds(8);
 
-        text1.gameObject.SetActive(false);
-        wKey.gameObject.SetActive(false);
-        sKey.gameObject.SetActive(false);
-        aKey.gameObject.SetActive(false);
-        dKey.gameObject.SetActive(false);
-        mouse.gameObject.SetActive(false);
-        background.gameObject.SetActive(false);
-        Destroy(this.gameObject);
+        Destroy(text1);
+        Destroy(wKey);
+        Destroy(aKey);
+		Destroy(sKey);
+        Destroy(dKey);
+        Destroy(mouse);
+        Destroy(background);
+		Destroy(this.gameObject);
     }
 
     IEnumerator Two()
 	{
-        text1.gameObject.SetActive(false);
-        wKey.gameObject.SetActive(false);
-        sKey.gameObject.SetActive(false);
-        aKey.gameObject.SetActive(false);
-        dKey.gameObject.SetActive(false);
-        mouse.gameObject.SetActive(false);
+        Destroy(text1);
+        Destroy(wKey);
+        Destroy(aKey);
+        Destroy(sKey);
+        Destroy(dKey);
+        Destroy(mouse);
 
         text2.gameObject.SetActive(true);
         spaceKey.gameObject.SetActive(true);
-        background.gameObject.SetActive(true);
+        background2.gameObject.SetActive(true);
 
 
         yield return new WaitForSeconds(5);
 
-        text2.gameObject.SetActive(false);
-        spaceKey.gameObject.SetActive(false);
-        background.gameObject.SetActive(false);
+        Destroy(text2);
+        Destroy(spaceKey);
+        Destroy(background2);
         Destroy(this.gameObject);
     }
 
     IEnumerator ThreeFour()
 	{
-        text2.gameObject.SetActive(false);
-        spaceKey.gameObject.SetActive(false);
+        Destroy(text2);
+        Destroy(spaceKey);
 
         text3.gameObject.SetActive(true);
         RMB.gameObject.SetActive(true);
-        background.gameObject.SetActive(true);
+        background3.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(6);
 
-        text3.gameObject.SetActive(false);
+        Destroy(text3);
         RMB.gameObject.SetActive(false);
 
         text4.gameObject.SetActive(true);
@@ -150,65 +167,65 @@ public class TutorialPopUp : MonoBehaviour
 
         yield return new WaitForSeconds(6);
 
-        text4.gameObject.SetActive(false);
-        eKey.gameObject.SetActive(false);
-        background.gameObject.SetActive(false);
+        Destroy(text4);
+        Destroy(eKey);
+        Destroy(background3);
 
         Destroy(this.gameObject);
     }
 
     IEnumerator Five()
 	{
-        text3.gameObject.SetActive(false);
+        Destroy(text3);
         RMB.gameObject.SetActive(false);
-        text4.gameObject.SetActive(false);
-        eKey.gameObject.SetActive(false);
+        Destroy(text4);
+        Destroy(eKey);
 
         text5.gameObject.SetActive(true);
         rKey.gameObject.SetActive(true);
-        background.gameObject.SetActive(true);
+        background4.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(7);
 
-        text5.gameObject.SetActive(false);
-        rKey.gameObject.SetActive(false);
-        background.gameObject.SetActive(false);
+		Destroy(text5);
+        Destroy(rKey);
+        Destroy(background4);
 
         Destroy(this.gameObject);
     }
 
     IEnumerator Six()
     {
-        text5.gameObject.SetActive(false);
-        rKey.gameObject.SetActive(false);
+        Destroy(text5);
+        Destroy(rKey);
 
         text6.gameObject.SetActive(true);
         RMB.gameObject.SetActive(true);
         LMB.gameObject.SetActive(true);
-        background.gameObject.SetActive(true);
+        background5.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(7);
 
-        text6.gameObject.SetActive(false);
-        RMB.gameObject.SetActive(false);
-        LMB.gameObject.SetActive(false);
-        background.gameObject.SetActive(false);
+        Destroy(text6);
+        Destroy(RMB);
+        Destroy(LMB);
+        Destroy(background5);
         Destroy(this.gameObject);
     }
 
     IEnumerator Seven()
 	{
-        text6.gameObject.SetActive(false);
-        RMB.gameObject.SetActive(false);
-        LMB.gameObject.SetActive(false);
+        Destroy(text6);
+        Destroy(RMB);
+        Destroy(LMB);
 
         text7.gameObject.SetActive(true);
-        background.gameObject.SetActive(true);
+        background6.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(6);
 
-        text7.gameObject.SetActive(false);
-        background.gameObject.SetActive(false);
+        Destroy(text7);
+        Destroy(background6);
         Destroy(this.gameObject);
     }
 }
