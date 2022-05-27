@@ -18,6 +18,9 @@ public class FumaController : MonoBehaviour
     public KeyCode shootingKey;
     public bool canShoot;
 
+    private Vector3 defaultPosition;
+    private Vector3 defaultRotation;
+
     [Header("References")]
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
@@ -27,6 +30,7 @@ public class FumaController : MonoBehaviour
     public List<GameObject> lines;
     public int linesShown = 2;
     public int damage;
+    private Animator playerAnimator, shurikenAnimator;
 
     [HideInInspector] public Vector3 teleportLocation;
     public float teleportLocationCounter;
@@ -47,7 +51,8 @@ public class FumaController : MonoBehaviour
     public MeshCollider col;
     Vector3 lastPos, returnPos;
     [HideInInspector] public Rigidbody rb;
-    Transform model, cam;
+    Transform model;
+    public Transform cam;
     GameObject impactFX, trailFX, modelOBJ;
     bool mustReturn = true, firstBounce;
     public bool alwaysReturn = false, lockOnReturnToPlayer = true;
@@ -97,12 +102,18 @@ public class FumaController : MonoBehaviour
 
     private void Start()
     {
+        defaultPosition = transform.localPosition;
+
         Returned(Vector3.zero);
         impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
 
         shootingKey = stance.stanceChange;
+
+        shurikenAnimator = PlayerController.instance.shurikenAnimator;
+        playerAnimator = PlayerController.instance.playerAnimator;
     }
 
+    [System.Obsolete]
     void Update()
     {
         TeleportLocationDelaySystem();
@@ -125,6 +136,10 @@ public class FumaController : MonoBehaviour
 
         if (state.Equals(FumaState.InHands))
         {
+            transform.parent = holder;
+            transform.localPosition = defaultPosition;
+            transform.localRotation = Quaternion.AngleAxis(90, Vector3.up);
+
             if (Input.GetKey(shootingKey))
             {
                 RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
@@ -142,10 +157,10 @@ public class FumaController : MonoBehaviour
 
                 //rb.velocity = Vector3.zero;
             }
-            else if(Input.GetKeyUp(shootingKey)) Throw();
+            else if (Input.GetKeyUp(shootingKey)) 
             {
-                
-                rb.velocity = Vector3.zero;
+                Throw();
+                //rb.velocity = Vector3.zero;
 
                 ResetLine();
             }
@@ -420,9 +435,12 @@ public class FumaController : MonoBehaviour
 
     public void Throw()
     {
+        StartCoroutine(ThrowCoroutine());
+
+        return;
         firstBounce = false;
         transform.SetParent(null);
-        transform.position = cam.position + cam.forward;
+        transform.position = transform.parent.position + transform.parent.forward;
         //transform.eulerAngles = cam.eulerAngles + (throwRotation * 5 * bounces /2);
         trailFX.SetActive(true);
         col.enabled = true;
@@ -437,12 +455,37 @@ public class FumaController : MonoBehaviour
         state = FumaState.Flying;
     }
 
-    
+    IEnumerator ThrowCoroutine()
+    {
+        playerAnimator.Play("Hand_Throw");
+        shurikenAnimator.Play("Throw");
+
+
+
+        yield return new WaitForSeconds(.2f);
+
+
+        print("after throw ");
+
+        firstBounce = false;
+        transform.SetParent(null);
+        transform.position = Camera.main.transform.position + Camera.main.transform.forward * 3;
+        transform.LookAt(Camera.main.transform.position + Camera.main.transform.forward * 4);
+        trailFX.SetActive(true);
+        col.enabled = true;
+        rb.isKinematic = false;
+        throwFB.PlayFeedbacks();
+        CastRayForBounce(transform.position, transform.forward);
+
+        state = FumaState.Flying;
+        print(state.ToString());
+    }
 
     public void Returned(Vector3 returnVector)
     {
         if (!player) return;
-        
+
+
         state = FumaState.InHands;
 
         rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -581,6 +624,7 @@ public class FumaController : MonoBehaviour
 
     public void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
     {
+        /*
         if (linesShown == 0) return;
 
         for (int i = 0; i < maxBounces; i++)
@@ -657,6 +701,7 @@ public class FumaController : MonoBehaviour
                 break;
             }
         }
+        */
     }
 
     void ResetLine()

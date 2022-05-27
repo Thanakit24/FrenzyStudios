@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
     public FumaController shuriken;
     public GameObject trail;
     public Animator playerAnimator;
+    public Animator shurikenAnimator;
     public Transform camHolder;
     CapsuleCollider capCollider;
     private LayerMask whatIsGround;
@@ -298,6 +299,10 @@ public class PlayerController : MonoBehaviour
             shuriken.rb.velocity = Vector3.zero;
             teleportWithSlowmoFB.PlayFeedbacks();
 
+            playerAnimator.SetTrigger("Teleports");
+            shurikenAnimator.SetTrigger("Teleports");
+
+
             //Time.timeScale = 0.1f;
             //TeleportTo(shuriken.teleportLocation);
         }
@@ -309,11 +314,12 @@ public class PlayerController : MonoBehaviour
         {
             meleeCounter -= Time.deltaTime;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isMeleeing && !isDashing)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isDashing)
         {
             meleeSFX.PlayFeedbacks();
-            isMeleeing = true;
-            playerAnimator.SetBool("isMeleeing", isMeleeing);
+
+            playerAnimator.Play("Hand_Melee");
+            shurikenAnimator.Play("Melee");
         }
 
         if (!isDashing)
@@ -746,9 +752,10 @@ public class PlayerController : MonoBehaviour
     public void Melee()
     {
         //put delay for the animation;
+        /*
         meleeCounter = meleeCooldown;
         isMeleeing = false;
-        playerAnimator.SetBool("isMeleeing", isMeleeing);
+        */
     }
 
     #endregion

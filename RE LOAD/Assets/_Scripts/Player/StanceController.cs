@@ -10,7 +10,7 @@ public class StanceController : MonoBehaviour
 
     public FumaController shuriken;
     public PlayerController player;
-    public Animator animator;
+    public Animator playerAnimator, shurikenAnimator;
 
     public float teleportSlowedTime;
 
@@ -76,20 +76,20 @@ public class StanceController : MonoBehaviour
         { 
             Time.timeScale = 1;
 
-            animator.enabled = true;
+            playerAnimator.enabled = true;
         }
 
         
 
         if (!shuriken.state.Equals(FumaState.InHands))
         {
-            animator.enabled = false;
+            playerAnimator.enabled = false;
         }
     }
 
     void shurikenThrow()
     {
-        animator.enabled = false;
-        shuriken.Throw();
+        //playerAnimator.enabled = false;
+        //shuriken.Throw();
     }
 }
