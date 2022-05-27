@@ -13727,7 +13727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adce8fbc6614154459ac18b9fe4ad962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 1
+  Active: 0
   Label: FloatController
   Chance: 100
   Timing:
@@ -13837,7 +13837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d958a52145b19904aa2a5bcb3849eafb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 1
+  Active: 0
   Label: Scale
   Chance: 100
   Timing:
@@ -14110,7 +14110,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 45d8f6f30e158e0428a05c2f63e691bd, type: 3}
   m_Controller: {fileID: 9100000, guid: 70ea535ed84544b4995ac89d24e60ecc, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -20280,7 +20280,9 @@ MonoBehaviour:
   stance: {fileID: 3011930641648372870}
   shootingKey: 323
   canShoot: 0
+  defaultPosition: {x: 0, y: 0, z: 0}
   offset: {fileID: 374348150862424963}
+  animatorTransform: {fileID: 4846119187045275229}
   state: 0
   player: {fileID: 7561240240943105800}
   holder: {fileID: 1429999139145698279}
@@ -21589,7 +21591,9 @@ MonoBehaviour:
   stance: {fileID: 3011930641648372870}
   shootingKey: 323
   canShoot: 0
+  defaultPosition: {x: 0, y: 0, z: 0}
   offset: {fileID: 0}
+  animatorTransform: {fileID: 0}
   state: 0
   player: {fileID: 7561240240943105800}
   holder: {fileID: 7561240240933229739}
@@ -44206,11 +44210,12 @@ MonoBehaviour:
   feet: {fileID: 7561240242378071930}
   rb: {fileID: 7561240240943105803}
   playerCamera: {fileID: 7561240240885851689}
-  shuriken: {fileID: 1941391807768089735}
+  shuriken: {fileID: 8572233024265164707}
   trail: {fileID: 2685207915131490554}
   playerAnimator: {fileID: 6192479759263641861}
   shurikenAnimator: {fileID: 6463349637766046209}
   camHolder: {fileID: 8714257850179007084}
+  shurikenAnimTransform: {fileID: 4846119187045275229}
   jumpImpact: {fileID: 5586074413744317725}
   teleportWithSlowmoFB: {fileID: 642444080595691648}
   preteleportFB: {fileID: 4868030100284776943}
@@ -44440,8 +44445,8 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 90f9793fa35cd2d4182e1e83536aa21f, type: 3}
   m_Controller: {fileID: 9100000, guid: d8442b697b0c17446b7e30c9a108a81d, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

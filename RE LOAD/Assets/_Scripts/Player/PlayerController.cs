@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
     public Transform camHolder;
     CapsuleCollider capCollider;
     private LayerMask whatIsGround;
+    public Transform shurikenAnimTransform;
 
     [Header("Feedbacks")]
     public MMFeedbacks jumpImpact;
@@ -291,24 +292,17 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Teleport
-        if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            playerAnimator.SetTrigger("Teleports");
-            shurikenAnimator.SetTrigger("Teleports");
-
-
-            preteleportFB.PlayFeedbacks();
-            isTeleporting = true;
-            shuriken.state = FumaState.Stuck;
-            shuriken.rb.velocity = Vector3.zero;
-            teleportWithSlowmoFB.PlayFeedbacks();
-
-            playerAnimator.SetTrigger("Teleports");
-            shurikenAnimator.SetTrigger("Teleports");
-
-
-            //Time.timeScale = 0.1f;
-            //TeleportTo(shuriken.teleportLocation);
+            //print("Teleport Attempted: Shuriken is " + shuriken.state.ToString());
+            if (shuriken.state != FumaState.InHands)
+            {
+                playerAnimator.Play("Hand_Teleport");
+                shurikenAnimator.Play("Tp1");
+                StartCoroutine(InitiateTp(0f));
+            }
+            
         }
 
         #endregion
@@ -671,6 +665,8 @@ public class PlayerController : MonoBehaviour
 
         if (forwardRayDetected && verticalRayDetected && rb.velocity.y < -1) isLedgeGrabbing = true;
 
+        playerAnimator.SetBool("isLedgeGrabbing", isLedgeGrabbing);
+
         if (isLedgeGrabbing)
         {
             rb.isKinematic = true;
@@ -678,17 +674,20 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector3.zero;
             isJumping = false;
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                transform.position = transform.position + verticalRayStartingPos + transform.forward * verticalRayOffset;
-                isLedgeGrabbing = false;
-            }
+            StartCoroutine(Delay(.2f));
+            transform.position = transform.position + verticalRayStartingPos + transform.forward * verticalRayOffset;
+            isLedgeGrabbing = false;
         }
         else
         {
             rb.isKinematic = false;
             rb.useGravity = true;
         }
+    }
+
+    IEnumerator Delay(float x)
+    {
+        yield return new WaitForSeconds(x);
     }
 
     #endregion
@@ -751,6 +750,28 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.up * 2;
         isJumping = false;
         isTeleporting = false;
+    }
+
+    IEnumerator InitiateTp(float x)
+    {
+        
+        isTeleporting = true;
+        shuriken.state = FumaState.Stuck;
+        shuriken.rb.velocity = Vector3.zero;
+
+        yield return new WaitForSeconds(.3f);
+        TeleportTo();
+
+
+
+        //shuriken.transform.localPosition = shuriken.defaultPosition;
+        //shurikenAnimTransform.localPosition = Vector3.zero;
+        teleportWithSlowmoFB.PlayFeedbacks();
+
+        //playerAnimator.SetTrigger("Teleports");
+        //shurikenAnimator.SetTrigger("Teleports");
+        //Time.timeScale = 0.1f;
+        //TeleportTo(shuriken.teleportLocation);
     }
 
     public void Melee()

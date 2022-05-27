@@ -18,10 +18,10 @@ public class FumaController : MonoBehaviour
     public KeyCode shootingKey;
     public bool canShoot;
 
-    private Vector3 defaultPosition;
+    [HideInInspector] public Vector3 defaultPosition;
     private Vector3 defaultRotation;
 
-    public Transform offset;
+    public Transform offset, animatorTransform;
 
     [Header("References")]
     public FumaState state = FumaState.InHands;
@@ -139,7 +139,7 @@ public class FumaController : MonoBehaviour
             transform.localPosition = defaultPosition;
             transform.localRotation = Quaternion.AngleAxis(90, Vector3.up);
             trailFX.SetActive(false);
-
+            animatorTransform.localPosition = Vector3.zero;
 
             if (Input.GetKey(shootingKey))
             {
@@ -497,8 +497,11 @@ public class FumaController : MonoBehaviour
         if (blueIndicator != null) Destroy(blueIndicator);
         if (greenIndicator != null) Destroy(greenIndicator);
 
-        playerAnimator.Play("Hand_ShuShowUp");
-        shurikenAnimator.Play("ShuShowUp");
+        //playerAnimator.Play("Hand_ShuShowUp");
+        //shurikenAnimator.Play("ShuShowUp");
+        
+        playerAnimator.SetTrigger("Recieves");
+        shurikenAnimator.SetTrigger("Recieves");
 
 
         state = FumaState.InHands;
@@ -757,7 +760,8 @@ public class FumaController : MonoBehaviour
         {
             if (bounces == 1)
             {
-                blueIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_Clockwise");
+                if (blueIndicator != null)
+                    blueIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_Clockwise");
 
                 if (greenIndicator == null)
                 {
@@ -768,7 +772,8 @@ public class FumaController : MonoBehaviour
 
             if (bounces == 0)
             {
-                greenIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_Counterclockwise");
+                if (greenIndicator != null)
+                    greenIndicator.GetComponentInChildren<Animator>().Play("ShurikenCircleUI_Counterclockwise");
             }
         }
     }
