@@ -293,6 +293,10 @@ public class PlayerController : MonoBehaviour
         #region Teleport
         if (Input.GetKeyDown(KeyCode.E) && shuriken.state != FumaState.InHands)
         {
+            playerAnimator.SetTrigger("Teleports");
+            shurikenAnimator.SetTrigger("Teleports");
+
+
             preteleportFB.PlayFeedbacks();
             isTeleporting = true;
             shuriken.state = FumaState.Stuck;

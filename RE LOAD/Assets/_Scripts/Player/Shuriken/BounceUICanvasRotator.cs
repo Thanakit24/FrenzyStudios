@@ -17,11 +17,11 @@ public class BounceUICanvasRotator : MonoBehaviour
         {
 
             if (counter < destroyTimer) counter += Time.deltaTime;
-            else Destroy(gameObject);
+            else Delete();
         }
     }
 
-    public void Destroy()
+    public void Delete()
     {
         Destroy(this.gameObject);
     }

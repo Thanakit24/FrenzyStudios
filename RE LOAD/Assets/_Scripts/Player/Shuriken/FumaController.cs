@@ -21,6 +21,8 @@ public class FumaController : MonoBehaviour
     private Vector3 defaultPosition;
     private Vector3 defaultRotation;
 
+    public Transform offset;
+
     [Header("References")]
     public FumaState state = FumaState.InHands;
     public Transform player, holder;
@@ -30,7 +32,7 @@ public class FumaController : MonoBehaviour
     public List<GameObject> lines;
     public int linesShown = 2;
     public int damage;
-    private Animator playerAnimator, shurikenAnimator;
+    public Animator playerAnimator, shurikenAnimator;
 
     [HideInInspector] public Vector3 teleportLocation;
     public float teleportLocationCounter;
@@ -108,9 +110,6 @@ public class FumaController : MonoBehaviour
         impactFX.GetComponent<ParticleSystem>().playOnAwake = true;
 
         shootingKey = stance.stanceChange;
-
-        shurikenAnimator = PlayerController.instance.shurikenAnimator;
-        playerAnimator = PlayerController.instance.playerAnimator;
     }
 
     [System.Obsolete]
@@ -139,6 +138,8 @@ public class FumaController : MonoBehaviour
             transform.parent = holder;
             transform.localPosition = defaultPosition;
             transform.localRotation = Quaternion.AngleAxis(90, Vector3.up);
+            trailFX.SetActive(false);
+
 
             if (Input.GetKey(shootingKey))
             {
@@ -222,12 +223,18 @@ public class FumaController : MonoBehaviour
             //transform.Translate(transform.forward * flyingSpeed * Time.deltaTime, Space.World);
             rb.velocity = transform.forward * flyingSpeed;
 
+            offset.localRotation = Quaternion.AngleAxis(90, Vector3.right);
+
             Rotation();
 
             if (state.Equals(FumaState.Returning) && lockOnReturnToPlayer)
             {
                 transform.LookAt(player.position);
             }
+        }
+        else
+        {
+            offset.localRotation = Quaternion.AngleAxis(0, Vector3.right);
         }
     }
 
@@ -460,30 +467,38 @@ public class FumaController : MonoBehaviour
         playerAnimator.Play("Hand_Throw");
         shurikenAnimator.Play("Throw");
 
+        
 
 
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.5f);
 
-
-        print("after throw ");
-
+        Vector3 forward = Camera.main.transform.forward;
         firstBounce = false;
         transform.SetParent(null);
-        transform.position = Camera.main.transform.position + Camera.main.transform.forward * 3;
-        transform.LookAt(Camera.main.transform.position + Camera.main.transform.forward * 4);
-        trailFX.SetActive(true);
+        transform.position = Camera.main.transform.position + forward * 3;
+        transform.LookAt(Camera.main.transform.position + forward * 4);
+
         col.enabled = true;
         rb.isKinematic = false;
-        throwFB.PlayFeedbacks();
         CastRayForBounce(transform.position, transform.forward);
-
         state = FumaState.Flying;
-        print(state.ToString());
+
+        yield return new WaitForSeconds(.1f);
+
+        trailFX.SetActive(true);
+        throwFB.PlayFeedbacks();
+
     }
 
     public void Returned(Vector3 returnVector)
     {
         if (!player) return;
+
+        if (blueIndicator != null) Destroy(blueIndicator);
+        if (greenIndicator != null) Destroy(greenIndicator);
+
+        playerAnimator.Play("Hand_ShuShowUp");
+        shurikenAnimator.Play("ShuShowUp");
 
 
         state = FumaState.InHands;
@@ -583,8 +598,9 @@ public class FumaController : MonoBehaviour
 
                 if (i == 0)
                 {
-                    GameObject bounceIndicator = Instantiate(bounceUIprefabs[0], pos + hit.normal * 0.1f, Quaternion.identity, null);
-                    blueIndicator = bounceIndicator;
+                    if (blueIndicator != null) Destroy(blueIndicator);
+                        
+                    blueIndicator = Instantiate(bounceUIprefabs[0], pos + hit.normal * 0.1f, Quaternion.identity, null);
                 }
 
                 if (i == 1)
@@ -598,8 +614,9 @@ public class FumaController : MonoBehaviour
 
                     if (hit.collider.CompareTag("Sticky") || hit.collider.CompareTag("Enemy") || hit.collider.TryGetComponent<Electrolyzed>(out temp))
                     {
-                        GameObject bounceIndicator2 = Instantiate(bounceUIprefabs[1], pos + hit.normal * 0.1f, Quaternion.identity, null);
-                        greenIndicator = bounceIndicator2;
+                        if (greenIndicator != null) Destroy(greenIndicator);
+
+                        greenIndicator = Instantiate(bounceUIprefabs[1], pos + hit.normal * 0.1f, Quaternion.identity, null);
                     }
                     
                 }
@@ -624,7 +641,6 @@ public class FumaController : MonoBehaviour
 
     public void RepositionLine(Vector3 pos, Vector3 dir, bool initialLineShouldDisplay)
     {
-        /*
         if (linesShown == 0) return;
 
         for (int i = 0; i < maxBounces; i++)
@@ -701,7 +717,6 @@ public class FumaController : MonoBehaviour
                 break;
             }
         }
-        */
     }
 
     void ResetLine()
