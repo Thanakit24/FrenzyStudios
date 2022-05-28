@@ -14,6 +14,7 @@ public class Pitfall : MonoBehaviour
 		if(other.gameObject.name == "FinalPlayer")
 		{
 			other.transform.position = newPos.transform.position;
+			other.transform.rotation = newPos.transform.rotation;
 			StartCoroutine(FadeOut());
 		}
 	}
