@@ -11,9 +11,10 @@ public class Pitfall : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.gameObject.name == "FinalPlayer")
 		{
-			other.transform.position = newPos.position;
+			other.transform.position = newPos.transform.position;
+			other.transform.rotation = newPos.transform.rotation;
 			StartCoroutine(FadeOut());
 		}
 	}
