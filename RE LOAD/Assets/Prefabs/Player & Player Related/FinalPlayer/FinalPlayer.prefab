@@ -28520,7 +28520,7 @@ GameObject:
   - component: {fileID: 1277809072326630102}
   - component: {fileID: 8992252760018325256}
   - component: {fileID: 7519681548361483102}
-  m_Layer: 7
+  m_Layer: 15
   m_Name: MeleeCollider
   m_TagString: Melee
   m_Icon: {fileID: 0}
@@ -28552,8 +28552,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5327059, y: 1.5827448, z: 2.6567693}
-  m_Center: {x: -0.0000034105321, y: -0.04843247, z: 1.7257817}
+  m_Size: {x: 1.53, y: 1.53, z: 2.66}
+  m_Center: {x: 0, y: 0, z: 1.7}
 --- !u!114 &7519681548361483102
 MonoBehaviour:
   m_ObjectHideFlags: 0
