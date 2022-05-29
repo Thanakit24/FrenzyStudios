@@ -35,7 +35,7 @@ public class LevelRespawnSystem : MonoBehaviour
         {
             timerCounter -= Time.deltaTime;
 
-            if (timerCounter <= 8.9f)
+            if (timerCounter <= 8.9f && timerCounter > 8.5f)
             {
                 timerSound.PlayFeedbacks();
             }
@@ -43,6 +43,7 @@ public class LevelRespawnSystem : MonoBehaviour
         else
         {
             timerSound.StopAllCoroutines();
+            timerSound.StopFeedbacks();
             PlayExplosion();
             player.health = 0;
         }
