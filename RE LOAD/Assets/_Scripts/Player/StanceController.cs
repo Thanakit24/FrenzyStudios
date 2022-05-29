@@ -75,15 +75,13 @@ public class StanceController : MonoBehaviour
         if (!throwingStanceActiveStatus())
         { 
             Time.timeScale = 1;
-
-            playerAnimator.enabled = true;
         }
 
         
 
         if (!shuriken.state.Equals(FumaState.InHands))
         {
-            playerAnimator.enabled = false;
+            //playerAnimator.enabled = false;
         }
     }
 

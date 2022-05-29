@@ -119,7 +119,12 @@ public class FumaController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
+            if (state.Equals(FumaState.Returning))
+            {
+                //playerAnimator.Play("Hand_SummonShu");
+                Returned(Vector3.zero);
+            }
+            else if (state.Equals(FumaState.Flying) || state.Equals(FumaState.Ragdoll) || state.Equals(FumaState.Stuck))
             {
                 state = FumaState.Returning;
                 transform.SetParent(null);
@@ -133,6 +138,8 @@ public class FumaController : MonoBehaviour
 
         VisualIndicatorSystem();
 
+        playerAnimator.SetBool("HasShuriken",(state.Equals(FumaState.InHands)));
+
         if (state.Equals(FumaState.InHands))
         {
             transform.parent = holder;
@@ -140,7 +147,7 @@ public class FumaController : MonoBehaviour
             transform.localRotation = Quaternion.AngleAxis(90, Vector3.up);
             trailFX.SetActive(false);
             animatorTransform.localPosition = Vector3.zero;
-
+            
             if (Input.GetKey(shootingKey))
             {
                 RepositionLine(Camera.main.transform.position, Camera.main.transform.forward, false);
@@ -213,6 +220,8 @@ public class FumaController : MonoBehaviour
         else Returned(Vector3.zero);
 
         if (text != null )text.text = bounces.ToString();
+
+        
     }
 
     private void FixedUpdate()
@@ -499,11 +508,13 @@ public class FumaController : MonoBehaviour
 
         //playerAnimator.Play("Hand_ShuShowUp");
         //shurikenAnimator.Play("ShuShowUp");
+
+        if (state != FumaState.InHands)
+        {
+            playerAnimator.Play("Hand_ShuShowUp");
+            shurikenAnimator.SetTrigger("Recieves");
+        }
         
-        playerAnimator.SetTrigger("Recieves");
-        shurikenAnimator.SetTrigger("Recieves");
-
-
         state = FumaState.InHands;
 
         rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -533,6 +544,7 @@ public class FumaController : MonoBehaviour
         }
         ResetLine();
 
+        playerAnimator.ResetTrigger("Recieves");
     }
 
     void Ragdoll()
