@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using MoreMountains.Feedbacks;
 
 public class LevelRespawnSystem : MonoBehaviour
 {
     public static LevelRespawnSystem instance;
 
+    public TextMeshProUGUI timerText;
 
     public PlayerController player;
 
@@ -47,6 +49,8 @@ public class LevelRespawnSystem : MonoBehaviour
             PlayExplosion();
             player.health = 0;
         }
+
+        timerText.text = timerCounter.ToString();
     }
 
     public void RespawnPlayerAtCheckPoint()
