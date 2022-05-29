@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private bool playerInSight, playerInAttackRange;
 
-    private float distToPlayer()
+    private float DistToPlayer()
     {
         return (player.position - transform.position).magnitude;
     }
@@ -75,7 +75,7 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        //player = PlayerController.instance.GetComponent<Transform>();
+        player = PlayerController.instance.GetComponent<Transform>();
         feet = GetComponentInChildren<Feet>();
         walkPointIndex = 0;
 
@@ -116,6 +116,11 @@ public class EnemyController : MonoBehaviour
         if (remembers && !playerInSight && !playerInAttackRange) Confused();
 
         animator.SetBool("Walking", agent.velocity.normalized.magnitude > 0.5f);
+
+        if (player.GetComponent<PlayerController>().isMeleeing && DistToPlayer() <= 2f)
+        {
+            Destroy(gameObject);
+        }
     }
 
 
@@ -171,7 +176,7 @@ public class EnemyController : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
-        if (distToPlayer() > 5 ) LookAt(player.position - player.right *0.3f);
+        if (DistToPlayer() > 5 ) LookAt(player.position - player.right *0.3f);
         else LookAt(player.position);
 
 
@@ -195,7 +200,7 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenAttacks);
 
         animator.SetBool("isFiring", false);
-        if (distToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
+        if (DistToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
         else LookAt(player.position);
 
     }
@@ -204,13 +209,13 @@ public class EnemyController : MonoBehaviour
     {
         Rigidbody rb = Instantiate(enemyBullet, attackPoint.position, attackPoint.rotation).GetComponent<Rigidbody>();
         rb.AddForce(attackPoint.forward * 25f, ForceMode.Impulse);
-        if (distToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
+        if (DistToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
         else LookAt(player.position);
     }
     public void ResetShooting()
     {
         agent.updateRotation = true;
-        if (distToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
+        if (DistToPlayer() > 5) LookAt(player.position - player.right * 0.3f);
         else LookAt(player.position);
         //timeBetweenAttacksCounter = timeBetweenAttacks;
     }
