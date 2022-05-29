@@ -25,7 +25,7 @@ public class SkinHolder : MonoBehaviour
 
     public void SwitchSkin()
     {
-        if (skinID < handSkins.Length)
+        if (skinID < handSkins.Length-1)
             skinID++;
         else
             skinID = 0;
