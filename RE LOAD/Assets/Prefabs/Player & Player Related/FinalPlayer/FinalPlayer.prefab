@@ -14408,7 +14408,7 @@ MonoBehaviour:
   DisplayFullDurationDetails: 0
   CooldownDuration: 0
   InitialDelay: 0
-  CanPlayWhileAlreadyPlaying: 1
+  CanPlayWhileAlreadyPlaying: 0
   FeedbacksIntensity: 1
   Events:
     TriggerMMFeedbacksEvents: 0
@@ -14441,7 +14441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c8acfc07fee664da6ad222b6541a44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 0
+  Active: 1
   Label: Whoosh
   Chance: 100
   Timing:
@@ -14464,13 +14464,8 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  Sfx: {fileID: 8300000, guid: 86737aa327ee5474db282e45016f64fb, type: 3}
-  RandomSfx:
-  - {fileID: 8300000, guid: f94a6e16e73443944afa7f83e4118349, type: 3}
-  - {fileID: 8300000, guid: 0faf433b5d019a449b29f36e7dd144e3, type: 3}
-  - {fileID: 8300000, guid: df4b0a34069dfee4bbadff3e38e09e5a, type: 3}
-  - {fileID: 8300000, guid: 11cfc52c1a75db144aa989a2c9d64c88, type: 3}
-  - {fileID: 8300000, guid: 86737aa327ee5474db282e45016f64fb, type: 3}
+  Sfx: {fileID: 8300000, guid: 0747cf8ee3766774dba162a1e5702f71, type: 3}
+  RandomSfx: []
   TestButton: 0
   TestStopButton: 0
   MinVolume: 0.3
@@ -19946,8 +19941,8 @@ MonoBehaviour:
   RandomSfx: []
   TestButton: 0
   TestStopButton: 0
-  MinVolume: 0.1
-  MaxVolume: 0.1
+  MinVolume: 0.3
+  MaxVolume: 0.3
   MinPitch: 1.3
   MaxPitch: 1.3
   MmSoundManagerTrack: 0
@@ -22332,7 +22327,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   RemapFieldOfViewZero: 0
-  RemapFieldOfViewOne: 10
+  RemapFieldOfViewOne: 6.9
 --- !u!114 &5757701065321616253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22816,7 +22811,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   RemapIntensityZero: 0
-  RemapIntensityOne: 0.313
+  RemapIntensityOne: 0.1
   RelativeIntensity: 0
 --- !u!1 &4025216452519513898
 GameObject:
@@ -30419,7 +30414,6 @@ GameObject:
   - component: {fileID: 9066763731065134176}
   - component: {fileID: 8241393123940942449}
   - component: {fileID: 6856327096468919840}
-  - component: {fileID: 2182599952208869531}
   m_Layer: 0
   m_Name: MeleeSwingSFX
   m_TagString: Player
@@ -30455,7 +30449,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Feedbacks:
   - {fileID: 6856327096468919840}
-  - {fileID: 2182599952208869531}
   InitializationMode: 2
   SafeMode: 3
   Direction: 0
@@ -30465,8 +30458,8 @@ MonoBehaviour:
   DurationMultiplier: 1
   DisplayFullDurationDetails: 0
   CooldownDuration: 0
-  InitialDelay: 0
-  CanPlayWhileAlreadyPlaying: 1
+  InitialDelay: 0.1
+  CanPlayWhileAlreadyPlaying: 0
   FeedbacksIntensity: 1
   Events:
     TriggerMMFeedbacksEvents: 0
@@ -30522,108 +30515,12 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  Sfx: {fileID: 8300000, guid: e89c1cfc1a5bb5d4d9e9a67ac19af82b, type: 3}
+  Sfx: {fileID: 8300000, guid: 4bf2d6fab22636c40b0b0cc219d88248, type: 3}
   RandomSfx: []
   TestButton: 0
   TestStopButton: 0
   MinVolume: 0.3
   MaxVolume: 0.3
-  MinPitch: 1
-  MaxPitch: 1
-  MmSoundManagerTrack: 0
-  ID: 0
-  AudioGroup: {fileID: -3165942800488051908, guid: 7e984f512e89b60468e829489e8883e3,
-    type: 2}
-  RecycleAudioSource: {fileID: 0}
-  Loop: 0
-  Persistent: 0
-  DoNotPlayIfClipAlreadyPlaying: 0
-  Fade: 0
-  FadeInitialVolume: 0
-  FadeDuration: 1
-  FadeTween:
-    MMTweenDefinitionType: 0
-    MMTweenCurve: 9
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  SoloSingleTrack: 0
-  SoloAllTracks: 0
-  AutoUnSoloOnEnd: 0
-  PanStereo: 0
-  SpatialBlend: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  Priority: 0
-  ReverbZoneMix: 0
-  DopplerLevel: 0
-  Spread: 0
-  RolloffMode: 0
-  MinDistance: 0
-  MaxDistance: 0
---- !u!114 &2182599952208869531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5832633363828722964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89c8acfc07fee664da6ad222b6541a44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 0
-  Label: Sword
-  Chance: 100
-  Timing:
-    TimescaleMode: 0
-    InitialDelay: 0
-    CooldownDuration: 0
-    ExcludeFromHoldingPauses: 0
-    InterruptsOnStop: 1
-    NumberOfRepeats: 0
-    RepeatForever: 0
-    DelayBetweenRepeats: 1
-    MMFeedbacksDirectionCondition: 0
-    PlayDirection: 0
-    ConstantIntensity: 0
-    UseIntensityInterval: 0
-    IntensityIntervalMin: 0
-    IntensityIntervalMax: 0
-    Sequence: {fileID: 0}
-    TrackID: 0
-    Quantized: 0
-    TargetBPM: 120
-  DebugActive: 0
-  Sfx: {fileID: 8300000, guid: c06f16557e844144c9094f73f066f765, type: 3}
-  RandomSfx: []
-  TestButton: 0
-  TestStopButton: 0
-  MinVolume: 0.03
-  MaxVolume: 0.03
   MinPitch: 1
   MaxPitch: 1
   MmSoundManagerTrack: 0

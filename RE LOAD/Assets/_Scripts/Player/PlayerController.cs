@@ -321,9 +321,10 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Mouse0) && shuriken.state == FumaState.InHands && !isDashing)
         {
             meleeSFX.PlayFeedbacks();
-
             playerAnimator.Play("Hand_Melee");
             shurikenAnimator.Play("Melee");
+
+            StartCoroutine(Melee());
         }
 
         if (!isDashing)
@@ -781,13 +782,25 @@ public class PlayerController : MonoBehaviour
         //TeleportTo(shuriken.teleportLocation);
     }
 
-    public void Melee()
+    public IEnumerator Melee()
     {
-        //put delay for the animation;
-        /*
-        meleeCounter = meleeCooldown;
+        yield return new WaitForSeconds(0.05f);
+        isMeleeing = true;
+        yield return new WaitForSeconds(0.1f);
         isMeleeing = false;
-        */
+
+        yield return new WaitForSeconds(0.4f);
+        isMeleeing = true;
+        yield return new WaitForSeconds(0.1f);
+        isMeleeing = false;
+
+        yield return new WaitForSeconds(0.5f);
+        isMeleeing = true;
+        yield return new WaitForSeconds(0.1f);
+        isMeleeing = false;
+
+
+        meleeCounter = meleeCooldown;
     }
 
     #endregion

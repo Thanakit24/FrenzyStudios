@@ -14,7 +14,7 @@ public class AnimController : MonoBehaviour
 
     public void MeleeAttack()
     {
-        PlayerController.instance.Melee();
+        //PlayerController.instance.Melee();
     }
 
     public void Destroy()
