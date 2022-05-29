@@ -298,11 +298,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             //print("Teleport Attempted: Shuriken is " + shuriken.state.ToString());
-            if (shuriken.state != FumaState.InHands)
+            if (shuriken.state.Equals(FumaState.Flying) || shuriken.state.Equals(FumaState.Returning) || shuriken.state.Equals(FumaState.Stuck) || shuriken.state.Equals(FumaState.Ragdoll))
             {
-                playerAnimator.Play("Hand_Teleport");
+                isTeleporting = true;
+                playerAnimator.Play("Hand_Teleport1");
                 shurikenAnimator.Play("Tp2");
-                StartCoroutine(InitiateTp(0f));
+                shuriken.state = FumaState.Stuck;
+                shuriken.rb.velocity = Vector3.zero;
+                teleportWithSlowmoFB.PlayFeedbacks();
+                //StartCoroutine(InitiateTp(0f));
             }
             
         }

@@ -14075,6 +14075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1345717078589859588}
   - component: {fileID: 6192479759263641861}
+  - component: {fileID: 1019490591934667677}
   m_Layer: 0
   m_Name: Hand_Model
   m_TagString: Untagged
@@ -14117,6 +14118,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1019490591934667677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866498095952838078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e374e36380686946906285692952dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7561240240943105802}
 --- !u!1 &1870424382144926272
 GameObject:
   m_ObjectHideFlags: 0
@@ -28904,7 +28918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1277809072326630102
 Transform:
   m_ObjectHideFlags: 0
@@ -44324,7 +44338,7 @@ MonoBehaviour:
   shurikenAnimTransform: {fileID: 4846119187045275229}
   levelRespawnSystem: {fileID: 0}
   jumpImpact: {fileID: 5586074413744317725}
-  teleportWithSlowmoFB: {fileID: 642444080595691648}
+  teleportWithSlowmoFB: {fileID: 475871930067277672}
   preteleportFB: {fileID: 4868030100284776943}
   meleeSFX: {fileID: 8241393123940942449}
   dashRecovery: {fileID: 2141718839217585035}
