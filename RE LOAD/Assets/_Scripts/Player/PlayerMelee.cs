@@ -16,7 +16,7 @@ public class PlayerMelee : MonoBehaviour
     {
         col = GetComponent<BoxCollider>();
     }
-
+    /*
     private void Update()
     {
         Collider[] hits = Physics.OverlapBox(col.center, col.extents/2);
@@ -28,6 +28,8 @@ public class PlayerMelee : MonoBehaviour
             if (hp != null) hp.TakeDamage(damage);
         }
     }
+    */
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -56,18 +58,18 @@ public class PlayerMelee : MonoBehaviour
             if (hp != null)
             {
                 print("fuck");
-                hp.TakeDamage(damage);
+                hp.TakeDamage(1000000);
             }
         }
 
         
     }
 
+    /*
     private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Player") || !other.CompareTag("Shuriken"))
         {
-            print(other.name);
             Rigidbody rb = other.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -86,12 +88,18 @@ public class PlayerMelee : MonoBehaviour
                 }
             }
 
+            if (other.GetComponent<EnemyController>() != null)
+            {
+                print("fdsafdsa");
+            }
+
+
             Health hp = other.GetComponent<Health>();
             if (hp != null)
             {
-                print("fuck");
                 hp.TakeDamage(damage);
             }
         }
     }
+    */
 }
