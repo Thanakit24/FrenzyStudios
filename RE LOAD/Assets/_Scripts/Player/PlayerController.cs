@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider capCollider;
     private LayerMask whatIsGround;
     public Transform shurikenAnimTransform;
+    public LevelRespawnSystem levelRespawnSystem;
 
     [Header("Feedbacks")]
     public MMFeedbacks jumpImpact;
@@ -299,7 +300,7 @@ public class PlayerController : MonoBehaviour
             if (shuriken.state != FumaState.InHands)
             {
                 playerAnimator.Play("Hand_Teleport");
-                shurikenAnimator.Play("Tp1");
+                shurikenAnimator.Play("Tp2");
                 StartCoroutine(InitiateTp(0f));
             }
             

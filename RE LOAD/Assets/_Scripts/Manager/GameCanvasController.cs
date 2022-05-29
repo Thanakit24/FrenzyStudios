@@ -9,6 +9,8 @@ public enum GameState { gameplay, paused, dies, loading }
 public class GameCanvasController : MonoBehaviour
 {
     public static GameCanvasController instance;
+    public LevelRespawnSystem levelRespawnSystem;
+
 
     public GameState currentState;
     private GameState lastState;
@@ -88,38 +90,27 @@ public class GameCanvasController : MonoBehaviour
 
         pauseMenu.SetActive(currentState.Equals(GameState.paused));
 
-        if (player == null) player = PlayerController.instance;
-
         if (player.health <= 0)
             UpdateCanvasState(GameState.dies);
         else dieScreen.SetActive(false);
 
         if (Input.GetKeyDown(KeyCode.I)) LoadLevel(0);
 
-        /*
-        if (currentState.Equals(GameState.gameplay) && Input.GetKeyDown(KeyCode.F))
+        if (currentState.Equals(GameState.dies))
         {
-            if (skillTreeActive)
+            if (Input.anyKey)
             {
-                Time.timeScale = 1;
-                skillTree.SetActive(false);
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-
-                skillTreeActive = false;
+                levelRespawnSystem = player.levelRespawnSystem;
+                if (levelRespawnSystem != null)
+                {
+                    levelRespawnSystem.RespawnPlayerAtCheckPoint();
+                }
+                else
+                {
+                    LoadLevel(SceneManager.GetActiveScene().buildIndex);
+                }
             }
-            else
-            {
-                Time.timeScale = 0;
-                skillTree.SetActive(true);
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Confined;
-
-                skillTreeActive = true;
-            }
-
         }
-        */
     }
 
     void UpdateCanvasState(GameState newState)
