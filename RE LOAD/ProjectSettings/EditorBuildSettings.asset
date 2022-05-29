@@ -15,12 +15,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 2.unity
     guid: 6a93c99d7a6a1b44dab1add191ed8bff
   - enabled: 1
-    path: Assets/Scenes/Level 3.unity
-    guid: 39d19270a063b494a8e87341b2eb51ef
+    path: Assets/Scenes/Level3New.unity
+    guid: 104327063682c8542b5912578d1406a4
   - enabled: 1
-    path: Assets/Scenes/Level3Lighting.unity
-    guid: 11293fd93a83b6343be379f9cef1f869
+    path: Assets/Scenes/Level 4.unity
+    guid: 013d293cf1d1202478cfdcf701777dfd
   - enabled: 1
+    path: Assets/Scenes/EndOfDemo.unity
+    guid: ed293abce659ac241b8b978a26aaafd1
+  - enabled: 0
     path: Assets/Scenes/Asset Showcase.unity
     guid: 52ed367ca30b9b8468dadfe7e4605e6e
   m_configObjects: {}
