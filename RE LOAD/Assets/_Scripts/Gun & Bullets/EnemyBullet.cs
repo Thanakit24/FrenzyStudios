@@ -10,17 +10,15 @@ public class EnemyBullet : MonoBehaviour
     public int damage;
     private PhysicMaterial physics_mat;
 
+    public bool hurtEnemy = false;
+
     // Start is called before the first frame update
     private void Start()
     {
         Setup();
+        hurtEnemy = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void OnTriggerEnter(Collider collider)
     {
@@ -33,14 +31,14 @@ public class EnemyBullet : MonoBehaviour
             }
         }
 
-        //if (collider.CompareTag("Enemy"))
-        //{
-        //    Health health = collider.gameObject.GetComponent<Health>();
-        //    if (health != null)
-        //    {
-        //        health.TakeDamage(damage * 10);
-        //    }
-        //}
+        if (collider.CompareTag("Enemy") && hurtEnemy)
+        {
+            Health health = collider.gameObject.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(damage * 10);
+            }
+        }
 
         if (collider.gameObject.tag != "Melee")
             Destroy(gameObject);

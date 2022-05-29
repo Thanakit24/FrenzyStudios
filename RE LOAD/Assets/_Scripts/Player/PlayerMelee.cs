@@ -20,6 +20,7 @@ public class PlayerMelee : MonoBehaviour
                 if (other.gameObject.layer == 14)
                 {
                     rb.velocity = Vector3.zero;
+                    other.GetComponent<EnemyBullet>().hurtEnemy = true;
                     rb.AddForce(transform.forward * 25, ForceMode.Impulse);
                     meleeImpact.PlayFeedbacks();
                 }
@@ -29,7 +30,6 @@ public class PlayerMelee : MonoBehaviour
                     rb.AddForce(transform.forward * meleeKnockback.z + Vector3.up * meleeKnockback.y, ForceMode.Impulse);
                     meleeImpact.PlayFeedbacks();
                 }
-
             }
         }
 
