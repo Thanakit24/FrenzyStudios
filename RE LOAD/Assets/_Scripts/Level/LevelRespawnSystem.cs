@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class LevelRespawnSystem : MonoBehaviour
 {
@@ -10,17 +11,22 @@ public class LevelRespawnSystem : MonoBehaviour
     public PlayerController player;
 
     public List<Transform> playerRespawnPoint;
-    public List<ParticleSystem> explosionList;
+    public List<MMFeedbacks> explosionList;
     public List<float> timer;
     public float timerCounter;
 
     public int currentCheckpointID;
+    public bool shouldPlay;
 
+    public MMFeedbacks timerSound;
     private void Start()
     {
         player = PlayerController.instance;
         //player.health = 0;
         currentCheckpointID = 0;
+        timerCounter = timer[0];
+
+        shouldPlay = false;
     }
 
     private void Update()
@@ -28,9 +34,16 @@ public class LevelRespawnSystem : MonoBehaviour
         if (timerCounter > 0)
         {
             timerCounter -= Time.deltaTime;
+
+            if (timerCounter <= 8.9f)
+            {
+                timerSound.PlayFeedbacks();
+            }
         }
         else
         {
+            timerSound.StopAllCoroutines();
+            PlayExplosion();
             player.health = 0;
         }
     }
@@ -42,7 +55,7 @@ public class LevelRespawnSystem : MonoBehaviour
         player.transform.localRotation = GetRotation();
         GameCanvasController.instance.currentState = GameState.gameplay;
 
-        timerCounter = timer[currentCheckpointID-1];
+        SetTimer();
     }
 
     public Vector3 GetRespawnPoint()
@@ -57,7 +70,26 @@ public class LevelRespawnSystem : MonoBehaviour
 
     public void UpdateCheckPoint(int ID)
     {
+        PlayExplosion();
         currentCheckpointID = ID;
+        SetTimer();
+    }
+
+    void SetTimer()
+    {
         timerCounter = timer[currentCheckpointID - 1];
+        timerSound.StopFeedbacks();
+        timerSound.StopAllCoroutines();
+    }
+    public void PlayExplosion()
+    {
+        if (!shouldPlay)
+        {
+            shouldPlay = true;
+        }
+        else
+        {
+            explosionList[currentCheckpointID].PlayFeedbacks();
+        }
     }
 }
