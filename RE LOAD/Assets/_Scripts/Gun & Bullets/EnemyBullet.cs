@@ -33,14 +33,14 @@ public class EnemyBullet : MonoBehaviour
             }
         }
 
-        if (collider.CompareTag("Enemy"))
-        {
-            Health health = collider.gameObject.GetComponent<Health>();
-            if (health != null)
-            {
-                health.TakeDamage(damage * 10);
-            }
-        }
+        //if (collider.CompareTag("Enemy"))
+        //{
+        //    Health health = collider.gameObject.GetComponent<Health>();
+        //    if (health != null)
+        //    {
+        //        health.TakeDamage(damage * 10);
+        //    }
+        //}
 
         if (collider.gameObject.tag != "Melee")
             Destroy(gameObject);
