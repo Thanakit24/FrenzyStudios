@@ -44273,9 +44273,9 @@ MonoBehaviour:
   cameraJumpFeedbackUpMultiplier: 5
   cameraJumpRecoverySpeed: 200
   cameraImpactTiltMax: 2
-  camYPosModifierMultiplier: 10
+  camYPosModifierMultiplier: 1
   camYPosRecoveryMultiplier: 2
-  MaxCamYPos: -0.4
+  MaxCamYPos: -0.3
   recoveringCamYPos: 0
   recoveringCamTilt: 0
   impactingCamYPos: 0
@@ -44322,6 +44322,7 @@ MonoBehaviour:
   shurikenAnimator: {fileID: 6463349637766046209}
   camHolder: {fileID: 8714257850179007084}
   shurikenAnimTransform: {fileID: 4846119187045275229}
+  levelRespawnSystem: {fileID: 0}
   jumpImpact: {fileID: 5586074413744317725}
   teleportWithSlowmoFB: {fileID: 642444080595691648}
   preteleportFB: {fileID: 4868030100284776943}

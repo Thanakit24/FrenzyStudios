@@ -255,6 +255,7 @@ public class PlayerController : MonoBehaviour
         if (recoveringCamYPos) CamYPosRecover();
         if (recoveringCamTilt) CamTiltRecover();
 
+
         if ((Input.GetKeyUp(KeyCode.Space) && isJumping))
         {
             isJumping = false;
@@ -444,6 +445,7 @@ public class PlayerController : MonoBehaviour
 
 
         cameraJumpFeedbackCurrent += cameraJumpFeedbackDownMultiplier * Time.deltaTime * 2;
+        
         camHolder.localPosition += Vector3.down * camYPosModifierMultiplier * Time.deltaTime;
     }
 

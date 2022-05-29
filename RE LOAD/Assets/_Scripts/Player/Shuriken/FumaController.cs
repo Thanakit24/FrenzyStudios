@@ -470,7 +470,7 @@ public class FumaController : MonoBehaviour
         
 
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.2f);
 
         Vector3 forward = Camera.main.transform.forward;
         firstBounce = false;

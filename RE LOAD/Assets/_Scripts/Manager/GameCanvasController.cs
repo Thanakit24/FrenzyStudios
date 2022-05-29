@@ -98,7 +98,7 @@ public class GameCanvasController : MonoBehaviour
 
         if (currentState.Equals(GameState.dies))
         {
-            if (Input.anyKey)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 levelRespawnSystem = player.levelRespawnSystem;
                 if (levelRespawnSystem != null)

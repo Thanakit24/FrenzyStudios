@@ -18,8 +18,6 @@ public class CheckPoint : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isActive)
         {
-            
-
             if (respawnSystem.playerRespawnPoint[respawnSystem.currentCheckpointID] == transform)
             {
                 respawnSystem.UpdateCheckPoint(ID);
@@ -28,8 +26,4 @@ public class CheckPoint : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-
-    }
 }
