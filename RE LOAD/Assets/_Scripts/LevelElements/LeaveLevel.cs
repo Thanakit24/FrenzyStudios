@@ -8,6 +8,6 @@ public class LeaveLevel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GameCanvasController.instance.LoadLevel(nextScene);
+        if (other.CompareTag("Player")) GameCanvasController.instance.LoadLevel(nextScene);
     }
 }

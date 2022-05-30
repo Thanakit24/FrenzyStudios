@@ -82,7 +82,7 @@ public class LevelRespawnSystem : MonoBehaviour
 
     void SetTimer()
     {
-        timerCounter = timer[currentCheckpointID - 1];
+        timerCounter = timer[0];
         timerSound.StopFeedbacks();
         timerSound.StopAllCoroutines();
     }

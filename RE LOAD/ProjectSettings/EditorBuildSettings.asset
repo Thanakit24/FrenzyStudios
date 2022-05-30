@@ -23,7 +23,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndOfDemo.unity
     guid: ed293abce659ac241b8b978a26aaafd1
-  - enabled: 0
-    path: Assets/Scenes/Asset Showcase.unity
-    guid: 52ed367ca30b9b8468dadfe7e4605e6e
   m_configObjects: {}

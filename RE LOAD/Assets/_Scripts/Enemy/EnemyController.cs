@@ -167,7 +167,7 @@ public class EnemyController : MonoBehaviour
 
     private void Confused()
     {
-        agent.SetDestination(transform.position);
+        agent.Stop();
         StartCoroutine(Wait());
     }
 

@@ -111,6 +111,15 @@ public class GameCanvasController : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            if (SceneManager.GetActiveScene().buildIndex > 0) LoadLevel(SceneManager.GetActiveScene().buildIndex - 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.F12))
+        {
+            if (SceneManager.GetActiveScene().buildIndex < 5) LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     void UpdateCanvasState(GameState newState)
@@ -179,10 +188,11 @@ public class GameCanvasController : MonoBehaviour
 
     IEnumerator LoadLevelEnum(int sceneNumber)
     {
-        faderAnim.SetTrigger("NextScene");
+        faderAnim.Play("NextScene");
 
         yield return new WaitForSeconds(transitionTime);
 
-        SceneManager.LoadSceneAsync(sceneNumber);
+        SceneManager.LoadScene(sceneNumber);
+        faderAnim.Play("Start");
     }
 }
