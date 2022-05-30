@@ -36201,10 +36201,10 @@ MonoBehaviour:
   skinID: 0
   handSkins:
   - {fileID: 2100000, guid: 6f3f21678fc38af4f94c00ded8ff3fee, type: 2}
-  - {fileID: 2100000, guid: 6f3f21678fc38af4f94c00ded8ff3fee, type: 2}
+  - {fileID: 2100000, guid: 7559c113cdf744e408dc62ae1028090c, type: 2}
   shurikenSkins:
-  - {fileID: 2100000, guid: 6f3f21678fc38af4f94c00ded8ff3fee, type: 2}
   - {fileID: 2100000, guid: 9097b0cb0805a514992792b45a154806, type: 2}
+  - {fileID: 2100000, guid: d5958a0c8c1baf5498fe6011799beab5, type: 2}
   handModel: {fileID: 30440306330660712}
   shurikenModel1: {fileID: 5676037482581190480}
   shurikenModel2: {fileID: 8565262903525607925}

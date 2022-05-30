@@ -23,7 +23,7 @@ public class LevelRespawnSystem : MonoBehaviour
     public MMFeedbacks timerSound;
     private void Start()
     {
-        player = PlayerController.instance;
+        //player = PlayerController.instance;
         //player.health = 0;
         currentCheckpointID = 0;
         timerCounter = timer[0];
@@ -51,6 +51,14 @@ public class LevelRespawnSystem : MonoBehaviour
         }
 
         timerText.text = timerCounter.ToString();
+
+        //if (player = null) player = PlayerController.instance;
+    }
+
+    IEnumerator DelayedRestart()
+    {
+        yield return new WaitForSeconds(1f);
+        RespawnPlayerAtCheckPoint();
     }
 
     public void RespawnPlayerAtCheckPoint()
@@ -94,7 +102,7 @@ public class LevelRespawnSystem : MonoBehaviour
         }
         else
         {
-            explosionList[currentCheckpointID].PlayFeedbacks();
+            explosionList[0].PlayFeedbacks();
         }
     }
 }
