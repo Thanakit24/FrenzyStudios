@@ -43924,10 +43924,10 @@ MonoBehaviour:
   player: {fileID: 7561240240943105802}
   playerAnimator: {fileID: 6192479759263641861}
   shurikenAnimator: {fileID: 0}
-  teleportSlowedTime: 0.9
+  teleportSlowedTime: 0.6
   ThrowingStance_Start: {fileID: 7519681548058503190}
   ThrowingStance_Reset: {fileID: 7519681547828077793}
-  _slowedTime: 0.9
+  _slowedTime: 0.6
   delayZoom: 0
 --- !u!54 &7561240240943105803
 Rigidbody:
